@@ -5,7 +5,12 @@ import java.util.List;
 
 public class Main {
 
-	public Main() {
+	/*
+	 * TEST MAIN
+	 * 
+	 * 
+	 * 
+	 * public Main() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -28,16 +33,16 @@ public class Main {
 		
 		
 		int val;
-		/*
+		
 		val = dbo.registerUser("abc", "abc", "abc", "abc");
 		System.out.println(val);
-		*/
+		
 		
 		User u = dbo.login("aaa@bbb.com", "aaaa");
 		if(u != null){
 			System.out.println(u.getLastName());
 		}
-		/*
+		
 		Skill s = dbo.getSkill("Camp seting");
 		if(s != null){
 			System.out.println(s.getName());
@@ -67,7 +72,7 @@ public class Main {
 			val = sk.addToDomain(d);
 			System.out.println(val);
 		}
-		*/
+		
 		u = dbo.login("gi@mail.com", "iulia");
 		System.out.println(u.getAge());
 		//List<User> bla = u.getFriendList();
@@ -76,7 +81,7 @@ public class Main {
 		//}
 		
 		
-		/*sk = dbo.getSkill("Water boiling");
+		sk = dbo.getSkill("Water boiling");
 		val = u.addSkill(sk);
 		System.out.println(val);
 		
@@ -92,7 +97,7 @@ public class Main {
 		System.out.println(val);
 		
 		System.out.println(u.getRankNoUsers());
-		*/
+		
 		//User u2 = dbo.login("vm@mail.com", "mona");
 		//val = u2.rank(u, 5);
 		//System.out.println(val);
@@ -108,5 +113,5 @@ public class Main {
 		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());
-	}
+	}*/
 }

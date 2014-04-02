@@ -6,117 +6,126 @@
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
 <zk xmlns:h="native">
-	<div class="main">
-		<div class="main_resize">
-			<div class="header">
-				<div class="logo">
-					<h:h1>
-						<a href="#">V3L</a>
-					</h:h1>
-				</div>
-				<div class="search">
-					<groupbox>
-						<span>
-							<textbox value="Search..." id="s" />
-							<image src="images/search.gif"
-								id="searchsubmit" class="btn" />
-						</span>
-					</groupbox>
-					<!--/searchform -->
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.RegisterVM')">
+		<div class="main">
+			<div class="main_resize">
+				<div class="header">
+					<div class="logo">
+						<h:h1>
+							<a href="#">V3L</a>
+						</h:h1>
+					</div>
+					<div class="search">
+						<groupbox>
+							<span>
+								<textbox value="Search..." id="s" />
+								<image src="images/search.gif"
+									id="searchsubmit" class="btn" />
+							</span>
+						</groupbox>
+						<!--/searchform -->
+						<div class="clr"></div>
+					</div>
 					<div class="clr"></div>
+					<div class="menu_nav">
+						<h:ul>
+							<h:li>
+								<a href="index.zul">Home</a>
+							</h:li>
+							<h:li>
+								<a href="login.zul">Login</a>
+							</h:li>
+							<h:li class="active">
+								<a href="register.zul">Register</a>
+							</h:li>
+						</h:ul>
+						<div class="clr"></div>
+					</div>
+					<div class="hbg">
+						<image src="images/header_images.jpg"
+							width="923" height="291" />
+					</div>
 				</div>
-				<div class="clr"></div>
-				<div class="menu_nav">
-					<h:ul>
-						<h:li>
-							<a href="index.zul">Home</a>
-						</h:li>
-						<h:li>
-							<a href="login.zul">Login</a>
-						</h:li>
-						<h:li class="active">
-							<a href="register.zul">Register</a>
-						</h:li>
-					</h:ul>
-					<div class="clr"></div>
-				</div>
-				<div class="hbg">
-					<image src="images/header_images.jpg" width="923"
-						height="291" />
-				</div>
-			</div>
-			<div class="content">
-				<div class="content_bg">
-					<div class="mainbar">
-						<div class="article">
-							<h:h2>Register to v3l</h:h2>
-							<div class="clr"></div>
-							<groupbox>
-								<h:ol>
-									<h:li>
-										<label>Name (required)</label>
-										<textbox id="name" name="name"
-											class="text" />
-									</h:li>
-									<h:li>
-										<label>
-											Email Address (required)
-										</label>
-										<textbox id="email" name="email"
-											class="text" />
-									</h:li>
-									<h:li>
-										<label>Password</label>
-										<textbox id="password"
-											name="password" type="password" class="text" />
-									</h:li>
-									<h:li>
-										<label>Repeat Password</label>
-										<textbox id="password2"
-											type="password" class="text" />
-									</h:li>
+				<div class="content">
+					<div class="content_bg">
+						<div class="mainbar">
+							<div class="article">
+								<h:h2>Register to v3l</h:h2>
+								<div class="clr"></div>
+								<groupbox>
+									<h:ol>
+										<h:li>
+											<label>
+												Name (required)
+											</label>
+											<textbox id="name"
+												name="name" value="@bind(vm.name)" class="text" />
+										</h:li>
+										<h:li>
+											<label>
+												Email Address (required)
+											</label>
+											<textbox name="email"
+												class="text" value="@bind(vm.email)" />
+										</h:li>
+										<h:li>
+											<label>Password</label>
+											<textbox
+												value="@bind(vm.password1)" name="password" type="password"
+												class="text" />
+										</h:li>
+										<h:li>
+											<label>
+												Repeat Password
+											</label>
+											<textbox
+												value="@bind(vm.password2)" type="password" class="text" />
+										</h:li>
 
+										<h:li>
+											<button id="imageField"
+												src="images/submit.gif" class="send"
+												onClick="@command('register')" />
+											<div class="clr"></div>
+										</h:li>
+									</h:ol>
+								</groupbox>
+							</div>
+						</div>
+						<div class="sidebar">
+							<div class="gadget">
+								<h:h2 class="star">Sidebar Menu</h:h2>
+								<div class="clr"></div>
+								<h:ul class="sb_menu">
 									<h:li>
-										<image id="imageField"
-											src="images/submit.gif" class="send" />
-										<div class="clr"></div>
+										<a href="/">Home</a>
 									</h:li>
-								</h:ol>
-							</groupbox>
+									<h:li>
+										<a href="login.zul">Login</a>
+									</h:li>
+									<h:li class="active">
+										<a href="register.zul">
+											Register
+										</a>
+									</h:li>
+								</h:ul>
+							</div>
 						</div>
+						<div class="clr"></div>
 					</div>
-					<div class="sidebar">
-						<div class="gadget">
-							<h:h2 class="star">
-								Sidebar Menu
-							</h:h2>
-							<div class="clr"></div>
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="/">Home</a>
-								</h:li>
-								<h:li>
-									<a href="login.zul">Login</a>
-								</h:li>
-								<h:li class="active">
-									<a href="register.zul">Register</a>
-								</h:li>
-							</h:ul>
-						</div>
-					</div>
-					<div class="clr"></div>
 				</div>
 			</div>
+
 		</div>
-
-	</div>
-	<div class="footer">
-		<div class="footer_resize">
-			<h:p class="lf">
-				@Copyright
-				<a href="#">V3L</a>
-			</h:p>
-			<div class="clr"></div>
+		<div class="footer">
+			<div class="footer_resize">
+				<h:p class="lf">
+					@Copyright
+					<a href="#">V3L</a>
+				</h:p>
+				<div class="clr"></div>
+			</div>
 		</div>
 	</div>
 </zk>

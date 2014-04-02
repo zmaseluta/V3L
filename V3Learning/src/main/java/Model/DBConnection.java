@@ -49,6 +49,13 @@ public class DBConnection {
 			isConnected = false;
 		}
 	}
+	public void connectToDB(){
+		String user = "echipab6";
+		String pass = "echipab6";
+		String dbDriver = "jdbc:mysql://db4free.net:3306/virtual3l";
+		String dbClass = "com.mysql.jdbc.Driver";
+		connectToDB(user, pass, dbDriver, dbClass);
+	}
 	
 	/**
 	 * closes connection to DB
@@ -65,4 +72,5 @@ public class DBConnection {
 	        return false;
 		}
 	}
+	
 }

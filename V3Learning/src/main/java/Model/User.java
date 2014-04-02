@@ -268,12 +268,12 @@ public class User {
 	*/
 	private int computeAge() {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-M-dd");
-		int age = -1;
+		int age = 0;
 		try {
 			Date date = formatter.parse(birthDate);
 			long ageInMilis = new Date().getTime() - date.getTime() ;
 			age = (int) (ageInMilis / (60L * 60 * 24 * 365 * 1000));
-		} catch (ParseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return age;
