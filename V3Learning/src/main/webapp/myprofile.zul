@@ -32,20 +32,6 @@
 					<div class="clr"></div>
 				</div>
 				<div class="clr"/>
-				<div class="menu_nav">
-					<h:ul>
-						<h:li class="active">
-							<a href="index.zul">Home</a>
-						</h:li>
-						<h:li>
-							<a href="login.zul">Login</a>
-						</h:li>
-						<h:li>
-							<a href="register.zul">Register</a>
-						</h:li>
-					</h:ul>
-					<div class="clr"/>
-				</div>
 			</div>
 			<div class="content">
 				<div class="content_bg">
@@ -131,7 +117,8 @@
 							<image src="images/pic_2.jpg" width="200" />
 							<h:h2 class="star">About Me</h:h2>
 							<div class="clr"/>
-							First Name Last Name
+							<label value="@load(vm.user.firstName)"/>
+							<label value="@laod(vm.user.lastName)"/>
 							<h:p class="active">
 								<a href="#">Edit</a>
 							</h:p>
