@@ -6,137 +6,152 @@
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
 <zk xmlns:h="native">
-<div apply="org.zkoss.bind.BindComposer"
+	<div apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('ViewModel.MyProfileVM')">
-	<div class="main">
-		<div class="main_resize">
-			<div class="header">
-				<div class="logo">
-					<h:h1>
-						<a href="#">V3L</a>
-					</h:h1>
+		<div class="main">
+			<div class="main_resize">
+				<div class="header">
+					<div class="logo">
+						<h:h1>
+							<a href="#">V3L</a>
+						</h:h1>
+					</div>
+					<div
+						style="float: right; width: 200px; padding: 30px 0;">
+						Logged in as
+						<label value="@load(vm.user.firstName)" />
+						(
+						<a href="myprofile.zul">Profile</a>
+						)
+					</div>
+					<div class="search">
+						<groupbox>
+							<textbox value="Search..." name="s" id="s" />
+							<image src="images/search.gif"
+								id="searchsubmit" class="btn" />
+						</groupbox>
+						<!--/searchform -->
+						<div class="clr"></div>
+					</div>
+					<div class="clr" />
 				</div>
-				<div
-					style="float: right; width: 200px; padding: 30px 0;">
-					Logged in as <label value="@load(vm.user.firstName)"/> (
-					<a href="myprofile.zul">Profile</a>
-					)
-				</div>
-				<div class="search">
-					<groupbox>
-						<textbox value="Search..." name="s" id="s" />
-						<image src="images/search.gif" id="searchsubmit"
-							class="btn" />
-					</groupbox>
-					<!--/searchform -->
-					<div class="clr"></div>
-				</div>
-				<div class="clr"/>
-			</div>
-			<div class="content">
-				<div class="content_bg">
-					<div class="mainbar">
-						<div class="article">
-							<h:h2>Past courses</h:h2>
-							<div class="clr"/>
-							<div id="prnt">
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
+				<div class="content">
+					<div class="content_bg">
+						<div class="mainbar">
+							<div class="article">
+								<h:h2>Past courses</h:h2>
+								<div class="clr" />
+								<div id="prnt">
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+								</div>
+								<div class="clr" />
 							</div>
-							<div class="clr"/>
+							<div class="article">
+								<h:h2>Present courses</h:h2>
+								<div class="clr" />
+								<hlayout>
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+									<div>Short Description</div>
+								</hlayout>
+								<div class="clr" />
+							</div>
+							<div class="article">
+								<h:h2>My Skills</h:h2>
+								<div class="clr" />
+								<h:table width="100%">
+									<h:tr>
+										<h:td>Domain</h:td>
+										<h:td>Skill</h:td>
+										<h:td width="10%">Delete</h:td>
+									</h:tr>
+									<h:tr>
+										<h:td>Lorem ipsum dolor</h:td>
+										<h:td>sit amet apscii</h:td>
+										<h:td>
+											<a href="#">Delete</a>
+										</h:td>
+									</h:tr>
+									<h:tr>
+										<h:td>Lorem ipsum dolor</h:td>
+										<h:td>sit amet apscii</h:td>
+										<h:td>
+											<a href="#">Delete</a>
+										</h:td>
+									</h:tr>
+									<h:tr>
+										<h:td>Lorem ipsum dolor</h:td>
+										<h:td>sit amet apscii</h:td>
+										<h:td>
+											<a href="#">Delete</a>
+										</h:td>
+									</h:tr>
+									<h:tr>
+										<h:td>Lorem ipsum dolor</h:td>
+										<h:td>sit amet apscii</h:td>
+										<h:td>
+											<a href="#">Delete</a>
+										</h:td>
+									</h:tr>
+								</h:table>
+								<div class="clr" />
+							</div>
+							<div class="article">
+								<h:h2>Add a Skill</h:h2>
+								<div class="clr" />
+								<groupbox>
+									<textbox class="text"
+										value="Domain" />
+									<textbox class="text" value="Skill" />
+									<image src="images/submit.gif"
+										class="send" />
+								</groupbox>
+								<div class="clr" />
+							</div>
 						</div>
-						<div class="article">
-							<h:h2>Present courses</h:h2>
-							<div class="clr"/>
-							<hlayout>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-							</hlayout>
-							<div class="clr"/>
+						<div class="sidebar">
+							<div class="gadget">
+								<image src="images/pic_2.jpg"
+									width="200" />
+								<h:h2 class="star">About Me</h:h2>
+								<div class="clr" />
+								<label value="@load(vm.user.firstName)" />
+								<label value="@laod(vm.user.lastName)" />
+								<h:p class="active">
+									<a href="#" onClick="">Edit</a>
+									<vlayout id="edit">
+										First name:
+										<textbox
+											value="@bind(vm.user.firstName)" />
+										Last name:
+										<textbox
+											value="@bind(vm.user.lastName)" />
+										<!-- Birthdate: <datebox value="@bind(vm.user.birthDate)"/> -->
+										<button label="Save"
+											onClick="@command('saveChanges')" />
+									</vlayout>
+								</h:p>
+							</div>
 						</div>
-						<div class="article">
-							<h:h2>My Skills</h:h2>
-							<div class="clr"/>
-							<h:table width="100%">
-								<h:tr>
-									<h:td>Domain</h:td>
-									<h:td>Skill</h:td>
-									<h:td width="10%">Delete</h:td>
-								</h:tr>
-								<h:tr>
-									<h:td>Lorem ipsum dolor</h:td>
-									<h:td>sit amet apscii</h:td>
-									<h:td>
-										<a href="#">Delete</a>
-									</h:td>
-								</h:tr>
-								<h:tr>
-									<h:td>Lorem ipsum dolor</h:td>
-									<h:td>sit amet apscii</h:td>
-									<h:td>
-										<a href="#">Delete</a>
-									</h:td>
-								</h:tr>
-								<h:tr>
-									<h:td>Lorem ipsum dolor</h:td>
-									<h:td>sit amet apscii</h:td>
-									<h:td>
-										<a href="#">Delete</a>
-									</h:td>
-								</h:tr>
-								<h:tr>
-									<h:td>Lorem ipsum dolor</h:td>
-									<h:td>sit amet apscii</h:td>
-									<h:td>
-										<a href="#">Delete</a>
-									</h:td>
-								</h:tr>
-							</h:table>
-							<div class="clr"/>
-						</div>
-						<div class="article">
-							<h:h2>Add a Skill</h:h2>
-							<div class="clr"/>
-							<groupbox>
-								<textbox class="text" value="Domain" />
-								<textbox class="text" value="Skill" />
-								<image src="images/submit.gif"
-									class="send" />
-							</groupbox>
-							<div class="clr"/>
-						</div>
+						<div class="clr" />
 					</div>
-					<div class="sidebar">
-						<div class="gadget">
-							<image src="images/pic_2.jpg" width="200" />
-							<h:h2 class="star">About Me</h:h2>
-							<div class="clr"/>
-							<label value="@load(vm.user.firstName)"/>
-							<label value="@laod(vm.user.lastName)"/>
-							<h:p class="active">
-								<a href="#">Edit</a>
-							</h:p>
-						</div>
-					</div>
-					<div class="clr"/>
 				</div>
 			</div>
 		</div>
-	</div>
-	<div class="footer">
-		<div class="footer_resize">
-			<h:p class="lf">
-				@Copyright
-				<a href="#">V3L</a>
-			</h:p>
-			<div class="clr"/>
+		<div class="footer">
+			<div class="footer_resize">
+				<h:p class="lf">
+					@Copyright
+					<a href="#">V3L</a>
+				</h:p>
+				<div class="clr" />
+			</div>
 		</div>
 	</div>
-</div>
 </zk>
