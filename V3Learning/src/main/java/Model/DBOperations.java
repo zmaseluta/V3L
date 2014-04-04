@@ -20,6 +20,9 @@ public class DBOperations {
 	private static final String ALL_SKILLS_STATEMENT = "SELECT * FROM Skills;";
 	private static final String ALL_DOMAINS_STATEMENT = "SELECT * FROM Domain;";
 	private static final String SELECT_USER = "SELECT * FROM User;";
+	private static final String ALL_GROUPS_STATEMENT = "SELECT * FROM Groups WHERE id_domain = ?;";
+	private static final String ALL_EVENTS_IN_GROUP = "SELECT * FROM Events WHERE id_group = ?;";
+	private static final String ALL_FILES_IN_GROUP = "SELECT * FROM Files WHERE id_group = ?;";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -231,5 +234,88 @@ public class DBOperations {
 	        return null;
 	    }
 		return domainList;
+	}
+
+	/**
+	 * returns list with all groups in DB
+	 * returns null if unsuccessful
+	*/
+	public List<Group> getAllGroupsInDomain(Domain d) {
+		List<Group> groupList = new ArrayList<Group>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(ALL_GROUPS_STATEMENT);
+	    	statement.setString(1, Integer.toString(d.getId()));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	Group group = new Group(dbConnection, data.getString("name"), 
+	        			data.getInt("id_domain"), data.getInt("id_creator"), 
+	        			data.getString("description"));
+	        	group.setId(data.getInt("id_group"));
+	        	groupList.add(group);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return groupList;
+	}
+	
+	/**
+	 * returns list with all events in group from DB
+	 * returns null if unsuccessful
+	 */
+	public List<Event> getAllEventsInGroup(Group g) {
+		List<Event> eventList = new ArrayList<Event>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(ALL_EVENTS_IN_GROUP);
+	    	statement.setString(1, Integer.toString(g.getId()));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	Event event = new Event(dbConnection, data.getString("name"), 
+	        			data.getInt("id_creator"), data.getInt("id_group"), 
+	        			data.getString("date"), data.getString("description"));
+	        	event.setId(data.getInt("id_event"));
+	        	eventList.add(event);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return eventList;
+	}
+	
+	/**
+	 * returns list with all files in group from DB
+	 * returns null if unsuccessful
+	 */
+	public List<File> getAllFilesInGroup(Group g) {
+		List<File> fileList = new ArrayList<File>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(ALL_FILES_IN_GROUP);
+	    	statement.setString(1, Integer.toString(g.getId()));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	File file = new File(data.getString("url"), data.getString("file_name"), 
+	        			data.getInt("id_user"), data.getInt("id_group"), 
+	        			data.getString("description"));
+	        	file.setId(data.getInt("id_file"));
+	        	fileList.add(file);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return fileList;
+	}
+	
+	public List<File> getAllVideosInGroup(Group g) {
+		// TODO ?????
+		return null;
 	}
 }

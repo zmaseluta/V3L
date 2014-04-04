@@ -16,6 +16,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		
 		String user = "echipab6";
 		String pass = "echipab6";
 		String dbDriver = "jdbc:mysql://db4free.net:3306/virtual3l";
@@ -34,84 +35,103 @@ public class Main {
 		
 		int val;
 		
-		val = dbo.registerUser("abc", "abc", "abc", "abc");
-		System.out.println(val);
-		
-		
-		User u = dbo.login("aaa@bbb.com", "aaaa");
-		if(u != null){
-			System.out.println(u.getLastName());
+		Domain d = dbo.getDomain("Cooking");
+		System.out.println(d.getId());
+		List<Group> list = dbo.getAllGroupsInDomain(d);
+		if (list != null) {
+			for(int i = 0; i<list.size(); i++) {
+				System.out.println(list.get(i).getName());
+			}
+		}
+		Group gr = list.get(0);
+		List<Event> list2 = dbo.getAllEventsInGroup(list.get(0));
+		if (list2 != null) {
+			for(int i = 0; i<list2.size(); i++) {
+				System.out.println(list2.get(i).getName() + " " + list2.get(i).getIsExpired());
+			}
 		}
 		
-		Skill s = dbo.getSkill("Camp seting");
-		if(s != null){
-			System.out.println(s.getName());
+		List<File> list3 = dbo.getAllFilesInGroup(list.get(0));
+		if (list3 != null) {
+			for(int i = 0; i<list3.size(); i++) {
+				System.out.println(list3.get(i).getName());
+			}
 		}
 		
-		List<Skill> sList = dbo.getAllSkills();
-		for(int i=0; i<sList.size(); i++){
-			System.out.println(sList.get(i).getName());
+		System.out.println(list.get(0).getId());
+		list.get(0).computeGroupLists();
+		List<User> memb = list.get(0).getMembers();
+		List<Event> ev = list.get(0).getEvents();
+		List<File> fi = list.get(0).getFiles();
+		if (memb != null) {
+			for(int i = 0; i < memb.size(); i++) {
+				System.out.println(memb.get(i).getFirstName());
+			}
 		}
 		
-		List<User> uList = dbo.getAllUsers();
-		for(int i=0; i<uList.size(); i++){
-			System.out.println(uList.get(i).getEmail());
+		if (ev != null) {
+			for(int i = 0; i < ev.size(); i++) {
+				System.out.println(ev.get(i).getName());
+			}
 		}
 		
-		List<Domain> dList = dbo.getAllDomains();
-		for(int i=0; i<dList.size(); i++){
-			System.out.println(dList.get(i).getName());
+		if (fi != null) {
+			for(int i = 0; i < fi.size(); i++) {
+				System.out.println(fi.get(i).getName());
+			}
 		}
 		
-		Domain d = new Domain(dbc, "Very useful");
-		val = d.add();
-		System.out.println(val);
-		d = dbo.getDomain("Very useful");
-		Skill sk = new Skill(dbc, "Water boiling");
-		if(d != null) {
-			val = sk.addToDomain(d);
+		list2.get(1).computeEventLists();
+		List<User> memb2 = list2.get(1).getMembers();
+		if (memb2 != null) {
+			for(int i = 0; i < memb2.size(); i++) {
+				System.out.println(memb2.get(i).getFirstName());
+			}
+		}
+		
+		User us = dbo.login("vm@mail.com", "mona");
+		if (us != null) {
+			val = us.createGroup("Razgaiatilor", dbo.getDomain("Very useful").getId(), 
+					"Aici ti se cuvine!");
 			System.out.println(val);
+			list = dbo.getAllGroupsInDomain(dbo.getDomain("Very useful"));
+			val = us.createEvent("hai sa ne laudam", list.get(0).getId(), "2014-10-10", "...");
+			System.out.println(val);
+			val = us.addGroup(list.get(0));
+			System.out.println(val);
+			list2 = dbo.getAllEventsInGroup(list.get(0));
+			val = us.addEvent(list2.get(0));
+			System.out.println(val);
+			//list2.get(0).setName("Hai sa ne laudam!");
+			//val = us.updateEvent(list2.get(0));
+			//System.out.println(val);
+			//list.get(0).setDescription("Aici ti se cuvine! :D");
+			//val = us.updateGroup(list.get(0));
+			//System.out.println(val);
+			us.computeUserLists();
+			for(int i = 0; i < us.getGroups().size(); i++) {
+				System.out.println(us.getGroups().get(i).getName());
+			}
+			for(int i = 0; i < us.getEvents().size(); i++) {
+				System.out.println(us.getEvents().get(i).getName());
+			}
+			for(int i = 0; i < us.getCourses().size(); i++) {
+				System.out.println(us.getCourses().get(i).getName());
+			}
+			
+			File f = new File("undeva pe net", "Top Secret", us.getId(), 
+					list.get(0).getId(), "adresa mea");
+			val = us.addFile(f);
+			System.out.println(val);
+			//list.get(0).computeGroupLists();
+			//f = list.get(0).getFiles().get(0);
+			//val = us.removeFile(f);
+			//System.out.println(val);
 		}
-		
-		u = dbo.login("gi@mail.com", "iulia");
-		System.out.println(u.getAge());
-		//List<User> bla = u.getFriendList();
-		//for(int i=0; i<bla.size(); i++){
-			//System.out.println(bla.get(i).getEmail());
-		//}
-		
-		
-		sk = dbo.getSkill("Water boiling");
-		val = u.addSkill(sk);
-		System.out.println(val);
-		
-		//val = u.removeSkill(sk);
-		//System.out.println(val);
-		
-		for(int i=0; i<u.getSkills().size(); i++){
-			System.out.println(u.getSkills().get(i).getName());
-		}
-		
-		u.setIsPublic(0);
-		val = u.update();
-		System.out.println(val);
-		
-		System.out.println(u.getRankNoUsers());
-		
-		//User u2 = dbo.login("vm@mail.com", "mona");
-		//val = u2.rank(u, 5);
-		//System.out.println(val);
-		
-		//val = u2.removeFriend(u);
-		//System.out.println(val);
-		
-		//val = u2.addFriend(u);
-		//System.out.println(val);
-		
-		
 		
 		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());
+		
 	}*/
 }

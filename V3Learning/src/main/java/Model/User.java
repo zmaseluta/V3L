@@ -4,10 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,6 +40,47 @@ public class User {
 	private static final String USER_FRIEND_USFRIEND = "SELECT * FROM User "
 			+ "WHERE id_user IN (SELECT id_user1 FROM UsFriends WHERE id_user2 = ?) "
 			+ "OR id_user IN (SELECT id_user2 FROM UsFriends WHERE id_user1 = ?);";
+	private static final String SEARCH_USER_GROUP = "SELECT name FROM Groups "
+			+ "WHERE (name = ? AND id_domain = ? AND id_creator = ?);";
+	private static final String INSERT_GROUP = "INSERT INTO Groups "
+			+ "(id_group, name, id_domain, id_creator, description) VALUES (NULL, ?, ?, ?, ?);";
+	private static final String SEARCH_USER_GROUP_USGROUPS = "SELECT id_group FROM UsGroups "
+			+ "WHERE (id_group = ? AND id_user = ?);";
+	private static final String INSERT_GROUP_USGROUPS = "INSERT INTO UsGroups "
+			+ "(id_us_gr, id_group, id_user) VALUES (NULL, ?, ?);";
+	private static final String USER_GROUPS_STATEMENT = "SELECT * FROM Groups "
+			+ "WHERE id_group IN (SELECT id_group FROM UsGroups WHERE id_user = ?);";
+	private static final String USER_EVENTS_STATEMENT = "SELECT * FROM Events "
+			+ "WHERE id_event IN (SELECT id_event FROM UsEvents WHERE id_user = ?);";
+	private static final String USER_COURSE_STATEMENT = "SELECT * FROM Events "
+			+ "WHERE id_creator = ?;";
+	private static final String UPDATE_GROUP_SEARCH = "SELECT id_group FROM Groups "
+			+ "WHERE (id_group = ? AND id_creator = ?);";
+	private static final String UPDATE_GROUP = "UPDATE Groups SET name = ?, description = ? "
+			+ "WHERE id_group = ?;";
+	private static final String DELETE_GROUP_USGROUPS = "DELETE FROM UsGroups "
+			+ "WHERE (id_group = ? AND id_user = ?);";
+	private static final String SEARCH_USER_EVENT = "SELECT name FROM Events "
+			+ "WHERE (name = ? AND id_group = ? AND id_creator = ?);";
+	private static final String INSERT_EVENT = "INSERT INTO Events "
+			+ "(id_event, name, id_creator, id_group, date, description) VALUES (NULL, ?, ?, ?, ?, ?);";
+	private static final String SEARCH_USER_EVENT_USEVENTS = "SELECT id_event FROM UsEvents "
+			+ "WHERE (id_user = ? AND id_event = ?);";
+	private static final String INSERT_EVENT_USEVENTS = "INSERT INTO UsEvents "
+			+ "(id_us_ev, id_user, id_event) VALUES (NULL, ?, ?);";
+	private static final String UPDATE_EVENT_SEARCH = "SELECT id_event FROM Events "
+			+ "WHERE (id_event = ? AND id_creator = ?);";
+	private static final String UPDATE_EVENT = "UPDATE Events "
+			+ "SET name = ?, date = ?, description = ? WHERE id_event = ?;";
+	private static final String DELETE_EVENT_USEVENTS = "DELETE FROM UsEvents "
+			+ "WHERE (id_event = ? AND id_user = ?);";
+	private static final String SEARCH_USER_FILE = "SELECT id_file FROM Files "
+			+ "WHERE (file_name = ? AND id_user = ? AND id_group = ?);";
+	private static final String INSERT_FILE = "INSERT INTO Files "
+			+ "(id_file, url, file_name, id_user, id_group, description) "
+			+ "VALUES (NULL, ?, ?, ?, ?, ?);";
+	private static final String DELETE_FILE = "DELETE FROM Files "
+			+ "WHERE (id_file = ? AND id_user = ?);";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -340,7 +379,7 @@ public class User {
 	 * returns skill list for current user
 	 * returns null if unsuccessful
 	*/
-	public List<Skill> getSkillList() {
+	private List<Skill> getSkillList() {
 		List<Skill> skillList = new ArrayList<Skill>();
 		try {
 			PreparedStatement statement = 
@@ -365,7 +404,7 @@ public class User {
 	 * returns friend list for current user
 	 * returns null if unsuccessful
 	*/
-	public List<User> getFriendList() {
+	private List<User> getFriendList() {
 		List<User> friendList = new ArrayList<User>();
 		try {
 			PreparedStatement statement = 
@@ -395,6 +434,92 @@ public class User {
 		return friendList;
 	}
 	
+	public void computeUserLists() {
+		skills = getSkillList();
+		friends = getFriendList();
+		groups = getGroupList();
+		events = getEventList();
+		courses = getCourseList();
+	}
+	
+	/**
+	 * returns course list for current user
+	 * returns null if unsuccessful
+	*/
+	private List<Event> getCourseList() {
+		List<Event> courseList = new ArrayList<Event>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(USER_COURSE_STATEMENT);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	Event event = new Event(dbConnection, data.getString("name"), 
+	        			data.getInt("id_creator"), data.getInt("id_group"), 
+	        			data.getString("date"), data.getString("description"));
+	        	event.setId(data.getInt("id_event"));
+	        	courseList.add(event);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return courseList;
+	}
+
+	/**
+	 * returns event list for current user
+	 * returns null if unsuccessful
+	*/
+	private List<Event> getEventList() {
+		List<Event> eventList = new ArrayList<Event>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(USER_EVENTS_STATEMENT);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	Event event = new Event(dbConnection, data.getString("name"), 
+	        			data.getInt("id_creator"), data.getInt("id_group"), 
+	        			data.getString("date"), data.getString("description"));
+	        	event.setId(data.getInt("id_event"));
+	        	eventList.add(event);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return eventList;
+	}
+
+	/**
+	 * returns group list for current user
+	 * returns null if unsuccessful
+	*/
+	private List<Group> getGroupList() {
+		List<Group> groupList = new ArrayList<Group>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(USER_GROUPS_STATEMENT);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	Group group = new Group(dbConnection, data.getString("name"), 
+	        			data.getInt("id_domain"), data.getInt("id_creator"), 
+	        			data.getString("description"));
+	        	group.setId(data.getInt("id_group"));
+	        	groupList.add(group);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return groupList;
+	}
+
 	/**
 	 * verifies if ranking exists
 	 * if exists updates ranking with new grade
@@ -613,6 +738,381 @@ public class User {
 			System.out.println("SQLException: " + ex.getMessage());
 			done = 0;
 		}
+		return done;
+	}
+	
+	/**
+	 * verifies if group with user as creator exists in DB
+	 * returns -1 if exists
+	 * else inserts group in DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int createGroup(String name, int domainId, String description) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_GROUP);
+			statement.setString(1, name);
+			statement.setString(2, Integer.toString(domainId));
+			statement.setString(3, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("group already exists");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_GROUP);
+				statement.setString(1, name);
+				statement.setString(2, Integer.toString(domainId));
+				statement.setString(3, Integer.toString(id));
+				statement.setString(4, description);
+				statement.executeUpdate();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+
+	/**
+	 * verifies if user is member of group in table UsGroups in DB
+	 * returns -1 if yes
+	 * else inserts entry in table UsGroups in DB
+	 * updates user group list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int addGroup(Group g) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_GROUP_USGROUPS);
+			statement.setString(1, Integer.toString(g.getId()));
+			statement.setString(2, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("user already exists in group");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_GROUP_USGROUPS);
+				statement.setString(1, Integer.toString(g.getId()));
+				statement.setString(2, Integer.toString(id));
+				statement.executeUpdate();
+				groups = getGroupList();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * !!!group can only be updated by creator
+	 * verifies if user is creator of group and group exists in DB
+	 * returns -1 if not
+	 * else updates group in DB
+	 * updates user group list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int updateGroup(Group g) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(UPDATE_GROUP_SEARCH);
+			statement.setString(1, Integer.toString(g.getId()));
+			statement.setString(2, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(UPDATE_GROUP);
+				statement.setString(1, g.getName());
+				statement.setString(2, g.getDescription());
+				statement.setString(3, Integer.toString(g.getId()));
+				statement.executeUpdate();
+				groups = getGroupList();
+				done = 1;
+			} else {
+				System.out.println("user not creator of group or invalid group");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if user if member of group in table UsGroups in DB
+	 * returns -1 if not
+	 * else deletes entry from table UsGroups in DB
+	 * updates user group list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int removeGroup(Group g) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_GROUP_USGROUPS);
+			statement.setString(1, Integer.toString(g.getId()));
+			statement.setString(2, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(DELETE_GROUP_USGROUPS);
+				statement.setString(1, Integer.toString(g.getId()));
+				statement.setString(2, Integer.toString(id));
+				statement.executeUpdate();
+				groups = getGroupList();
+				done = 1;
+			} else {
+				System.out.println("user doesn't exist in group");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if event with user as creator exists in group in DB
+	 * returns -1 if exists
+	 * else inserts event in DB
+	 * updates course list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int createEvent(String name, int groupId, String date, String description) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_EVENT);
+			statement.setString(1, name);
+			statement.setString(2, Integer.toString(groupId));
+			statement.setString(3, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("event already exists");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_EVENT);
+				statement.setString(1, name);
+				statement.setString(2, Integer.toString(id));
+				statement.setString(3, Integer.toString(groupId));
+				statement.setString(4, date);
+				statement.setString(5, description);
+				statement.executeUpdate();
+				courses = getCourseList();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if user participates in event in table UsEvents in DB
+	 * returns -1 if yes
+	 * else inserts entry in table UsEvents in DB
+	 * updates user event list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int addEvent(Event e) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_EVENT_USEVENTS);
+			statement.setString(1, Integer.toString(id));
+			statement.setString(2, Integer.toString(e.getId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("user already participates in event");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_EVENT_USEVENTS);
+				statement.setString(1, Integer.toString(id));
+				statement.setString(2, Integer.toString(e.getId()));
+				statement.executeUpdate();
+				events = getEventList();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * !!!event can only be updated by creator
+	 * verifies if user is creator of event and event exists in DB
+	 * returns -1 if not
+	 * else updates event in DB
+	 * updates user event list
+	 * updates user course list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int updateEvent(Event e) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(UPDATE_EVENT_SEARCH);
+			statement.setString(1, Integer.toString(e.getId()));
+			statement.setString(2, Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(UPDATE_EVENT);
+				statement.setString(1, e.getName());
+				statement.setString(2, e.getDate());
+				statement.setString(3, e.getDescription());
+				statement.setString(4, Integer.toString(e.getId()));
+				statement.executeUpdate();
+				events = getEventList();
+				courses = getCourseList();
+				done = 1;
+			} else {
+				System.out.println("user not creator of event or invalid event");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if user participates in event in table UsEvents in DB
+	 * returns -1 if not
+	 * else deletes entry from table UsEvents in DB
+	 * updates user event list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int removeEvent(Event e) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_EVENT_USEVENTS);
+			statement.setString(1, Integer.toString(id));
+			statement.setString(2, Integer.toString(e.getId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(DELETE_EVENT_USEVENTS);
+				statement.setString(1, Integer.toString(e.getId()));
+				statement.setString(2, Integer.toString(id));
+				statement.executeUpdate();
+				events = getEventList();
+				done = 1;
+			} else {
+				System.out.println("user doesn't participate in event");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if user already added file in group in DB
+	 * returns -1 if yes
+	 * else adds file in DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int addFile(File f) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_FILE);
+			statement.setString(1, f.getName());
+			statement.setString(2, Integer.toString(id));
+			statement.setString(3, Integer.toString(f.getGroupId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("file uploaded by user already exists in group");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_FILE);
+				statement.setString(1, f.getUrl());
+				statement.setString(2, f.getName());
+				statement.setString(3, Integer.toString(id));
+				statement.setString(4, Integer.toString(f.getGroupId()));
+				statement.setString(5, f.getDescription());
+				statement.executeUpdate();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * verifies if file added by user exists in group in DB
+	 * returns -1 if not
+	 * else deletes file from DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int removeFile(File f) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_FILE);
+			statement.setString(1, f.getName());
+			statement.setString(2, Integer.toString(id));
+			statement.setString(3, Integer.toString(f.getGroupId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(DELETE_FILE);
+				statement.setString(1, Integer.toString(f.getId()));
+				statement.setString(2, Integer.toString(id));
+				statement.executeUpdate();
+				done = 1;
+			} else {
+				System.out.println("file doesn't exist or deletion dot allowed");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	public int addVideo(File f) {
+		int done = 0;
+		// TODO ????
+		return done;
+	}
+	
+	public int removeVideo(File f) {
+		int done = 0;
+		// TODO ????
 		return done;
 	}
 }
