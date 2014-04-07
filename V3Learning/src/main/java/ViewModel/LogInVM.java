@@ -35,7 +35,7 @@ public class LogInVM {
 		DBOperations dbo = new DBOperations(dbc);
 		User user;
 		user = dbo.login(emailadress, password);
-		System.out.println(dbc.closeConnection());
+		//System.out.println(dbc.closeConnection());
 		if(user!=null){
 		Sessions.getCurrent().setAttribute("user", user);
 		Executions.sendRedirect("myprofile.zul");}

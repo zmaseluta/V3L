@@ -118,10 +118,10 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>essentials${packname}</finalName>
+							<finalName>V3L${packname}</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<descriptors>
-								<descriptor>assembly/webapp.xml</descriptor>
+								<descriptor>src/main/assembly/webapp.xml</descriptor>
 							</descriptors>
 						</configuration>
 					</execution>

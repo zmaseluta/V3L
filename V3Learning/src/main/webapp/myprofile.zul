@@ -5,7 +5,7 @@
 <?script type="text/javascript" src="js/cufon-yui.js" ?>
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
-<zk xmlns:h="native">
+<zk xmlns:h="native" xmlns:w="client">
 	<div apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('ViewModel.MyProfileVM')">
 		<div class="main">
@@ -43,10 +43,7 @@
 								<div class="clr" />
 								<div id="prnt">
 									<div>Short Description</div>
-									<div>Short Description</div>
-									<div>Short Description</div>
-									<div>Short Description</div>
-									<div>Short Description</div>
+
 								</div>
 								<div class="clr" />
 							</div>
@@ -56,49 +53,34 @@
 								<hlayout>
 									<div>Short Description</div>
 									<div>Short Description</div>
-									<div>Short Description</div>
-									<div>Short Description</div>
-									<div>Short Description</div>
 								</hlayout>
 								<div class="clr" />
 							</div>
 							<div class="article">
 								<h:h2>My Skills</h:h2>
 								<div class="clr" />
-								<h:table width="100%">
+								<h:table width="100%"
+									children="@bind(vm.user.skills) @template('record')">
 									<h:tr>
 										<h:td>Domain</h:td>
 										<h:td>Skill</h:td>
 										<h:td width="10%">Delete</h:td>
 									</h:tr>
-									<h:tr>
-										<h:td>Lorem ipsum dolor</h:td>
-										<h:td>sit amet apscii</h:td>
-										<h:td>
-											<a href="#">Delete</a>
-										</h:td>
-									</h:tr>
-									<h:tr>
-										<h:td>Lorem ipsum dolor</h:td>
-										<h:td>sit amet apscii</h:td>
-										<h:td>
-											<a href="#">Delete</a>
-										</h:td>
-									</h:tr>
-									<h:tr>
-										<h:td>Lorem ipsum dolor</h:td>
-										<h:td>sit amet apscii</h:td>
-										<h:td>
-											<a href="#">Delete</a>
-										</h:td>
-									</h:tr>
-									<h:tr>
-										<h:td>Lorem ipsum dolor</h:td>
-										<h:td>sit amet apscii</h:td>
-										<h:td>
-											<a href="#">Delete</a>
-										</h:td>
-									</h:tr>
+									<template name="record">
+										<h:tr>
+											<h:td>
+												<!-- <label
+													value="${each.domainName}" /> -->
+											</h:td>
+											<h:td>
+												<label
+													value="${each.name}" />
+											</h:td>
+											<h:td width="10%">
+												Delete
+											</h:td>
+										</h:tr>
+									</template>
 								</h:table>
 								<div class="clr" />
 							</div>
@@ -106,11 +88,23 @@
 								<h:h2>Add a Skill</h:h2>
 								<div class="clr" />
 								<groupbox>
-									<textbox class="text"
-										value="Domain" />
-									<textbox class="text" value="Skill" />
-									<image src="images/submit.gif"
-										class="send" />
+									<combobox model="@load(vm.domains)"
+										autodrop="true" selectedItem="@save(vm.selectedDomain)">
+										<template name="model">
+											<comboitem
+												label="@load(each.name)" />
+										</template>
+									</combobox>
+									<combobox
+										model="@load(vm.filteredSkills)" autodrop="true"
+										selectedItem="@save(vm.selectedSkill)">
+										<template name="model">
+											<comboitem
+												label="@load(each.name)" />
+										</template>
+									</combobox>
+									<button label="Add"
+										onClick="@command('addSkill')" />
 								</groupbox>
 								<div class="clr" />
 							</div>
@@ -119,24 +113,42 @@
 							<div class="gadget">
 								<image src="images/pic_2.jpg"
 									width="200" />
-								<h:h2 class="star">About Me</h:h2>
-								<div class="clr" />
-								<label value="@load(vm.user.firstName)" />
-								<label value="@laod(vm.user.lastName)" />
-								<h:p class="active">
-									<a href="#" onClick="">Edit</a>
-									<vlayout id="edit">
-										First name:
-										<textbox
-											value="@bind(vm.user.firstName)" />
-										Last name:
-										<textbox
-											value="@bind(vm.user.lastName)" />
-										<!-- Birthdate: <datebox value="@bind(vm.user.birthDate)"/> -->
-										<button label="Save"
-											onClick="@command('saveChanges')" />
+								<div id="about">
+									<h:h2 class="star">About</h:h2>
+									<div class="clr" />
+									<vlayout>
+										<label
+											value="@laod(vm.user.lastName)" />
+										<label
+											value="@load(vm.user.firstName)" />
+										<label
+											value="@load(vm.user.age)" />
 									</vlayout>
-								</h:p>
+									<h:p class="active">
+										<a href=""
+											w:onClick="this.$f('edit').setVisible(true);this.$f('about').setVisible(false)">
+											Edit
+										</a>
+									</h:p>
+								</div>
+								<vlayout id="edit" visible="false">
+									<h:h2 class="star">Edit About</h:h2>
+									First name:
+									<textbox
+										value="@bind(vm.user.firstName)" />
+									Last name:
+									<textbox
+										value="@bind(vm.user.lastName)" />
+									Birthdate:
+									<datebox format="dd - MM - yyyy"
+										instant="true" width="10em"
+										constraint="no future: Your Birthdate can not be in future!"
+										value="@bind(vm.user.birthDate)" />
+									<button label="Save"
+										onClick="@command('saveChanges') "
+										w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
+								</vlayout>
+
 							</div>
 						</div>
 						<div class="clr" />

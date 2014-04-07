@@ -64,4 +64,5 @@ public class RegisterVM {
 		System.out.println(dbc.closeConnection());
 	}
 
+	
 }

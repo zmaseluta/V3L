@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -174,18 +175,19 @@ public class User {
 	}
 
 	/**
-	 * @return the birthDate
+	 * @return the birthDate as Date
+	 * @throws ParseException 
 	 */
-	public String getBirthDate() {
-		return birthDate;
+	public Date getBirthDate() throws ParseException {
+		return	new SimpleDateFormat("yyyy-M-dd").parse(birthDate);
 	}
 
 	/**
 	 * @param birthDate the birthDate to set
 	 * computes user age
 	 */
-	public void setBirthDate(String birthDate) {
-		this.birthDate = birthDate;
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = new SimpleDateFormat("yyyy-M-dd").format(birthDate).toString();
 		age = computeAge();
 	}
 
