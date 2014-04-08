@@ -1,0 +1,7 @@
+<?page title="Home" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window title="Home" border="normal">
+<label value="My groups"/>
+<label value="Friends"/>
+</window>
+</zk>

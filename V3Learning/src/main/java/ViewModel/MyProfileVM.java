@@ -12,6 +12,9 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Div;
+import org.zkoss.zul.Window;
 
 import Model.DBConnection;
 import Model.DBOperations;
@@ -25,6 +28,7 @@ public class MyProfileVM {
 	private List<Domain> domains;
 	private Domain selectedDomain;
 	private Skill selectedSkill;
+	
 	
 	public User getUser() {
 		return user;
@@ -73,13 +77,12 @@ public class MyProfileVM {
 
 	@Init
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
-		try {
-			User usera = (User) Sessions.getCurrent().getAttribute("user");
-			setUser(usera);
-		} catch (Throwable tr) {
-			Executions.sendRedirect("index.zul");
-			return;
-		}
+		User usera = (User) Sessions.getCurrent().getAttribute("user");
+		if (usera == null) {
+				Executions.sendRedirect("index.zul");
+			}
+		else{
+		setUser(usera);
 		skills = user.getSkills();
 
 		System.out.println("register...");
@@ -90,7 +93,7 @@ public class MyProfileVM {
 		DBOperations dbo = new DBOperations(dbc);
 		domains = dbo.getAllDomains();
 		skills = dbo.getAllSkills();
-
+		}
 	}
 
 	@Command
@@ -104,5 +107,10 @@ public class MyProfileVM {
 	public void addSkill(){
 		user.addSkill(selectedSkill);
 		user.update();
+	}
+	@Command
+	public void openWindow(){
+		Window window = (Window)Executions.createComponents("/components/new_group.zul", null, null);
+		 window.doModal();
 	}
 }

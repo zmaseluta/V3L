@@ -1,0 +1,9 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk xmlns:w="client">
+<window id="modalDialog" title="Create new group" border="normal" width="460px"
+   position="center,center" closable="true"
+    action="show: slideDown;hide: slideUp">
+New Content Here!
+<button label="clickMe" id="closeBtn"/>
+</window>
+</zk>

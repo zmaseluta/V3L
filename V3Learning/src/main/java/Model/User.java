@@ -179,7 +179,10 @@ public class User {
 	 * @throws ParseException 
 	 */
 	public Date getBirthDate() throws ParseException {
-		return	new SimpleDateFormat("yyyy-M-dd").parse(birthDate);
+		if(birthDate !=null)
+			return	new SimpleDateFormat("yyyy-M-dd").parse(birthDate);
+		else
+			return new Date(1234);
 	}
 
 	/**
