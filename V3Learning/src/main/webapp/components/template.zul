@@ -1,0 +1,24 @@
+<zk xmlns:c="client">
+	<style></style>
+	<borderlayout>
+		<north>
+			<bandbox id="bd" mold="rounded" autodrop="true">
+				<bandpopup>
+					<listbox height="250px" width="450px" mold="paging"
+						autopaging="true"
+						onSelect="bd.value=self.selectedItem.label; bd.close();">
+						<listhead>
+							<listheader label="Programming Languages" />
+						</listhead>
+						<listitem label="${each}"
+							forEach="${languages}" />
+					</listbox>
+				</bandpopup>
+			</bandbox>
+		</north>
+		<center>
+
+		</center>
+	</borderlayout>
+
+</zk>
