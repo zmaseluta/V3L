@@ -59,9 +59,9 @@ public class RegisterVM {
 		DBOperations dbo = new DBOperations(dbc);
 		int val;
 		//TODO add firstName lastName to UI
-		val = dbo.registerUser(email, password1, name, "");
+		/*val = dbo.registerUser(email, password1, name, "");
 		System.out.println(val);
-		System.out.println(dbc.closeConnection());
+		System.out.println(dbc.closeConnection());*/
 	}
 
 	
