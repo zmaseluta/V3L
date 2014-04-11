@@ -8,6 +8,7 @@ import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zk.ui.select.annotation.Listen;
 import org.zkoss.zk.ui.select.annotation.Wire;
+import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 import Model.User;
@@ -31,6 +32,12 @@ public class NewGroupDialogController extends SelectorComposer<Component> {
 	@Wire
 	Window modalDialog;
 
+	@Wire("#groupName")
+	Textbox groupName;
+	
+	@Wire("#groupDescription")
+	Textbox groupDescription;
+	
 	@Listen("onClick = #closeBtn")
 	public void showModal(Event e) {
 		modalDialog.detach();

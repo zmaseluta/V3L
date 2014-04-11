@@ -14,7 +14,13 @@
 			</h:tr>
 			<h:tr>
 				<h:td>Domain</h:td>
-				<h:td></h:td>
+				<h:td>
+					<combobox id="domains">
+						<template name="model">
+							<comboitem label="@load(each.name)" />
+						</template>
+					</combobox>
+				</h:td>
 			</h:tr>
 			<h:tr>
 				<h:td>Description</h:td>

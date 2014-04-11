@@ -12,8 +12,6 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.select.annotation.Wire;
-import org.zkoss.zul.Div;
 import org.zkoss.zul.Window;
 
 import Model.DBConnection;
@@ -28,8 +26,7 @@ public class MyProfileVM {
 	private List<Domain> domains;
 	private Domain selectedDomain;
 	private Skill selectedSkill;
-	
-	
+
 	public User getUser() {
 		return user;
 	}
@@ -61,7 +58,6 @@ public class MyProfileVM {
 		return selectedDomain;
 	}
 
-
 	@NotifyChange("filteredSkills")
 	public void setSelectedDomain(Domain selectedDomain) {
 		this.selectedDomain = selectedDomain;
@@ -79,20 +75,19 @@ public class MyProfileVM {
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
 		User usera = (User) Sessions.getCurrent().getAttribute("user");
 		if (usera == null) {
-				Executions.sendRedirect("index.zul");
-			}
-		else{
-		setUser(usera);
-		skills = user.getSkills();
+			Executions.sendRedirect("index.zul");
+		} else {
+			setUser(usera);
+			skills = user.getSkills();
 
-		System.out.println("register...");
-		DBConnection dbc = new DBConnection();
-		dbc.connectToDB();
-		System.out.println(dbc.getIsConnected());
+			System.out.println("register...");
+			DBConnection dbc = new DBConnection();
+			dbc.connectToDB();
+			System.out.println(dbc.getIsConnected());
 
-		DBOperations dbo = new DBOperations(dbc);
-		domains = dbo.getAllDomains();
-		skills = dbo.getAllSkills();
+			DBOperations dbo = new DBOperations(dbc);
+			domains = dbo.getAllDomains();
+			skills = dbo.getAllSkills();
 		}
 	}
 
@@ -104,13 +99,15 @@ public class MyProfileVM {
 
 	@Command
 	@NotifyChange("user")
-	public void addSkill(){
+	public void addSkill() {
 		user.addSkill(selectedSkill);
 		user.update();
 	}
+
 	@Command
-	public void openWindow(){
-		Window window = (Window)Executions.createComponents("/components/new_group.zul", null, null);
-		 window.doModal();
+	public void openWindow() {
+		Window window = (Window) Executions.createComponents(
+				"/components/new_group.zul", null, null);
+		window.doModal();
 	}
 }
