@@ -14,7 +14,7 @@ public class DBOperations {
 	private static final String USER_STATEMENT = "INSERT INTO User "
 			+ "(id_user, last_name, first_name, email, password, birthday_date, "
 			+ "rank, is_valid, is_public, account_type) "
-			+ "VALUES (NULL, ?, ?, ?, ?, NULL, '0', '0', '1', '2');";
+			+ "VALUES (NULL, ?, ?, ?, ?, ?, '0', '1', '1', '2');";
 	private static final String SKILL_STATEMENT = "SELECT * FROM Skills WHERE name = ?;";
 	private static final String DOMAIN_STATEMENT = "SELECT * FROM Domain WHERE name = ?;";
 	private static final String ALL_SKILLS_STATEMENT = "SELECT * FROM Skills;";
@@ -37,7 +37,7 @@ public class DBOperations {
 	 * if user (user email) already exists in DB returns -1
 	 * if user added successfully in DB returns 1
 	*/
-	public int registerUser(String email, String pass, String firstname, String lastname) {
+	public int registerUser(String email, String pass, String firstname, String lastname, String bdate) {
 		int done = 0;
 		if (dbConnection.getIsConnected()) {
 			try {
@@ -54,6 +54,7 @@ public class DBOperations {
 			        statement.setString(2 , firstname);
 			        statement.setString(3 , email);
 			        statement.setString(4 , pass);
+			        statement.setString(5 , bdate);
 			        statement.executeUpdate();
 			        done = 1;
 		        }
