@@ -1,6 +1,6 @@
 <zk>
 <window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('ViewModel.Groups.HomeVM')>
+		viewModel="@id('vm')@init('ViewModel.Groups.HomeVM')">
 	<vlayout width="250px"
 		style="background-color: grey; min-height:300px; float:left" >
 		<vlayout width="100%" >
