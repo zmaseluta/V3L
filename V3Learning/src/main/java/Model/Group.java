@@ -12,6 +12,7 @@ public class Group {
 			+ "WHERE id_user IN (SELECT id_user FROM UsGroups WHERE id_group = ?);";
 	private static final String EVENTS_IN_GROUP = "SELECT * FROM Events WHERE id_group = ?;";
 	private static final String FILES_IN_GROUP = "SELECT * FROM Files WHERE id_group = ?;";
+	private static final String VIDEOS_IN_GROUP = "SELECT * FROM Videos WHERE id_group = ?;";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -198,7 +199,7 @@ public class Group {
 	    	statement.setString(1, Integer.toString(id));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	File file = new File(data.getString("url"), data.getString("file_name"), 
+	        	File file = new File(data.getString("url"), data.getString("name"), 
 	        			data.getInt("id_user"), data.getInt("id_group"), 
 	        			data.getString("description"));
 	        	file.setId(data.getInt("id_file"));
@@ -212,8 +213,29 @@ public class Group {
 		return fileList;
 	}
 
+	/**
+	 * returns video list for current group
+	 * returns null if unsuccessful
+	 */
 	private List<File> getVideoList() {
-		// TODO ????
-		return null;
+		List<File> videoList = new ArrayList<File>(); 
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(VIDEOS_IN_GROUP);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        while(data.next()){
+	        	File file = new File(data.getString("url"), data.getString("name"), 
+	        			data.getInt("id_user"), data.getInt("id_group"), 
+	        			data.getString("description"));
+	        	file.setId(data.getInt("id_video"));
+	        	videoList.add(file);
+	        }      
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return videoList;
 	}
 }

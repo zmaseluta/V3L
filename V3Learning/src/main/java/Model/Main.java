@@ -15,8 +15,8 @@ public class Main {
 	}
 
 	public static void main(String[] args) {
-		
-		
+
+		/*
 		String user = "echipab6";
 		String pass = "echipab6";
 		String dbDriver = "jdbc:mysql://db4free.net:3306/virtual3l";
@@ -32,7 +32,7 @@ public class Main {
 		
 		DBOperations dbo = new DBOperations(dbc);
 		
-		
+		/*
 		int val;
 		
 		Domain d = dbo.getDomain("Cooking");
@@ -128,10 +128,64 @@ public class Main {
 			//val = us.removeFile(f);
 			//System.out.println(val);
 		}
+		*/
+		/*
+		List<User> searchU = dbo.searchUsers("vi");
+		for(int i=0; i < searchU.size(); i++) {
+			System.out.println(searchU.get(i).getId());
+		}
 		
+		List<Domain> searchD = dbo.searchDomain("of it");
+		for(int i=0; i < searchD.size(); i++) {
+			System.out.println(searchD.get(i).getId());
+		}
+		
+		List<Skill> searchS = dbo.searchSkill("con se");
+		for(int i=0; i < searchS.size(); i++) {
+			System.out.println(searchS.get(i).getId());
+		}
+		
+		List<Group> searchG = dbo.searchGroup("vi ra lo");
+		for(int i=0; i < searchG.size(); i++) {
+			System.out.println(searchG.get(i).getId());
+		}
+		
+		List<Event> searchE = dbo.searchEvent("! hai");
+		for(int i=0; i < searchE.size(); i++) {
+			System.out.println(searchE.get(i).getId());
+		}
+
+		List<File> searchF = dbo.searchFile("m :d");
+		for(int i=0; i < searchF.size(); i++) {
+			System.out.println(searchF.get(i).getId());
+		}
+		
+		List<File> searchV = dbo.searchVideo("m top");
+		for(int i=0; i < searchV.size(); i++) {
+			System.out.println(searchV.get(i).getId());
+		}
+		
+		User us = dbo.login("vm@mail.com", "mona");
+		File f = new File("altundeva pe net", "Nimic special", us.getId(), 
+				5, "");
+		int val = us.addVideo(f);
+		System.out.println(val);
+		
+		Skill s = dbo.getSkill("Salads");
+		List<User> users = dbo.getAllUsersWithSkill(s);
+		for(int i=0; i < users.size(); i++) {
+			System.out.println(users.get(i).getId());
+		}
+		
+		Domain d = dbo.getDomain("Cooking");
+		List<User> users2 = dbo.getAllUsersInGroup(dbo.getAllGroupsInDomain(d).get(0));
+		for(int i=0; i < users2.size(); i++) {
+			System.out.println(users2.get(i).getId());
+		}
 		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());
+		
 		
 	}*/
 }

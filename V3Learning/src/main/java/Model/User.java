@@ -76,12 +76,19 @@ public class User {
 	private static final String DELETE_EVENT_USEVENTS = "DELETE FROM UsEvents "
 			+ "WHERE (id_event = ? AND id_user = ?);";
 	private static final String SEARCH_USER_FILE = "SELECT id_file FROM Files "
-			+ "WHERE (file_name = ? AND id_user = ? AND id_group = ?);";
+			+ "WHERE (name = ? AND id_user = ? AND id_group = ?);";
 	private static final String INSERT_FILE = "INSERT INTO Files "
-			+ "(id_file, url, file_name, id_user, id_group, description) "
+			+ "(id_file, url, name, id_user, id_group, description) "
 			+ "VALUES (NULL, ?, ?, ?, ?, ?);";
 	private static final String DELETE_FILE = "DELETE FROM Files "
 			+ "WHERE (id_file = ? AND id_user = ?);";
+	private static final String SEARCH_USER_VIDEO = "SELECT id_video FROM Videos "
+			+ "WHERE (name = ? AND id_user = ? AND id_group = ?);";
+	private static final String INSERT_VIDEO = "INSERT INTO Videos "
+			+ "(id_video, url, name, id_user, id_group, description) "
+			+ "VALUES (NULL, ?, ?, ?, ?, ?);";
+	private static final String DELETE_VIDEO = "DELETE FROM Videos "
+			+ "WHERE (id_video = ? AND id_user = ?);";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -1109,15 +1116,74 @@ public class User {
 		return done;
 	}
 	
-	public int addVideo(File f) {
+	/**
+	 * verifies if user already added video in group in DB
+	 * returns -1 if yes
+	 * else adds video in DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int addVideo(File v) {
 		int done = 0;
-		// TODO ????
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_VIDEO);
+			statement.setString(1, v.getName());
+			statement.setString(2, Integer.toString(id));
+			statement.setString(3, Integer.toString(v.getGroupId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				System.out.println("video uploaded by user already exists in group");
+				done = -1;
+			} else {
+				statement = (PreparedStatement) connection.prepareStatement(INSERT_VIDEO);
+				statement.setString(1, v.getUrl());
+				statement.setString(2, v.getName());
+				statement.setString(3, Integer.toString(id));
+				statement.setString(4, Integer.toString(v.getGroupId()));
+				statement.setString(5, v.getDescription());
+				statement.executeUpdate();
+				done = 1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
 		return done;
 	}
 	
-	public int removeVideo(File f) {
+	/**
+	 * verifies if video added by user exists in group in DB
+	 * returns -1 if not
+	 * else deletes video from DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int removeVideo(File v) {
 		int done = 0;
-		// TODO ????
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(SEARCH_USER_VIDEO);
+			statement.setString(1, v.getName());
+			statement.setString(2, Integer.toString(id));
+			statement.setString(3, Integer.toString(v.getGroupId()));
+			ResultSet data = statement.executeQuery();
+			if (data.next()){
+				statement = (PreparedStatement) connection.prepareStatement(DELETE_VIDEO);
+				statement.setString(1, Integer.toString(v.getId()));
+				statement.setString(2, Integer.toString(id));
+				statement.executeUpdate();
+				done = 1;
+			} else {
+				System.out.println("video doesn't exist or deletion dot allowed");
+				done = -1;
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
 		return done;
 	}
 }
