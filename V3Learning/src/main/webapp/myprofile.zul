@@ -5,178 +5,118 @@
 <?script type="text/javascript" src="js/cufon-yui.js" ?>
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <zk xmlns:h="native" xmlns:w="client">
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('ViewModel.MyProfileVM')">
-		<div class="main">
-			<div class="main_resize">
-				<div class="header">
-					<div class="logo">
-						<h:h1>
-							<a href="#">V3L</a>
-						</h:h1>
-					</div>
-					<div
-						style="float: right; width: 200px; padding: 30px 0;">
-						Logged in as
-						<label value="@load(vm.user.firstName)" />
-						(
-						<a href="myprofile.zul">Profile</a>
-						)
-					</div>
-					<bandbox id="bd" mold="rounded" autodrop="true">
-						<bandpopup>
-							<listbox height="250px" width="450px"
-								mold="paging" autopaging="true"
-								onSelect="bd.value=self.selectedItem.label; bd.close();">
-								<listhead>
-									<listheader label="Domains" />
-								</listhead>
-								<listitem label="${each}"
-									forEach="${languages}" />
-							</listbox>
-						</bandpopup>
-					</bandbox>
-					<div class="clr" />
-				</div>
-				<div class="content">
-					<div class="content_bg">
-						<div class="mainbar">
-							<div class="article">
-								<h:h2>Past courses</h:h2>
-								<div class="clr" />
-								<div id="prnt">
-									<div>Short Description</div>
 
-								</div>
-								<div class="clr" />
-							</div>
-							<div class="article">
-								<h:h2>Present courses</h:h2>
-								<div class="clr" />
-								<hlayout>
-									<div>Short Description</div>
-									<div>Short Description</div>
-								</hlayout>
-								<div class="clr" />
-							</div>
-							<div class="article">
-								<h:h2>My Skills</h:h2>
-								<div class="clr" />
-								<h:table width="100%"
-									children="@bind(vm.user.skills) @template('record')">
-									<h:tr>
-										<h:td>Domain</h:td>
-										<h:td>Skill</h:td>
-										<h:td width="10%">Delete</h:td>
-									</h:tr>
-									<template name="record">
-										<h:tr>
-											<h:td>
-												<!-- <label
-													value="${each.domainName}" /> -->
-											</h:td>
-											<h:td>
-												<label
-													value="${each.name}" />
-											</h:td>
-											<h:td width="10%">
-												Delete
-											</h:td>
-										</h:tr>
-									</template>
-								</h:table>
-								<div class="clr" />
-							</div>
-							<div class="article">
-								<h:h2>Add a Skill</h:h2>
-								<div class="clr" />
-								<groupbox>
-									<combobox model="@load(vm.domains)"
-										autodrop="true" selectedItem="@save(vm.selectedDomain)">
-										<template name="model">
-											<comboitem
-												label="@load(each.name)" />
-										</template>
-									</combobox>
-									<combobox
-										model="@load(vm.filteredSkills)" autodrop="true"
-										selectedItem="@save(vm.selectedSkill)">
-										<template name="model">
-											<comboitem
-												label="@load(each.name)" />
-										</template>
-									</combobox>
-									<button label="Add"
-										onClick="@command('addSkill')" />
-								</groupbox>
-								<div class="clr" />
-							</div>
-						</div>
-						<div class="sidebar">
-							<div class="gadget">
-								<image src="images/pic_2.jpg"
-									width="200" />
-								<div id="about">
-									<h:h2 class="star">About</h:h2>
-									<div class="clr" />
-									<label
-										value="@load(vm.user.firstName)" />
-									<label
-										value="@load(vm.user.lastName)" />
-									(age
-									<label value="@load(vm.user.age)" />
-									)
-									<label value="@load(vm.user.rank)" />
-									<label
-										value="@load(vm.user.type eq 2 ? 'admin' : 'no-admin')" />
-									<h:p class="active">
-										<a href=""
-											w:onClick="this.$f('edit').setVisible(true);this.$f('about').setVisible(false)">
-											Edit
-										</a>
-									</h:p>
-								</div>
-								<vlayout id="edit" visible="false">
-									<h:h2 class="star">Edit About</h:h2>
-									First name:
-									<textbox
-										value="@bind(vm.user.firstName)" />
-									Last name:
-									<textbox
-										value="@bind(vm.user.lastName)" />
-									Birthdate:
-									<datebox format="dd - MM - yyyy"
-										instant="true" width="10em"
-										constraint="no future: Your Birthdate can not be in future!"
-										value="@bind(vm.user.birthDate eq null ? 1234:vm.user.birthDate)" />
-									<button label="Save"
-										onClick="@command('saveChanges') "
-										w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
-								</vlayout>
+	<div class="content" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.MyProfileVM')"
+		self="@define(content)">
 
-								<vlayout
-									apply="org.zkoss.bind.BindComposer" viewModel="@id('v')@init('Components.ModalDialogViewModel')"
-									visible="@load(vm.user.type eq 2 ? true : false)">
-									<button id="orderBtn"
-										label="New Group" autodisable="self" onClick="@command('showModal')"/>
-								</vlayout>
-
-							</div>
-						</div>
-						<div class="clr" />
-					</div>
-				</div>
+		<div class="article">
+			<div id="about">
+				<h:h2 class="star">About</h:h2>
+				<h:table>
+					<h:tr>
+						<h:td>Name:</h:td>
+						<h:td>
+							<label value="@load(vm.user.firstName)" />
+							<label value=" " />
+							<label value="@load(vm.user.lastName)" />
+						</h:td>
+					</h:tr>
+					<h:tr>
+						<h:td>Age:</h:td>
+						<h:td>
+							<label value="@load(vm.user.age)" />
+						</h:td>
+					</h:tr>
+					<h:tr>
+						<h:td>Rank</h:td>
+						<h:td>
+							<label value="@load(vm.user.rank)" />
+						</h:td>
+					</h:tr>
+					<h:tr>
+						<h:td>Role</h:td>
+						<h:td>
+							<label
+								value="@load(vm.user.type eq 2 ? 'admin' : 'no-admin')" />
+						</h:td>
+					</h:tr>
+					<h:tr>
+						<h:td collspan="2">
+							<h:p class="active">
+								<a href=""
+									w:onClick="this.$f('edit').setVisible(true);this.$f('about').setVisible(false)">
+									Edit
+								</a>
+							</h:p>
+						</h:td>
+					</h:tr>
+				</h:table>
 			</div>
+			<vlayout id="edit" visible="false">
+				<h:h2 class="star">Edit About</h:h2>
+				First name:
+				<textbox value="@bind(vm.user.firstName)" />
+				Last name:
+				<textbox value="@bind(vm.user.lastName)" />
+				Birthdate:
+				<datebox format="dd - MM - yyyy" instant="true"
+					width="10em"
+					constraint="no future: Your Birthdate can not be in future!"
+					value="@bind(vm.user.birthDate)" />
+				<button label="Save" onClick="@command('saveChanges') "
+					w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
+			</vlayout>
+
+			<vlayout apply="org.zkoss.bind.BindComposer"
+				viewModel="@id('v')@init('Components.ModalDialogViewModel')"
+				visible="@load(vm.user.type eq 2 ? true : false)">
+				<button id="orderBtn" label="New Group"
+					autodisable="self" onClick="@command('showModal')" />
+			</vlayout>
 		</div>
-		<div class="footer">
-			<div class="footer_resize">
-				<h:p class="lf">
-					@Copyright
-					<a href="#">V3L</a>
-				</h:p>
-				<div class="clr" />
-			</div>
+		<div class="article">
+			<h:h2>My Skills</h:h2>
+			<div class="clr" />
+			<listbox model="@bind(vm.user.skills)">
+				<listhead>
+					<listheader>Domain</listheader>
+					<listheader>Skill</listheader>
+					<listheader>Delete</listheader>
+				</listhead>
+				<template name="model">
+					<listitem>
+						<listcell label="${each.domainName}" />
+						<listcell label="${each.name}" />
+						<listcell />
+					</listitem>
+				</template>
+			</listbox>
+			<div class="clr" />
 		</div>
-	</window>
+		<div class="article">
+			<h:h2>Add a Skill</h:h2>
+			<div class="clr" />
+			<groupbox>
+				<combobox model="@load(vm.domains)" autodrop="true"
+					selectedItem="@save(vm.selectedDomain)">
+					<template name="model">
+						<comboitem label="@load(each.name)" />
+					</template>
+				</combobox>
+				<combobox model="@load(vm.filteredSkills)"
+					autodrop="true" selectedItem="@save(vm.selectedSkill)">
+					<template name="model">
+						<comboitem label="@load(each.name)" />
+					</template>
+				</combobox>
+				<button label="Add" onClick="@command('addSkill')" />
+			</groupbox>
+			<div class="clr" />
+		</div>
+
+	</div>
+
 </zk>

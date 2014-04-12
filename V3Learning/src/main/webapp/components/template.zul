@@ -1,4 +1,4 @@
-<zk xmlns:c="client">
+<zk>
 	<style></style>
 	<borderlayout>
 		<north>
@@ -8,7 +8,7 @@
 						autopaging="true"
 						onSelect="bd.value=self.selectedItem.label; bd.close();">
 						<listhead>
-							<listheader label="Programming Languages" />
+							<listheader label="Domains" />
 						</listhead>
 						<listitem label="${each}"
 							forEach="${languages}" />
@@ -16,9 +16,21 @@
 				</bandpopup>
 			</bandbox>
 		</north>
-		<center>
+		<west width="200px">
+			<div self="@insert(sidebar)" />
+		</west>
+		<center autoscroll="true">
+			<div>
+				<div self="@insert(content)" />
+				<div class="footer">
+					<div class="footer_resize">
+						@Copyright
+						<a href="#">V3L</a>
 
+						<div class="clr"></div>
+					</div>
+				</div>
+			</div>
 		</center>
 	</borderlayout>
-
 </zk>

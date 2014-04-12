@@ -5,20 +5,14 @@
 	<artifactId>essentials</artifactId>
 	<version>1.0.0</version>
 	<properties>
-		<zk.version>7.0.0</zk.version>
+		<zk.version>7.0.1</zk.version>
 		<maven.build.timestamp.format>yyyy-MM-dd</maven.build.timestamp.format>
 		<packname>-${project.version}-FL-${maven.build.timestamp}</packname>
 	</properties>
 	<packaging>war</packaging>
-	<name>The ZK Essentials Example Project</name>
-	<description>The ZK Essentials Example Application</description>
-	<licenses>
-		<license>
-			<name>GNU LESSER GENERAL PUBLIC LICENSE, Version 3</name>
-			<url>http://www.gnu.org/licenses/lgpl.html</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
+	<name>Virtual Long Life Learning</name>
+	<description>Team B6 learning application</description>
+	
 	<repositories>
 		<repository>
 			<id>ZK CE</id>

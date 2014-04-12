@@ -79,7 +79,8 @@ public class MyProfileVM {
 		} else {
 			setUser(usera);
 			skills = user.getSkills();
-
+			user.computeUserLists();
+			
 			System.out.println("register...");
 			DBConnection dbc = new DBConnection();
 			dbc.connectToDB();
@@ -88,6 +89,7 @@ public class MyProfileVM {
 			DBOperations dbo = new DBOperations(dbc);
 			domains = dbo.getAllDomains();
 			skills = dbo.getAllSkills();
+			
 		}
 	}
 

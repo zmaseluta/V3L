@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Skill {
 	private static final String SELECT_SKILL = "SELECT name FROM Skills "
@@ -16,7 +17,7 @@ public class Skill {
 	private int id;
 	private String name;
 	private int domainId;
-
+	
 	public Skill(DBConnection dbConnection, String name) {
 		connection = dbConnection.getConnection();
 		this.name = name;
@@ -96,5 +97,9 @@ public class Skill {
 			done = 0;
 		}
 		return done;
+	}
+	public String getDomainName(){
+		//TODO return the Domain's name
+		return new Integer(getDomainId()).toString();
 	}
 }

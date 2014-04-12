@@ -5,108 +5,42 @@
 <?script type="text/javascript" src="js/cufon-yui.js" ?>
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <zk xmlns:h="native">
-<div apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('ViewModel.LogInVM')">
-	<div class="main">
-		<div class="main_resize">
-			<div class="header">
-				<div class="logo">
-					<h:h1>
-						<a href="#">V3L</a>
-					</h:h1>
-				</div>
-				<div class="search">
-					<groupbox>
-						<span>
-							<textbox value="Search..." id="s" />
-							<image src="images/search.gif"
-								id="searchsubmit" class="btn" />
-						</span>
-					</groupbox>
-					<!--/searchform -->
-					<div class="clr"></div>
-				</div>
-				<div class="clr"></div>
-				<div class="menu_nav">
-					<h:ul>
-						<h:li>
-							<a href="index.zul">Home</a>
-						</h:li>
-						<h:li class="active">
-							<a href="login.zul">Login</a>
-						</h:li>
-						<h:li>
-							<a href="register.zul">Register</a>
-						</h:li>
-					</h:ul>
-					<div class="clr"></div>
-				</div>
-				<div class="hbg">
-					<image src="images/header_images.jpg" width="923"
-						height="291" />
-				</div>
-			</div>
-			<div class="content">
-				<div class="content_bg">
-					<div class="mainbar">
-
-						<div class="article">
-							<h:h2>Login to v3l</h:h2>
-							<div class="clr"></div>
-							<groupbox>
-								<h:ol>
-									<h:li>
-										<label>
-											Email Address (required)
-										</label>
-										<textbox id="email" name="email" value="@save(vm.emailadress)"
-											class="text" />
-									</h:li>
-									<h:li>
-										<label>Password</label>
-										<textbox id="password"
-											name="password" type="password" class="text" value="@save(vm.password)"/>
-									</h:li>
-									<h:li>
-										<image id="imageField"
-											src="images/submit.gif" class="send" onClick="@command('logIn')"/>
-										<div class="clr"></div>
-									</h:li>
-								</h:ol>
-							</groupbox>
-						</div>
-					</div>
-					<div class="sidebar">
-						<div class="gadget">
-							<h:h2 class="star">Sidebar Menu</h:h2>
-							<div class="clr"></div>
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="/">Home</a>
-								</h:li>
-								<h:li class="active">
-									<a href="login.zul">Login</a>
-								</h:li>
-								<h:li>
-									<a href="register.zul">Register</a>
-								</h:li>
-							</h:ul>
-						</div>
-					</div>
-					<div class="clr"></div>
-				</div>
-			</div>
-		</div>
+	<include src="/components/sidebar.zul" self="@define(sidebar)" />
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.LogInVM')" class="main"
+		self="@define(content)">
+		<h:h2>Login to v3l</h:h2>
+		<groupbox>
+			<h:table>
+				<h:tr>
+					<h:td>
+						<label>Email Address</label>
+					</h:td>
+					<h:td>
+						<textbox id="email" name="email"
+							value="@save(vm.emailadress)" class="text" />
+					</h:td>
+				</h:tr>
+				<h:tr>
+					<h:td>
+						<label>Password</label>
+					</h:td>
+					<h:td>
+						<textbox id="password" name="password"
+							type="password" class="text" value="@save(vm.password)"
+							onOK="@command('logIn')" />
+					</h:td>
+				</h:tr>
+				<h:tr>
+					<h:td></h:td>
+					<h:td>
+						<button label="Login"
+							onClick="@command('logIn')" />
+					</h:td>
+				</h:tr>
+			</h:table>
+		</groupbox>
 	</div>
-	<div class="footer">
-		<div class="footer_resize">
-			<h:p class="lf">
-				@ Copyright
-				<a href="#">V3L</a>
-			</h:p>
-			<div class="clr"></div>
-		</div>
-	</div>
-</div>
 </zk>

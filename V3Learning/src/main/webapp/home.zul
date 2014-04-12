@@ -1,7 +1,19 @@
 <?page title="Home" contentType="text/html;charset=UTF-8"?>
-<zk>
-<window title="Home" border="normal">
-<label value="My groups"/>
-<label value="Friends"/>
-</window>
+<zk xmlns:h="native">
+	<window apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.HomeVM')">
+		<vlayout width="250px"
+			style="background-color: grey; min-height:300px; float:left">
+			<vlayout width="100%" children="@bind(vm.user.groups) @template('groups')">
+				<template name="groups">
+					<label value="${each.name}"/>
+				</template>
+			</vlayout>
+			<vlayout></vlayout>
+		</vlayout>
+
+		<vlayout hflex="1" width="auto"
+			style="background-color: yellow; min-height:300px">
+		</vlayout>
+	</window>
 </zk>
