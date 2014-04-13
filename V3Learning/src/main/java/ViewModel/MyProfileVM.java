@@ -17,6 +17,7 @@ import org.zkoss.zul.Window;
 import Model.DBConnection;
 import Model.DBOperations;
 import Model.Domain;
+import Model.Group;
 import Model.Skill;
 import Model.User;
 
@@ -111,5 +112,11 @@ public class MyProfileVM {
 		Window window = (Window) Executions.createComponents(
 				"/components/new_group.zul", null, null);
 		window.doModal();
+	}
+	
+	@Command
+	public void openGroupPage(@BindingParam("group") Group group){
+		Sessions.getCurrent().setAttribute("currentGroup", group);
+		Executions.sendRedirect("group/home.zul");
 	}
 }

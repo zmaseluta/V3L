@@ -22,7 +22,11 @@ public class MainViewModel {
 
 		DBOperations dbo = new DBOperations(dbc);
 		User user;
-		user = dbo.login("ana@test.eu", "testana");
+		//admin -> right to create group
+		//user = dbo.login("ana@test.eu", "testana");
+		
+		user = dbo.login("vm@mail.com", "mona");
+		
 		//System.out.println(dbc.closeConnection());
 		if(user!=null){
 		Sessions.getCurrent().setAttribute("user", user);
