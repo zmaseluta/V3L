@@ -89,7 +89,7 @@ public class MyProfileVM {
 			DBOperations dbo = new DBOperations(dbc);
 			domains = dbo.getAllDomains();
 			skills = dbo.getAllSkills();
-			
+			Sessions.getCurrent().setAttribute("domainList", domains);
 		}
 	}
 

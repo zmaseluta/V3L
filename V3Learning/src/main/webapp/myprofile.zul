@@ -7,116 +7,127 @@
 <?script type="text/javascript" src="js/cuf_run.js" ?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <zk xmlns:h="native" xmlns:w="client">
-
-	<div class="content" apply="org.zkoss.bind.BindComposer"
+	<div apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('ViewModel.MyProfileVM')"
 		self="@define(content)">
+		<div class="content">
 
-		<div class="article">
-			<div id="about">
-				<h:h2 class="star">About</h:h2>
-				<h:table>
-					<h:tr>
-						<h:td>Name:</h:td>
-						<h:td>
-							<label value="@load(vm.user.firstName)" />
-							<label value=" " />
-							<label value="@load(vm.user.lastName)" />
-						</h:td>
-					</h:tr>
-					<h:tr>
-						<h:td>Age:</h:td>
-						<h:td>
-							<label value="@load(vm.user.age)" />
-						</h:td>
-					</h:tr>
-					<h:tr>
-						<h:td>Rank</h:td>
-						<h:td>
-							<label value="@load(vm.user.rank)" />
-						</h:td>
-					</h:tr>
-					<h:tr>
-						<h:td>Role</h:td>
-						<h:td>
-							<label
-								value="@load(vm.user.type eq 2 ? 'admin' : 'no-admin')" />
-						</h:td>
-					</h:tr>
-					<h:tr>
-						<h:td collspan="2">
-							<h:p class="active">
-								<a href=""
-									w:onClick="this.$f('edit').setVisible(true);this.$f('about').setVisible(false)">
-									Edit
-								</a>
-							</h:p>
-						</h:td>
-					</h:tr>
-				</h:table>
+			<div class="article">
+				<div id="about">
+					<h:h2 class="star">About</h:h2>
+					<h:table>
+						<h:tr>
+							<h:td>Name:</h:td>
+							<h:td>
+								<label value="@load(vm.user.firstName)" />
+								<label value=" " />
+								<label value="@load(vm.user.lastName)" />
+							</h:td>
+						</h:tr>
+						<h:tr>
+							<h:td>Age:</h:td>
+							<h:td>
+								<label value="@load(vm.user.age)" />
+							</h:td>
+						</h:tr>
+						<h:tr>
+							<h:td>Rank</h:td>
+							<h:td>
+								<label value="@load(vm.user.rank)" />
+							</h:td>
+						</h:tr>
+						<h:tr>
+							<h:td>Role</h:td>
+							<h:td>
+								<label
+									value="@load(vm.user.type eq 2 ? 'admin' : 'no-admin')" />
+							</h:td>
+						</h:tr>
+						<h:tr>
+							<h:td collspan="2">
+								<h:p class="active">
+									<a href=""
+										w:onClick="this.$f('edit').setVisible(true);this.$f('about').setVisible(false)">
+										Edit
+									</a>
+								</h:p>
+							</h:td>
+						</h:tr>
+					</h:table>
+				</div>
+				<vlayout id="edit" visible="false">
+					<h:h2 class="star">Edit About</h:h2>
+					First name:
+					<textbox value="@bind(vm.user.firstName)" />
+					Last name:
+					<textbox value="@bind(vm.user.lastName)" />
+					Birthdate:
+					<datebox format="dd - MM - yyyy" instant="true"
+						width="10em"
+						constraint="no future: Your Birthdate can not be in future!"
+						value="@bind(vm.user.birthDate)" />
+					<button label="Save"
+						onClick="@command('saveChanges') "
+						w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
+				</vlayout>
+
+				<vlayout apply="org.zkoss.bind.BindComposer"
+					viewModel="@id('v')@init('Components.ModalDialogViewModel')"
+					visible="@load(vm.user.type eq 2 ? true : false)">
+					<button id="orderBtn" label="New Group"
+						autodisable="self" onClick="@command('showModal')" />
+				</vlayout>
 			</div>
-			<vlayout id="edit" visible="false">
-				<h:h2 class="star">Edit About</h:h2>
-				First name:
-				<textbox value="@bind(vm.user.firstName)" />
-				Last name:
-				<textbox value="@bind(vm.user.lastName)" />
-				Birthdate:
-				<datebox format="dd - MM - yyyy" instant="true"
-					width="10em"
-					constraint="no future: Your Birthdate can not be in future!"
-					value="@bind(vm.user.birthDate)" />
-				<button label="Save" onClick="@command('saveChanges') "
-					w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
-			</vlayout>
-
-			<vlayout apply="org.zkoss.bind.BindComposer"
-				viewModel="@id('v')@init('Components.ModalDialogViewModel')"
-				visible="@load(vm.user.type eq 2 ? true : false)">
-				<button id="orderBtn" label="New Group"
-					autodisable="self" onClick="@command('showModal')" />
-			</vlayout>
-		</div>
-		<div class="article">
-			<h:h2>My Skills</h:h2>
-			<div class="clr" />
-			<listbox model="@bind(vm.user.skills)">
-				<listhead>
-					<listheader>Domain</listheader>
-					<listheader>Skill</listheader>
-					<listheader>Delete</listheader>
-				</listhead>
-				<template name="model">
-					<listitem>
-						<listcell label="${each.domainName}" />
-						<listcell label="${each.name}" />
-						<listcell />
-					</listitem>
-				</template>
-			</listbox>
-			<div class="clr" />
-		</div>
-		<div class="article">
-			<h:h2>Add a Skill</h:h2>
-			<div class="clr" />
-			<groupbox>
-				<combobox model="@load(vm.domains)" autodrop="true"
-					selectedItem="@save(vm.selectedDomain)">
+			<div class="article">
+				<h:h2>My Skills</h:h2>
+				<div class="clr" />
+				<listbox model="@bind(vm.user.skills)">
+					<listhead>
+						<listheader>Domain</listheader>
+						<listheader>Skill</listheader>
+						<listheader>Delete</listheader>
+					</listhead>
 					<template name="model">
-						<comboitem label="@load(each.name)" />
+						<listitem>
+							<listcell label="${each.domainName}" />
+							<listcell label="${each.name}" />
+							<listcell />
+						</listitem>
 					</template>
-				</combobox>
-				<combobox model="@load(vm.filteredSkills)"
-					autodrop="true" selectedItem="@save(vm.selectedSkill)">
-					<template name="model">
-						<comboitem label="@load(each.name)" />
-					</template>
-				</combobox>
-				<button label="Add" onClick="@command('addSkill')" />
-			</groupbox>
-			<div class="clr" />
-		</div>
+				</listbox>
+				<div class="clr" />
+			</div>
+			<div class="article">
+				<h:h2>Add a Skill</h:h2>
+				<div class="clr" />
+				<groupbox>
+					<combobox model="@load(vm.domains)" autodrop="true"
+						selectedItem="@save(vm.selectedDomain)">
+						<template name="model">
+							<comboitem label="@load(each.name)" />
+						</template>
+					</combobox>
+					<combobox model="@load(vm.filteredSkills)"
+						autodrop="true" selectedItem="@save(vm.selectedSkill)">
+						<template name="model">
+							<comboitem label="@load(each.name)" />
+						</template>
+					</combobox>
+					<button label="Add" onClick="@command('addSkill')" />
+				</groupbox>
+				<div class="clr" />
+			</div>
 
+			<div self="@define(sidebar)">
+				<label value="My Groups"/>
+				<listbox model="@bind(vm.user.groups)">
+					<template name="model">
+						<listitem>
+							<listcell label="${each.name}"/>
+						</listitem>
+					</template>
+				</listbox>
+			</div>
+		</div>
 	</div>
-
 </zk>

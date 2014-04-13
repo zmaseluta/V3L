@@ -6,9 +6,8 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.select.SelectorComposer;
 import org.zkoss.zul.Window;
  
-public class ModalDialogViewModel extends SelectorComposer<Component> {
-    private static final long serialVersionUID = 1L;
-     
+public class ModalDialogViewModel {     
+    
     @Command
     public void showModal() {
         Window window = (Window)Executions.createComponents(
