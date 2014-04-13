@@ -1,24 +1,15 @@
 <zk>
-	<style></style>
+	<style>
+		.z-center{
+			border: none;
+			background: url(images/bg.jpg);
+		}
+	</style>
 	<borderlayout>
 		<north>
-			<bandbox id="bd" mold="rounded" autodrop="true">
-				<bandpopup>
-					<listbox height="250px" width="450px" mold="paging"
-						autopaging="true"
-						onSelect="bd.value=self.selectedItem.label; bd.close();">
-						<listhead>
-							<listheader label="Domains" />
-						</listhead>
-						<listitem label="${each}"
-							forEach="${languages}" />
-					</listbox>
-				</bandpopup>
-			</bandbox>
+			
 		</north>
-		<west width="200px">
-			<div self="@insert(sidebar)" />
-		</west>
+		
 		<center autoscroll="true">
 			<div>
 				<div self="@insert(content)" />

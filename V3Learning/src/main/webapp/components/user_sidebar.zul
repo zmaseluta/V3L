@@ -1,3 +1,19 @@
-<zk>
-
+<zk xmlns:h="native">
+	<div class="sidebar">
+		<div class="gadget">
+			<h:h2 class="star">Menu</h:h2>
+			<div class="clr"></div>
+			<h:ul class="sb_menu">
+				<h:li>
+					<a href="myprofile.zul">My Profile</a>
+				</h:li>
+				<h:li>
+					<a href="login.zul">Login</a>
+				</h:li>
+				<h:li>
+					<a href="register.zul">Register</a>
+				</h:li>
+			</h:ul>
+		</div>
+	</div>
 </zk>

@@ -29,9 +29,53 @@
 	<div apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('ViewModel.RegisterVM')" class="main"
 		self="@define(content)">
-
-		<h:h2>Register to v3l</h:h2>
-		<groupbox>
+		<div class="main">
+			<div class="main_resize">
+				<div class="header">
+					<div class="logo">
+						<h:h1>
+							<a href="#">V3L - o sa fie poza aici</a>
+						</h:h1>
+					</div>
+					<div class="search">
+						<groupbox>
+							<span>
+								<textbox value="Search..." name="s"
+									id="s" />
+								<image onClick="@command(search)"
+									src="images/search.gif" id="searchsubmit" class="btn" />
+							</span>
+						</groupbox>
+						<!--/searchform -->
+						<div class="clr"></div>
+					</div>
+					<div class="clr"></div>
+					<div class="menu_nav">
+						<h:ul>
+							<h:li class="active">
+								<a href="index.zul">Home</a>
+							</h:li>
+							<h:li>
+								<a href="login.zul">Login</a>
+							</h:li>
+							<h:li>
+								<a href="register.zul">Register</a>
+							</h:li>
+						</h:ul>
+						<div class="clr"></div>
+					</div>
+					<div class="hbg">
+						<image src="images/header_images.jpg"
+							width="923" height="291" />
+					</div>
+				</div>
+				 </div>
+			    <div class="content">
+			      <div class="content_bg">
+			        <div class="mainbar">
+			          <div class="article">
+			          <h:h2>Register to v3l</h:h2>
+			            <groupbox>
 			<h:table>
 
 				<h:tr>
@@ -102,6 +146,18 @@
 					onClick="@command('register')" />
 			</vlayout>
 		</groupbox>
+			          </div>
+			          
+			        </div>
+			        <include src="/components/sidebar.zul"/>
+			
+			
+			        <div class="clr"></div>
+			      </div>
+			</div>
+		</div>
+		
+		
 
 
 	</div>

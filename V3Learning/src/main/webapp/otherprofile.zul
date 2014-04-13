@@ -14,35 +14,30 @@
 						<a href="#">V3L</a>
 					</h:h1>
 				</div>
-				<div id="loggedin"
-					style="float: right; width: 200px; padding: 30px 0;">
-					Logged in as Diana Beleiu (
-					<a href="myprofile.html">Profile</a>
-					)
-				</div>
+				
 				<div class="search">
-					<groupbox>
-						<textbox value="Search..." />
-						<image src="images/search.gif" class="btn" />
-					</groupbox>
-					<!--/searchform -->
-
-					<div class="clr" />
-				</div>
+						<groupbox>
+							<span>
+								<textbox value="Search..." name="s"
+									id="s" />
+								<image onClick="@command(search)"
+									src="images/search.gif" id="searchsubmit" class="btn" />
+							</span>
+						</groupbox>
+						<!--/searchform -->
+						<div class="clr"></div>
+					</div>
 
 				<div class="clr" />
 				<div class="menu_nav">
 					<h:ul>
-						<h:li class="active">
-							<a href="index.html">Home</a>
-						</h:li>
-						<h:li>
-							<a href="login.html">Login</a>
-						</h:li>
-						<h:li>
-							<a href="register.html">Register</a>
-						</h:li>
-					</h:ul>
+							<h:li class="active">
+								<a href="index.zul">Home</a>
+							</h:li>
+							<h:li>
+								<a href="myprofile.zul">My profile</a>
+							</h:li>
+						</h:ul>
 					<div class="clr" />
 				</div>
 			</div>
@@ -59,31 +54,31 @@
 							<div style="width:400px">
 								<h:h2>First Last Name</h:h2>
 								<div class="starRate">
-									<div>Currently rated: 3 stars</div>
+									<div>Currently rated: 3 stars<h:b></h:b></div>
 									<h:ul>
 										<h:li>
 											<a href="#">
-												Give it 5 stars
+												<h:span>Give it 5 stars</h:span>
 											</a>
 										</h:li>
 										<h:li>
 											<a href="#">
-												Give it 4 stars
+												<h:span>Give it 4 stars</h:span>
 											</a>
 										</h:li>
 										<h:li>
 											<a href="#">
-												Give it 3 stars
+												<h:span>Give it 3 stars</h:span><h:b></h:b>
 											</a>
 										</h:li>
 										<h:li>
 											<a href="#">
-												Give it 2 stars
+												<h:span>Give it 2 stars</h:span>
 											</a>
 										</h:li>
 										<h:li>
 											<a href="#">
-												Give it 1 star
+												<h:span>Give it 1 star</h:span>
 											</a>
 										</h:li>
 									</h:ul>
