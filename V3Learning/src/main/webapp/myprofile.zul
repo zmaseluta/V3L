@@ -49,23 +49,7 @@
 				<div class="content_bg">
 					<div class="mainbar">
 						<div class="article">
-							<vlayout id="edit" visible="false">
-								<h:h2 class="star">Edit About</h:h2>
-								First name:
-								<textbox
-									value="@bind(vm.user.firstName)" />
-								Last name:
-								<textbox
-									value="@bind(vm.user.lastName)" />
-								Birthdate:
-								<datebox format="dd - MM - yyyy"
-									instant="true" width="10em"
-									constraint="no future: Your Birthdate can not be in future!"
-									value="@bind(vm.user.birthDate)" />
-								<button label="Save"
-									onClick="@command('saveChanges') "
-									w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
-							</vlayout>
+							
 							<label value="My Groups"/>
 							<listbox model="@bind(vm.user.groups)">
 								<template name="model">
@@ -123,8 +107,26 @@
 					</div>
 					<div class="sidebar">
 						<div class="gadget">
+						<vlayout id="edit" visible="false">
+								<h:h2 class="star">Edit About</h:h2>
+								First name:
+								<textbox
+									value="@bind(vm.user.firstName)" />
+								Last name:
+								<textbox
+									value="@bind(vm.user.lastName)" />
+								Birthdate:
+								<datebox format="dd - MM - yyyy"
+									instant="true" width="10em"
+									constraint="no future: Your Birthdate can not be in future!"
+									value="@bind(vm.user.birthDate)" />
+								<button label="Save"
+									onClick="@command('saveChanges') "
+									w:onClick="this.$f('edit').setVisible(false); this.$f('about').setVisible(true);" />
+							</vlayout>
 							<div id="about">
 								<h:h2 class="star">About</h:h2>
+								
 								<h:table>
 									<h:tr>
 										<h:td>Name:</h:td>
