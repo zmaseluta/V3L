@@ -42,10 +42,7 @@
   					</h:ul>
   					<div class="clr"></div>
   				</div>
-  				<div class="hbg">
-  					<image src="images/header_images.jpg"
-  						width="923" height="291" />
-  				</div>
+  				
   			</div>
   			 </div>
   		    <div class="content">
@@ -150,13 +147,13 @@
   					</h:td>
   				</h:tr>
   			</h:table>
-	  			
-  		</div><vlayout apply="org.zkoss.bind.BindComposer"
+	  			<vlayout apply="org.zkoss.bind.BindComposer"
  				viewModel="@id('v')@init('Components.ModalDialogViewModel')"
  				visible="@load(vm.user.type eq 2 ? true : false)">
 				<button id="orderBtn" label="New Group"
  					autodisable="self" onClick="@command('showModal')" />
  		</vlayout>
+  		</div>
   	</div>
   </div>
   		
