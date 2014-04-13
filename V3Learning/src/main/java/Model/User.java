@@ -761,6 +761,7 @@ public class User {
 	 * else returns 0
 	*/
 	public int createGroup(String name, int domainId, String description) {
+		//TODO add the created group to this.listOfGroups or return the created group
 		int done = 0;
 		try {
 			PreparedStatement statement = 

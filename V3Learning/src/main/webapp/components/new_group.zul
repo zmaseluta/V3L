@@ -1,23 +1,25 @@
 <?page title="new page title" contentType="text/html;charset=UTF-8"?>
 <zk xmlns:w="client" xmlns:h="native">
 	<window id="modalDialog" title="Create new group" border="normal"
-		width="460px" position="center,center" closable="true"
-		action="show: slideDown;hide: slideUp"
-		apply="Components.NewGroupDialogController">
-
+		width="460px" position="center,center"
+		action="show: slideDown;hide: slideUp" minimizable="false"
+		mode="modal" maximizable="false" closable="true"
+		apply="org.zkoss.bind.BindComposer" onCancel="@command('closeThis')"
+		viewModel="@id('vm') @init('Components.NewGroupDialogVM')">
 		<h:table>
 			<h:tr>
 				<h:td>Name:</h:td>
 				<h:td>
-					<textbox id="groupName"></textbox>
+					<textbox value="@save(vm.name)" />
 				</h:td>
 			</h:tr>
 			<h:tr>
 				<h:td>Domain</h:td>
 				<h:td>
-					<combobox id="domains">
+					<combobox id="domains" model="@load(vm.domains)"
+						autodrop="true" selectedItem="@save(vm.domain)">
 						<template name="model">
-							<comboitem label="@load(each.name)" />
+							<comboitem label="${each.name}" />
 						</template>
 					</combobox>
 				</h:td>
@@ -25,10 +27,16 @@
 			<h:tr>
 				<h:td>Description</h:td>
 				<h:td>
-					<textbox id="groupDescription"></textbox>
+					<textbox value="@save(vm.descripstion)" />
 				</h:td>
 			</h:tr>
 		</h:table>
-		<button label="clickMe" id="closeBtn" />
+		<vlayout>
+			<label value="@load(vm.message)" />
+			<div>
+				<button label="Create Group" onClick="@command('save')" />
+				<button label="Close" onClick="@command('closeThis')" />
+			</div>
+		</vlayout>
 	</window>
 </zk>
