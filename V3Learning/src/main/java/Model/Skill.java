@@ -11,6 +11,8 @@ public class Skill {
 			+ "WHERE (id_domain = ? AND name = ?);";
 	private static final String INSERT_SKILL = "INSERT INTO Skills "
 			+ "(id_skill, name, id_domain) VALUES (NULL, ?, ?);";
+	private static final String GET_DOMAIN_NAME = "SELECT name FROM Domain WHERE id_domain IN "
+			+ "(SELECT id_domain FROM Skills WHERE id_skill = ?)";
 	
 	private Connection connection;
 	
@@ -98,8 +100,25 @@ public class Skill {
 		}
 		return done;
 	}
+	
+	
+	/**
+	 * @return the domainName of skill
+	 */
 	public String getDomainName(){
-		//TODO return the Domain's name
-		return new Integer(getDomainId()).toString();
+		String domainName = "ERROR";
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(GET_DOMAIN_NAME);
+			statement.setString(1 , Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			if(data.next()){
+				domainName = data.getString("name");
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+		}
+		return domainName;
 	}
 }
