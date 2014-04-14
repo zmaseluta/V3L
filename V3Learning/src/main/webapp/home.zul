@@ -1,19 +1,157 @@
 <?page title="Home" contentType="text/html;charset=UTF-8"?>
+<?style href="style.css" rel="stylesheet" type="text/css" ?>
+<?script type="text/javascript" src="js/jquery-1.3.2.min.js" ?>
+<?script type="text/javascript" src="js/script.js" ?>
+<?script type="text/javascript" src="js/cufon-yui.js" ?>
+<?script type="text/javascript" src="js/arial.js" ?>
+<?script type="text/javascript" src="js/cuf_run.js" ?>
+<?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <zk xmlns:h="native">
-	<window apply="org.zkoss.bind.BindComposer"
-		viewModel="@id('vm')@init('ViewModel.HomeVM')">
-		<vlayout width="250px"
-			style="background-color: grey; min-height:300px; float:left">
-			<vlayout width="100%" children="@bind(vm.user.groups) @template('groups')">
-				<template name="groups">
-					<label value="${each.name}"/>
-				</template>
-			</vlayout>
-			<vlayout></vlayout>
-		</vlayout>
+	<div apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.HomeVM')"
+		self="@define(content)">
+		<div class="main">
+			<div class="main_resize">
+				<div class="header">
+					<div class="logo">
+						<h:h1>
+							<a href="#">V3L - o sa fie poza aici</a>
+						</h:h1>
+					</div>
+					<div class="search">
+						<groupbox>
+							<span>
+								<textbox value="Search..." name="s"
+									id="s" />
+								<image onClick="@command(search)"
+									src="images/search.gif" id="searchsubmit" class="btn" />
+							</span>
+						</groupbox>
+						<!--/searchform -->
+						<div class="clr"></div>
+					</div>
+					<div class="clr"></div>
+					<div class="menu_nav">
+						<h:ul>
+							<h:li class="active">
+								<a href="index.zul">Home</a>
+							</h:li>
+							<h:li>
+								<a href="myprofile.zul">My profile</a>
+							</h:li>
+						</h:ul>
+						<div class="clr"></div>
+					</div>
 
-		<vlayout hflex="1" width="auto"
-			style="background-color: yellow; min-height:300px">
-		</vlayout>
-	</window>
+				</div>
+			</div>
+			<div class="content">
+				<div class="content_bg">
+					<div class="mainbar">
+						<div class="article">
+
+							<label value="Events" />
+							<listbox model="@bind(vm.user.events)">
+								<template name="model">
+									<listitem>
+										<listcell label="${each.name}"
+											onClick="@command('openGroupPage', group = each)" />
+									</listitem>
+								</template>
+							</listbox>
+
+						</div>
+						<div class="article">
+
+							<label value="My Groups" />
+							<listbox model="@bind(vm.user.groups)">
+								<template name="model">
+									<listitem>
+										<listcell label="${each.name}"
+											onClick="@command('openGroupPage', group = each)" />
+									</listitem>
+								</template>
+							</listbox>
+
+						</div>
+						<div class="article">
+							<label value="My Friends" />
+							<listbox model="@bind(vm.user.friends)">
+								<template name="model">
+									<listitem>
+										<listcell
+											label="${each.firstName}"
+											onClick="@command('openGroupPage', group = each)" />
+										<listcell
+											label="${each.lastName}"
+											onClick="@command('openGroupPage', group = each)" />
+									</listitem>
+								</template>
+							</listbox>
+
+						</div>
+					</div>
+					<div class="sidebar">
+						<div class="gadget">
+
+							<div id="about">
+								<label value="@load(vm.user.firstName)" />
+								<label value=" " />
+								<label value="@load(vm.user.lastName)" />
+
+								<label
+									value="@load(vm.user.type eq 2 ? '(admin)' : '(no-admin)')" />
+
+								<vlayout
+									apply="org.zkoss.bind.BindComposer"
+									viewModel="@id('v')@init('Components.ModalDialogViewModel')"
+									visible="@load(vm.user.type eq 2 ? true : false)">
+									<button id="orderBtn"
+										label="New Group" autodisable="self"
+										onClick="@command('showModal')" />
+								</vlayout>
+							</div>
+						</div>
+						<div class="gadget">
+
+							<div>
+								<label
+									value="People you may want to know:" />
+								<listbox
+									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
+									<template name="model">
+										<listitem>
+											<listcell
+												label="${each.firstName}"
+												onClick="@command('goToUser',visitUser = each)" />
+											<listcell
+												label="${each.lastName}"
+												onClick="@command('goToUser',visitUser = each)" />
+										</listitem>
+									</template>
+								</listbox>
+							</div>
+						</div>
+						<div class="gadget">
+							<div>
+								<label
+									value="Suggested groups:" />
+								<listbox
+									model="@bind(vm.user.suggestedGroupsList)">
+									<template name="model">
+										<listitem>
+											<listcell
+												label="${each.name}"
+												onClick="@command('openGroupPage', group = each)" />
+										</listitem>
+									</template>
+								</listbox>
+							</div>
+						</div>
+					</div>
+					<div class="clr"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 </zk>

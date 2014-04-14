@@ -14,28 +14,29 @@ public class MainViewModel {
 		/*
 		 * login for developing purpose
 		 */
-		//TODO delete this section when done with tests
-		System.out.println("login...");
+		// TODO delete this section when done with tests
+		/*System.out.println("login...");
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());
 
 		DBOperations dbo = new DBOperations(dbc);
-		User user;
-		//admin -> right to create group
-		//user = dbo.login("ana@test.eu", "testana");
-		
-		user = dbo.login("vm@mail.com", "mona");
-		
-		//System.out.println(dbc.closeConnection());
-		if(user!=null){
-		Sessions.getCurrent().setAttribute("user", user);
-		Executions.sendRedirect("myprofile.zul");}
-		
-		/*		
-		user = (User) Sessions.getCurrent().getAttribute("user");
+
+		// admin -> right to create group
+		// User user = dbo.login("ana@test.eu", "testana");
+
+		User user = dbo.login("vm@mail.com", "mona");
+
+		// System.out.println(dbc.closeConnection());
+
 		if (user != null) {
-			Executions.sendRedirect("home.zul");
-		}*/
+			Sessions.getCurrent().setAttribute("user", user);
+			Executions.sendRedirect("myprofile.zul");
+		}
+*/
+		
+		 User user = (User) Sessions.getCurrent().getAttribute("user"); if
+		 (user != null) { Executions.sendRedirect("home.zul"); }
+		 
 	}
 }

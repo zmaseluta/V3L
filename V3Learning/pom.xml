@@ -12,7 +12,7 @@
 	<packaging>war</packaging>
 	<name>Virtual Long Life Learning</name>
 	<description>Team B6 learning application</description>
-	
+
 	<repositories>
 		<repository>
 			<id>ZK CE</id>
@@ -47,6 +47,31 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.24</version>
+		</dependency>
+		<!-- Ads client library dependencies -->
+		<dependency>
+			<groupId>com.google.api-ads</groupId>
+			<artifactId>ads-lib</artifactId>
+			<version>1.22.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.api-ads</groupId>
+			<artifactId>adwords-axis</artifactId>
+			<version>1.22.0</version>
+		</dependency>
+
+		<!-- Third party dependencies -->
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson2</artifactId>
+			<version>1.17.0-rc</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson2</artifactId>
+			<version>1.11.0-beta</version>
 		</dependency>
 	</dependencies>
 	<build>

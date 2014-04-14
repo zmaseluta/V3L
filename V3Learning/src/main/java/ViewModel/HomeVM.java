@@ -1,5 +1,7 @@
 package ViewModel;
 
+import org.zkoss.bind.annotation.BindingParam;
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -26,5 +28,11 @@ public class HomeVM {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	@Command
+	public void goToUser(@BindingParam("visitUser")User user){
+		Executions.sendRedirect("otherprofile.zul?us="
+				+ user.getId());
 	}
 }
