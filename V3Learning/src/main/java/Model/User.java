@@ -89,6 +89,16 @@ public class User {
 			+ "VALUES (NULL, ?, ?, ?, ?, ?);";
 	private static final String DELETE_VIDEO = "DELETE FROM Videos "
 			+ "WHERE (id_video = ? AND id_user = ?);";
+	private static final String SELECT_ID_GROUP = "SELECT id_group FROM Groups "
+			+ "WHERE (name = ? AND id_domain = ? AND id_creator = ?);";
+	private static final String SUGGESTED_GROUPS = "SELECT * FROM Groups "
+			+ "WHERE (id_domain = ? AND (id_group NOT IN "
+			+ "(SELECT id_group FROM UsGroups WHERE id_user = ?)));";
+	private static final String SUGGESTED_FRIENDS = "SELECT * FROM User "
+			+ "WHERE (((id_user IN (SELECT id_user1 FROM UsFriends WHERE id_user2 = ?)) "
+			+ "OR (id_user IN (SELECT id_user2 FROM UsFriends WHERE id_user1 = ?))) "
+			+ "AND((id_user NOT IN (SELECT id_user1 FROM UsFriends WHERE id_user2 = ?)) "
+			+ "OR (id_user NOT IN (SELECT id_user2 FROM UsFriends WHERE id_user1 = ?))));";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -756,12 +766,11 @@ public class User {
 	/**
 	 * verifies if group with user as creator exists in DB
 	 * returns -1 if exists
-	 * else inserts group in DB
+	 * else inserts group in DB and adds group to user group list
 	 * returns 1 if successful
 	 * else returns 0
 	*/
 	public int createGroup(String name, int domainId, String description) {
-		//TODO add the created group to this.listOfGroups or return the created group
 		int done = 0;
 		try {
 			PreparedStatement statement = 
@@ -780,7 +789,24 @@ public class User {
 				statement.setString(3, Integer.toString(id));
 				statement.setString(4, description);
 				statement.executeUpdate();
-				done = 1;
+				statement = (PreparedStatement) connection.prepareStatement(SELECT_ID_GROUP);
+				statement.setString(1, name);
+				statement.setString(2, Integer.toString(domainId));
+				statement.setString(3, Integer.toString(id));
+				data = statement.executeQuery();
+				if (data.next()) {
+					int groupId = data.getInt("id_group");
+					statement = (PreparedStatement) 
+							connection.prepareStatement(INSERT_GROUP_USGROUPS);
+					statement.setString(1, Integer.toString(groupId));
+					statement.setString(2, Integer.toString(id));
+					statement.executeUpdate();
+					groups = getGroupList();
+					done = 1;
+				} else {
+					System.out.println("group not added to user groups");
+					done = -1;
+				}
 			}
 			statement.close();
 		} catch (SQLException ex) {
@@ -1186,5 +1212,102 @@ public class User {
 			done = 0;
 		}
 		return done;
+	}
+	
+	/**
+	 * !!! computeUserList() method must run first, friends must not be NULL
+	 * returns list of suggested friends for current user
+	 * gets id from random friend in user friends list
+	 * gets list of friends of friend from DB
+	 * returns null if unsuccessful
+	*/
+	public List<User> getSuggestedFriendsList() {
+		List<User> friendList = new ArrayList<User>();
+		try {
+			int randomFriendId = 0;
+			if(friends != null) {
+				randomFriendId = friends.get((int)(Math.random() * friends.size())).getId();
+				PreparedStatement statement = 
+						(PreparedStatement) connection.prepareStatement(SUGGESTED_FRIENDS);
+				statement.setString(1 , Integer.toString(randomFriendId));
+				statement.setString(2 , Integer.toString(randomFriendId));
+				statement.setString(3 , Integer.toString(id));
+				statement.setString(4 , Integer.toString(id));
+				ResultSet data = statement.executeQuery();
+				while (data.next()) {
+					int id = data.getInt("id_user");
+					String lastName = data.getString("last_name");
+					String firstName = data.getString("first_name");
+					String email = data.getString("email");
+					String password = data.getString("password");
+					String birthDate = data.getString("birthday_date");	
+					int rank = data.getInt("rank");
+					int isValid = data.getInt("is_valid");
+					int isPublic = data.getInt("is_public");
+					String type = data.getString("account_type");
+					friendList.add(new User(dbConnection, id, lastName, firstName, email, password, 
+							birthDate, rank, isValid, isPublic, type));
+				}
+				statement.close();
+			}
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			return null;
+		}
+		return friendList;
+	}
+	
+	/**
+	 * !!! computeUserList() method must run first, groups must not be NULL
+	 * returns list of suggested groups for current user
+	 * gets domain from random group in user group list
+	 * gets list of groups in domain from DB that user has not joined
+	 * returns null if unsuccessful
+	*/
+	public List<Group> getSuggestedGroupsList() {
+		List<Group> groupList = new ArrayList<Group>(); 
+		try {
+			int randomDomainId = 0;
+			if(groups != null) {
+				randomDomainId = groups.get((int)(Math.random() * groups.size())).getDomainId();
+				PreparedStatement statement = 
+		    			(PreparedStatement) connection.prepareStatement(SUGGESTED_GROUPS);
+		    	statement.setString(1, Integer.toString(randomDomainId));
+		    	statement.setString(2, Integer.toString(id));
+		        ResultSet data = statement.executeQuery();
+		        while(data.next()){
+		        	Group group = new Group(dbConnection, data.getString("name"), 
+		        			data.getInt("id_domain"), data.getInt("id_creator"), 
+		        			data.getString("description"));
+		        	group.setId(data.getInt("id_group"));
+		        	groupList.add(group);
+		        }      
+		        statement.close();
+			}
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return groupList;
+	}
+	
+	public int postOnWall(String message) {
+		//TODO if necessary
+		return 0;
+	}
+	
+	public int commentPost(Post p, String message) {
+		//TODO if necessary
+		return 0;
+	}
+	
+	public int deletePostFromWall(Post p) {
+		//TODO if necessary
+		return 0;
+	}
+	
+	public int deletePostComment(Comment c) {
+		//TODO if necessary
+		return 0;
 	}
 }

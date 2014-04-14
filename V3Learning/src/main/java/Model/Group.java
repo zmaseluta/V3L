@@ -26,6 +26,7 @@ public class Group {
 	private List<Event> events;
 	private List<File> files;
 	private List<File> videos;
+	private List<Post> posts;
 
 	public Group(DBConnection dbConnection, String name, int domainId, int creatorId, 
 			String description) {
@@ -120,12 +121,20 @@ public class Group {
 	public List<File> getVideos() {
 		return videos;
 	}
+	
+	/**
+	 * @return the posts
+	 */
+	public List<Post> getPosts() {
+		return posts;
+	}
 
 	public void computeGroupLists() {
 		members = getMemberList();
 		events = getEventList();
 		files = getFileList();
 		videos = getVideoList();
+		posts = getPostList();
 	}
 
 	/**
@@ -237,5 +246,10 @@ public class Group {
 	        return null;
 	    }
 		return videoList;
+	}
+
+	private List<Post> getPostList() {
+		// TODO if necessary
+		return null;
 	}
 }
