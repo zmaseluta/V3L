@@ -23,7 +23,7 @@ public class GroupTest {
 				verif = true;
 				break;
 				}
-		assertTrue("Userul logat este creatorul unui grup din domeniul dat", verif);
+		assertTrue("Userul logat este creatorul unui grup din domeniul dat.", verif);
 		//assertNotNull("Lista de grupuri nu e nula", listGroupsByDomain);
 	}
 
