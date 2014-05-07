@@ -15,8 +15,8 @@ public class DBOperationsTest {
 		dbc.connectToDB();
 		DBOperations dbo = new DBOperations(dbc);
 		User user = dbo.login("vm@mail.com", "mona");
-		assertNotNull("User-ul de la logare nu este null", user);
-		assertEquals("User-ul logat are id-ul dat", 5, user.getId());
+		assertNotNull("Userul de la logare nu este null", user);
+		assertEquals("Userul logat are id-ul dat", 5, user.getId());
 	}
 
 	@Test
@@ -33,7 +33,7 @@ public class DBOperationsTest {
 				verif = true;
 				break;
 				}
-		assertTrue("User-ul de la logare sa fie in lista rezultata la cautare", verif);
+		assertTrue("Userul de la logare sa fie in lista rezultata la cautare", verif);
 		
 	}
 
