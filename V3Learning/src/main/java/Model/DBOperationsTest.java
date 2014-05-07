@@ -15,7 +15,7 @@ public class DBOperationsTest {
 		dbc.connectToDB();
 		DBOperations dbo = new DBOperations(dbc);
 		User user = dbo.login("vm@mail.com", "mona");
-		assertNotNull("User-ul de la logare nu e null", user);
+		assertNotNull("User-ul de la logare nu este null", user);
 		assertEquals("User-ul logat are id-ul dat", 5, user.getId());
 	}
 

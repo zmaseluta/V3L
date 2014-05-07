@@ -11,7 +11,7 @@ public class DBConnectionTest {
 	@Test
 	public void testGetIsConnected() {
 		dbc.connectToDB();
-		assertTrue("Conxiunea s-a realizat", dbc.getIsConnected());
+		assertTrue("Conxiunea s-a realizat cu succes", dbc.getIsConnected());
 	}
 
 }
