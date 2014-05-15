@@ -7,13 +7,17 @@
 <?script type="text/javascript" src="../js/cuf_run.js" ?>
 <?style rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Wellfleet"?>
 <!-- protect page by the authentication init  -->
-<?init class="AuthenticationInit"?>
-<!-- authentication init have to locate before composition -->
+<!--<?init class="AuthenticationInit"?>
+ authentication init have to locate before composition -->
 <zk xmlns:h="native">
-	<div class="main">
+	<div class="main" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.Groups.HomeVM')">
 		<div class="main_resize">
 			<div class="header">
 				<div class="logo">
+				<fileupload label="Upload" onUpload="@command('upload')">
+					  
+					</fileupload>
 					<h:h1>
 						<a href="#">V3L</a>
 					</h:h1>
