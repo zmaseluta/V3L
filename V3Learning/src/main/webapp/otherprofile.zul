@@ -5,6 +5,9 @@
 <?script type="text/javascript" src="js/cufon-yui.js" ?>
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
+<!-- protect page by the authentication init  -->
+<?init class="AuthenticationInit"?>
+<!-- authentication init have to locate before composition -->
 <zk xmlns:h="native">
 	<div class="main">
 		<div class="main_resize">

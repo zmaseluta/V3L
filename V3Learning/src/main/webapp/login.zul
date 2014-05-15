@@ -90,7 +90,7 @@
 										<h:td></h:td>
 										<h:td>
 											<button label="Login"
-												onClick="@command('logIn')" />
+												onClick="@command('googleLogIn')" />
 										</h:td>
 									</h:tr>
 								</h:table>

@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 import Model.DBConnection;
@@ -74,24 +75,20 @@ public class MyProfileVM {
 
 	@Init
 	public void init(@ContextParam(ContextType.VIEW) Component view) {
-		User usera = (User) Sessions.getCurrent().getAttribute("user");
-		if (usera == null) {
-			Executions.sendRedirect("index.zul");
-		} else {
-			setUser(usera);
-			skills = user.getSkills();
-			user.computeUserLists();
-			
-			System.out.println("register...");
-			DBConnection dbc = new DBConnection();
-			dbc.connectToDB();
-			System.out.println(dbc.getIsConnected());
 
-			DBOperations dbo = new DBOperations(dbc);
-			domains = dbo.getAllDomains();
-			skills = dbo.getAllSkills();
-			Sessions.getCurrent().setAttribute("domainList", domains);
-		}
+		setUser((User) Sessions.getCurrent().getAttribute("user"));
+		skills = user.getSkills();
+		user.computeUserLists();
+
+		System.out.println("register...");
+		DBConnection dbc = new DBConnection();
+		dbc.connectToDB();
+		System.out.println(dbc.getIsConnected());
+
+		DBOperations dbo = new DBOperations(dbc);
+		domains = dbo.getAllDomains();
+		skills = dbo.getAllSkills();
+		Sessions.getCurrent().setAttribute("domainList", domains);
 	}
 
 	@Command
@@ -113,10 +110,16 @@ public class MyProfileVM {
 				"/components/new_group.zul", null, null);
 		window.doModal();
 	}
-	
+
 	@Command
-	public void openGroupPage(@BindingParam("group") Group group){
+	public void openGroupPage(@BindingParam("group") Group group) {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
 		Executions.sendRedirect("group/home.zul");
+	}
+	@Command
+	@NotifyChange("user")
+	public void removeSkill(@BindingParam("skill") Listitem removedSkill){
+		user.removeSkill(removedSkill.getId());
+		System.out.println(removedSkill.getId());
 	}
 }

@@ -1310,4 +1310,14 @@ public class User {
 		//TODO if necessary
 		return 0;
 	}
+
+	public void removeSkill(String id) {
+		for(Skill skill : skills){
+			if(skill.getId() == Integer.parseInt(id))
+			{
+				removeSkill(skill);
+			}
+		}
+		
+	}
 }

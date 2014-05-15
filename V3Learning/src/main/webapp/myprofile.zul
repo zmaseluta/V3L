@@ -5,6 +5,9 @@
 <?script type="text/javascript" src="js/cufon-yui.js" ?>
 <?script type="text/javascript" src="js/arial.js" ?>
 <?script type="text/javascript" src="js/cuf_run.js" ?>
+<!-- protect page by the authentication init  -->
+<?init class="AuthenticationInit"?>
+<!-- authentication init have to locate before composition -->
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <zk xmlns:h="native" xmlns:w="client">
 	<div apply="org.zkoss.bind.BindComposer"
@@ -49,12 +52,13 @@
 				<div class="content_bg">
 					<div class="mainbar">
 						<div class="article">
-							
-							<label value="My Groups"/>
+
+							<label value="My Groups" />
 							<listbox model="@bind(vm.user.groups)">
 								<template name="model">
 									<listitem>
-										<listcell label="${each.name}" onClick="@command('openGroupPage', group = each)"/>
+										<listcell label="${each.name}"
+											onClick="@command('openGroupPage', group = each)" />
 									</listitem>
 								</template>
 							</listbox>
@@ -67,17 +71,19 @@
 								<listhead>
 									<listheader>Domain</listheader>
 									<listheader>Skill</listheader>
-									<listheader>Delete</listheader>
 								</listhead>
 								<template name="model">
-									<listitem>
+									<listitem draggable="true"
+										id="${each.id }">
 										<listcell
 											label="${each.domainName}" />
 										<listcell label="${each.name}" />
-										<listcell />
 									</listitem>
 								</template>
 							</listbox>
+							<image src="images/icon_delete.jpg"
+								droppable="true"
+								onDrop="@command('removeSkill', skill = event.dragged)" />
 							<div class="clr" />
 						</div>
 						<div class="article">
@@ -107,7 +113,7 @@
 					</div>
 					<div class="sidebar">
 						<div class="gadget">
-						<vlayout id="edit" visible="false">
+							<vlayout id="edit" visible="false">
 								<h:h2 class="star">Edit About</h:h2>
 								First name:
 								<textbox
@@ -126,7 +132,7 @@
 							</vlayout>
 							<div id="about">
 								<h:h2 class="star">About</h:h2>
-								
+
 								<h:table>
 									<h:tr>
 										<h:td>Name:</h:td>
