@@ -15,8 +15,8 @@ public class User {
 	private static final String SELECT_RANK_USRANK = "SELECT rank FROM UsRank "
 			+ "WHERE id_receiver = ?;";
 	private static final String UPDATE_USER = "UPDATE User SET last_name = ?, first_name = ?, "
-			+ "email = ?, password = ?, birthday_date = ?, rank = ?, is_valid = ?, is_public = ?, "
-			+ "account_type = ? WHERE User.id_user = ?;";
+			+ "email = ?, password = ?, url_img = ?, birthday_date = ?, rank = ?, is_valid = ?, "
+			+ "is_public = ?, account_type = ? WHERE User.id_user = ?;";
 	private static final String IDRANK_USRANK = "SELECT id_rank FROM UsRank "
 			+ "WHERE (id_receiver = ? AND id_giver = ?);";
 	private static final String UPDATE_USRANK = "UPDATE UsRank SET rank = ? "
@@ -114,6 +114,7 @@ public class User {
 			+ "WHERE (id_comment = ? AND id_user = ?);";
 	private static final String DELETE_COMMENT = "DELETE FROM Comments "
 			+ "WHERE (id_comment = ? AND id_user = ?);";
+	private static final String USER_PICTURE = "SELECT * FROM User WHERE id_user = ?;";
 	
 	private DBConnection dbConnection;;
 	private Connection connection;
@@ -136,6 +137,7 @@ public class User {
 	private List<Group> groups;
 	private List<Event> events;
 	private List<Event> courses;
+	private String picURL;
 	
 	/**
 	 * id, email, rank, age, rankNoUsers, isValid, type, skills, friends, groups, events, courses
@@ -337,6 +339,20 @@ public class User {
 	public List<Event> getCourses() {
 		return courses;
 	}
+	
+	/**
+	 * @return the picURL
+	 */
+	public String getPicURL() {
+		return picURL;
+	}
+	
+	/**
+	 * @param picURL the picURL to set
+	 */
+	public void setPicURL(String picURL) {
+		this.picURL = picURL;
+	}
 
 	/**
 	 * computes age from birthDate
@@ -471,14 +487,38 @@ public class User {
 		return friendList;
 	}
 	
+	/**
+	 * computes user lists & gets picURL from DB 	
+	*/
 	public void computeUserLists() {
 		skills = getSkillList();
 		friends = getFriendList();
 		groups = getGroupList();
 		events = getEventList();
 		courses = getCourseList();
+		picURL = getPictureURL();
 	}
 	
+	/**
+	 * returns picture URL from DB
+	 */
+	private String getPictureURL() {
+		String url = "";
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(USER_PICTURE);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        data.next();
+	        url = data.getString("url_img");
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return url;
+	}
+
 	/**
 	 * returns course list for current user
 	 * returns null if unsuccessful
@@ -609,12 +649,13 @@ public class User {
 			statement.setString(2 , firstName);
 			statement.setString(3 , email);
 			statement.setString(4 , password);
-			statement.setString(5 , birthDate.toString());
-			statement.setString(6 , Float.toString(rank));
-			statement.setString(7 , Integer.toString(isValid));
-			statement.setString(8 , Integer.toString(isPublic));
-			statement.setString(9 , type);
-			statement.setString(10 , Integer.toString(id));
+			statement.setString(5 , picURL);
+			statement.setString(6 , birthDate.toString());
+			statement.setString(7 , Float.toString(rank));
+			statement.setString(8 , Integer.toString(isValid));
+			statement.setString(9 , Integer.toString(isPublic));
+			statement.setString(10 , type);
+			statement.setString(11 , Integer.toString(id));
 			statement.executeUpdate();
 			done = 1;
 			statement.close();

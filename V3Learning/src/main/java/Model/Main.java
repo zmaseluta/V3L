@@ -231,6 +231,12 @@ public class Main {
 		//int val = us.deletePostFromEvent(p);
 		//System.out.println(val);
 		
+		//us.computeUserLists();
+		//System.out.println(us.getPicURL());
+		//us.setPicURL("bbbbbbbbbbbb");
+		//us.update();
+		//System.out.println(us.getPicURL());
+		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());
 		
