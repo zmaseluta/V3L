@@ -12,6 +12,7 @@ import java.util.List;
 public class Event {
 	private static final String USER_EVENT_USEVENTS = "SELECT * FROM User "
 			+ "WHERE id_user IN (SELECT id_user FROM UsEvents WHERE id_event = ?);";
+	private static final String EVENT_POSTS = "SELECT * FROM Posts WHERE id_event = ?;";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -24,11 +25,13 @@ public class Event {
 	private String description;
 	private int isExpired;
 	private List<User> members;
+	private List<Post> posts;
 
-	public Event(DBConnection dbConnection, String name, int creatorId, int groupId, String date, 
+	public Event(DBConnection dbConnection, int id, String name, int creatorId, int groupId, String date, 
 			String description) {
 		this.dbConnection = dbConnection;
 		connection = dbConnection.getConnection();
+		this.id = id;
 		this.name = name;
 		this.groupId = groupId;
 		this.creatorId = creatorId;
@@ -121,6 +124,13 @@ public class Event {
 	public List<User> getMembers() {
 		return members;
 	}
+	
+	/**
+	 * @return the posts
+	 */
+	public List<Post> getPosts() {
+		return posts;
+	}
 
 	/**
 	 * computes the value of isExpired from date
@@ -143,6 +153,7 @@ public class Event {
 	
 	public void computeEventLists() {
 		members = getMemberList();
+		posts = getPostList();
 	}
 
 	/**
@@ -176,5 +187,29 @@ public class Event {
 			return null;
 		}
 		return memberList;
+	}
+	
+	/**
+	 * returns post list for current event
+	 * returns null if unsuccessful
+	 */
+	private List<Post> getPostList() {
+		List<Post> postList = new ArrayList<Post>();
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(EVENT_POSTS);
+			statement.setString(1 , Integer.toString(id));
+			ResultSet data = statement.executeQuery();
+			while (data.next()) {
+				postList.add(new Post(dbConnection, data.getInt("id_post"), data.getInt("id_user"), 
+						data.getInt("id_event"), data.getString("data_post"), 
+						data.getString("content_post")));
+			}
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			return null;
+		}
+		return postList;
 	}
 }
