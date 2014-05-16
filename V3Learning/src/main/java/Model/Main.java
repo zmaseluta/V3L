@@ -237,6 +237,7 @@ public class Main {
 		//us.update();
 		//System.out.println(us.getPicURL());
 		
+		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());
 		

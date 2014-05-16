@@ -1451,6 +1451,5 @@ public class User {
 		 		removeSkill(skill);
 		 	}
 		}
-		 		
 	}
 }
