@@ -54,15 +54,16 @@
 						<div class="article">
 
 							<label value="My Groups" />
-							<listbox model="@bind(vm.user.groups)">
-								<template name="model">
-									<listitem>
-										<listcell label="${each.name}"
+							<vlayout children="@bind(vm.user.groups)">
+								<template name="children">
+									<div>
+										<label value="${each.name}"
 											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
+										<label
+											value="${each.description}" />
+									</div>
 								</template>
-							</listbox>
-
+							</vlayout>
 						</div>
 						<div class="article">
 							<h:h2>My Skills</h:h2>
@@ -132,7 +133,8 @@
 							</vlayout>
 							<div id="about">
 								<h:h2 class="star">About</h:h2>
-
+								<image
+									src="@load(vm.user.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg')" />
 								<h:table>
 									<h:tr>
 										<h:td>Name:</h:td>

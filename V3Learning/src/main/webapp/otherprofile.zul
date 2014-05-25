@@ -8,8 +8,10 @@
 <!-- protect page by the authentication init  -->
 <?init class="AuthenticationInit"?>
 <!-- authentication init have to locate before composition -->
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <zk xmlns:h="native">
-	<div class="main">
+	<div class="main" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.OthersVM')">
 		<div class="main_resize">
 			<div class="header">
 				<div class="logo">
@@ -17,30 +19,29 @@
 						<a href="#">V3L</a>
 					</h:h1>
 				</div>
-				
+
 				<div class="search">
-						<groupbox>
-							<span>
-								<textbox value="Search..." name="s"
-									id="s" />
-								<image onClick="@command(search)"
-									src="images/search.gif" id="searchsubmit" class="btn" />
-							</span>
-						</groupbox>
-						<!--/searchform -->
-						<div class="clr"></div>
-					</div>
+					<groupbox>
+						<span>
+							<textbox value="Search..." name="s" id="s" />
+							<image onClick="@command(search)"
+								src="images/search.gif" id="searchsubmit" class="btn" />
+						</span>
+					</groupbox>
+					<!--/searchform -->
+					<div class="clr"></div>
+				</div>
 
 				<div class="clr" />
 				<div class="menu_nav">
 					<h:ul>
-							<h:li class="active">
-								<a href="index.zul">Home</a>
-							</h:li>
-							<h:li>
-								<a href="myprofile.zul">My profile</a>
-							</h:li>
-						</h:ul>
+						<h:li class="active">
+							<a href="index.zul">Home</a>
+						</h:li>
+						<h:li>
+							<a href="myprofile.zul">My profile</a>
+						</h:li>
+					</h:ul>
 					<div class="clr" />
 				</div>
 			</div>
@@ -48,46 +49,59 @@
 				<div class="content_bg">
 					<div class="mainbar">
 						<div class="article">
-							<h:h2>Profile Page</h:h2>
-							<div class="clr" />
-							<div>
-								<image src="images/pic_2.jpg"
-									width="90" />
-							</div>
-							<div style="width:400px">
-								<h:h2>First Last Name</h:h2>
-								<div class="starRate">
-									<div>Currently rated: 3 stars<h:b></h:b></div>
-									<h:ul>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 5 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 4 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 3 stars</h:span><h:b></h:b>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 2 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 1 star</h:span>
-											</a>
-										</h:li>
-									</h:ul>
+							<hlayout>
+								<div>
+									<image src="images/pic_2.jpg"
+										width="90" />
 								</div>
-							</div>
-
+								<div style="width:400px">
+									<label value="@bind(c:cat3(vm.visitedUser.firstName,' ',vm.visitedUser.lastName))"/>
+									<div class="starRate">
+										<div>
+											Currently rated: 3 stars
+											<h:b></h:b>
+										</div>
+										<h:ul>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 5 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 4 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 3 stars
+													</h:span>
+													<h:b></h:b>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 2 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 1 star
+													</h:span>
+												</a>
+											</h:li>
+										</h:ul>
+									</div>
+								</div>
+							</hlayout>
 
 							<div class="clr" />
 						</div>

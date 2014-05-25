@@ -79,8 +79,6 @@ public class MyProfileVM {
 		setUser((User) Sessions.getCurrent().getAttribute("user"));
 		skills = user.getSkills();
 		user.computeUserLists();
-
-		System.out.println("register...");
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());

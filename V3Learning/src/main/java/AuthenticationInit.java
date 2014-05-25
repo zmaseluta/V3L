@@ -13,7 +13,7 @@ public class AuthenticationInit implements Initiator {
 
 		User usera = (User) Sessions.getCurrent().getAttribute("user");
 		if (usera == null) {
-			Executions.sendRedirect("login.zul");
+			Executions.sendRedirect("~/V3Learning/login.zul");
 		}
 	}
 }

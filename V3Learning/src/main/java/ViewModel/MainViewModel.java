@@ -31,7 +31,7 @@ public class MainViewModel {
 
 		if (user != null) {
 			Sessions.getCurrent().setAttribute("user", user);
-			Executions.sendRedirect("myprofile.zul");
+			Executions.sendRedirect("home.zul");
 		}
 
 		
