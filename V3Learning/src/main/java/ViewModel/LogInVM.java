@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -32,9 +34,17 @@ public class LogInVM {
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final String CLIENT_ID = "87237935165-ct20udmnvvbvgm6krkv1sk0gi6ll2n05.apps.googleusercontent.com";
 	private static final String CLIENT_SECRET = "D7UurwYg84ToKMNH4chsrc30";
+	private final GoogleAuthHelper helper = new GoogleAuthHelper();
 	
 	private String emailadress;
 	private String password;
+	private String loginUri;
+	
+	@Init
+	public void Init(){
+		setLoginUri(helper.buildLoginUrl());
+	}
+	
 	
 	public String getEmailadress() {
 		return emailadress;
@@ -74,13 +84,12 @@ public class LogInVM {
 	
 	@Command("googleLogIn")
 	public void googleLogIn() throws IOException{
-		
+		/*Session s= org.zkoss.zk.ui.Sessions.getCurrent();
 		HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
 		InputStream inputStream = request.getInputStream();
-		ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
-	    getContent(inputStream, resultStream);
-	    String code = new String(resultStream.toByteArray(), "UTF-8");
-		System.out.println(request.getRequestURI());
+		System.out.println(request+"/n inputstream" + inputStream);
+	    String code = request.getRequestURL().toString()+"/plus.login";//new String(getContent(inputStream).toByteArray(), "UTF-8");;
+		//System.out.println(request.getRequestURI());
 	 	 GoogleTokenResponse tokenResponse =
 		          new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
 		              CLIENT_ID, CLIENT_SECRET, code, "postmessage").execute();
@@ -89,7 +98,7 @@ public class LogInVM {
 		          .setJsonFactory(JSON_FACTORY)
 		          .setTransport(TRANSPORT)
 		          .setClientSecrets(CLIENT_ID, CLIENT_SECRET).build()
-		          .setFromTokenResponse(tokenResponse);
+		          .setFromTokenResponse(tokenResponse);*/
 		      /*
 		      // Build credential from stored token data.
 		      GoogleCredential credential = new GoogleCredential.Builder()
@@ -104,18 +113,33 @@ public class LogInVM {
 		          .build();
 		      // Get a list of people that this user has shared with this app.
 		      PeopleFeed people = service.people().list("me", "visible").execute();*/
+		
+		final GoogleAuthHelper helper = new GoogleAuthHelper();
+		
 	}
 	
 	 
-	    static void getContent(InputStream inputStream, ByteArrayOutputStream outputStream)
+	    static ByteArrayOutputStream getContent(InputStream inputStream)
 	        throws IOException {
-	      // Read the response into a buffered stream
-	      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-	      int readChar;
-	      while ((readChar = reader.read()) != -1) {
-	        outputStream.write(readChar);
-	      }
-	      reader.close();
+	      // Read the response into a buffered stream 
+	    	ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+	    	 BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+	         int readChar;
+	         while ((readChar = reader.read()) != -1) {
+	           outputStream.write(readChar);
+	         }
+	         reader.close();
+	      return outputStream;
 	    }
+
+
+		public String getLoginUri() {
+			return loginUri;
+		}
+
+
+		public void setLoginUri(String loginUri) {
+			this.loginUri = loginUri;
+		}
 	  
 }

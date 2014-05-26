@@ -354,6 +354,9 @@ public class User {
 		this.picURL = picURL;
 	}
 
+	public String getGender() {
+		return "F";
+	}
 	/**
 	 * computes age from birthDate
 	 * returns age

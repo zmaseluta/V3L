@@ -11,11 +11,13 @@ import Model.User;
 public class MainViewModel {
 	@Init
 	public void init() {
+		
+		
 		/*
 		 * login for developing purpose
 		 */
 		// TODO delete this section when done with tests
-		System.out.println("login...");
+		/*System.out.println("login...");
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());
@@ -32,7 +34,7 @@ public class MainViewModel {
 		if (user != null) {
 			Sessions.getCurrent().setAttribute("user", user);
 			Executions.sendRedirect("home.zul");
-		}
+		}*/
 
 		
 //		 User user = (User) Sessions.getCurrent().getAttribute("user"); if

@@ -92,7 +92,7 @@
 											<button label="Login"
 												onClick="@command('logIn')" />
 											<button label="GLogin" 
-												onClick="@command('googleLogIn')"
+												href="@bind(vm.loginUri)"
 												/>
 										</h:td>
 									</h:tr>
