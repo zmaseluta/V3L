@@ -54,17 +54,55 @@
 						<div class="article">
 
 							<label value="My Groups" />
-							<vlayout children="@bind(vm.user.groups)">
-								<template name="children">
-									<div>
-										<label value="${each.name}"
-											onClick="@command('openGroupPage', group = each)" />
-										<label
-											value="${each.description}" />
-									</div>
+							<listbox model="@bind(vm.user.groups)">
+								<template name="model">
+									<listitem>
+										<listcell label="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" />
+									</listitem>
 								</template>
-							</vlayout>
+							</listbox>
+
 						</div>
+						
+						<vlayout children="@bind(vm.user.groups)">
+    						<template name="children" >
+								<popup id="g${each.id}" >
+ 									<label value="Group Description: " style="font-weight: bold;"/>
+ 									<label value="${each.description}"/>
+    							</popup>
+    					    </template>
+						</vlayout>
+						
+						<div class="article">
+							<label value="My Friends" />
+							<listbox model="@bind(vm.user.friends)">
+								<template name="model">
+									<listitem> <!-- daca la image pun sursa pozei direct, o afiseaza, altfel nu -->
+									<!-- de ex: http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg -->
+										<listcell
+											image="${each.picURL}"
+											tooltip="u${each.id}"
+											onClick="@command('openGroupPage', group = each)" />
+									</listitem>
+									
+								</template>
+							</listbox>
+
+						</div>
+						
+						<vlayout children="@bind(vm.user.friends)">
+    						<template name="children" >
+								<popup id="u${each.id}" >
+ 									<h:a href="#">
+    									<label value="${each.firstName} ${each.lastName}"/>
+    								</h:a>
+    							</popup>
+    					    </template>
+						</vlayout>
+						
+					
 						<div class="article">
 							<h:h2>My Skills</h:h2>
 							<div class="clr" />
