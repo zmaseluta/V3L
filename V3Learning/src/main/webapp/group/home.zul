@@ -103,19 +103,30 @@
 							<div class="clr" />
 							<h:ul class="sb_menu">
 								<h:li>
-									<a href="#">m 1</a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+									</h:a>	
+									
 								</h:li>
 								<h:li>
-									<a href="#">m 2</a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+									</h:a>
 								</h:li>
 								<h:li>
-									<a href="#">m 3</a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+									</h:a>
 								</h:li>
 								<h:li>
-									<a href="#">m 4</a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+									</h:a>
 								</h:li>
 								<h:li>
-									<a href="#">m 5</a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" />
+									</h:a>
 								</h:li>
 							</h:ul>
 						</div>
@@ -135,4 +146,10 @@
 			<div class="clr" />
 		</div>
 	</div>
+	
+	<popup id="m1">
+    	<h:a href="#">
+    		<label value="m 1"/>
+    	</h:a>
+    </popup>
 </zk>
