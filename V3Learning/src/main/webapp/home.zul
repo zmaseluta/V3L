@@ -107,17 +107,30 @@
 								<listbox
 									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
 									<template name="model">
-										<listitem>
-											<listcell
-												label="${each.firstName}"
-												onClick="@command('goToUser',visitUser = each)" />
-											<listcell
-												label="${each.lastName}"
-												onClick="@command('goToUser',visitUser = each)" />
-										</listitem>
-									</template>
-								</listbox>
-							</div>
+									<listitem> <!-- daca la image pun sursa pozei direct, o afiseaza, altfel nu -->
+									<!-- ${each.picURL} / http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg -->
+										<listcell
+											image="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg"
+											tooltip="u${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
+									</listitem>
+									
+								</template>
+							</listbox>
+
+						</div>
+						
+						<vlayout children="@bind(vm.user.suggestedFriendsList)">
+    						<template name="children" >
+								<popup id="u${each.id}" >
+ 									<h:a href="#">
+    									<label value="${each.firstName} ${each.lastName}"/>
+    								</h:a>
+    							</popup>
+    					    </template>
+						</vlayout>
+
+							
 						</div>
 						<div class="gadget">
 							<div>
@@ -126,14 +139,24 @@
 								<listbox
 									model="@bind(vm.user.suggestedGroupsList)">
 									<template name="model">
-										<listitem>
-											<listcell
-												label="${each.name}"
-												onClick="@command('openGroupPage', group = each)" />
-										</listitem>
-									</template>
-								</listbox>
-							</div>
+									<listitem>
+										<listcell label="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" />
+									</listitem>
+								</template>
+							</listbox>
+
+						</div>
+						
+						<vlayout children="@bind(vm.user.suggestedGroupsList)">
+    						<template name="children" >
+								<popup id="g${each.id}" >
+ 									<label value="Group Description: " style="font-weight: bold;"/>
+ 									<label value="${each.description}"/>
+    							</popup>
+    					    </template>
+						</vlayout>
 						</div>
 					</div>
 					<div class="clr"></div>

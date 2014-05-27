@@ -6,6 +6,7 @@ import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
+import Model.Group;
 import Model.User;
 
 public class HomeVM {
@@ -15,7 +16,7 @@ public class HomeVM {
 	public void init() {
 		user = (User) Sessions.getCurrent().getAttribute("user");
 		if (user == null) {
-			Executions.sendRedirect("index.zul");
+			Executions.sendRedirect("login.zul");
 		} else {
 			user.computeUserLists();
 		}
@@ -34,5 +35,11 @@ public class HomeVM {
 	public void goToUser(@BindingParam("visitUser")User user){
 		Executions.sendRedirect("otherprofile.zul?us="
 				+ user.getId());
+	}
+	
+	@Command
+	public void openGroupPage(@BindingParam("group") Group group) {
+		Sessions.getCurrent().setAttribute("currentGroup", group);
+		Executions.sendRedirect("group/home.zul");
 	}
 }

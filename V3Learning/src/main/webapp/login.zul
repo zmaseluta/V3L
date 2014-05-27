@@ -43,7 +43,7 @@
 					<div class="menu_nav">
 						<h:ul>
 							<h:li>
-								<a href="index.zul">Home</a>
+								<a href="home.zul">Home</a>
 							</h:li>
 							<h:li class="active">
 								<a href="login.zul">Login</a>

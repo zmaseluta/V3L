@@ -40,7 +40,7 @@
 				<div class="menu_nav">
 					<h:ul>
 							<h:li class="active">
-								<a href="home.zul">Home</a>
+								<a href="../home.zul">Home</a>
 							</h:li>
 						</h:ul>
 					<div class="clr" />
