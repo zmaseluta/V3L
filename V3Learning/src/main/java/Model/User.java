@@ -351,7 +351,8 @@ public class User {
 	 * @param picURL the picURL to set
 	 */
 	public void setPicURL(String picURL) {
-		this.picURL = picURL;
+		if (picURL!= null) this.picURL = picURL;
+		else this.picURL = "http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg";
 	}
 
 	public String getGender() {
