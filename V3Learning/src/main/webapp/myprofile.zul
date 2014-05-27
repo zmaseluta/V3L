@@ -51,9 +51,38 @@
 			<div class="content">
 				<div class="content_bg">
 					<div class="mainbar">
+						
 						<div class="article">
+							<h:h3>My Friends</h:h3>
+							<!-- label value="My Friends" /-->
+							<listbox model="@bind(vm.user.friends)">
+								<template name="model">
+									<listitem> <!-- daca la image pun sursa pozei direct, o afiseaza, altfel nu -->
+									<!-- ${each.picURL} / http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg -->
+										<listcell
+											image="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg"
+											tooltip="u${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
+									</listitem>
+									
+								</template>
+							</listbox>
 
-							<label value="My Groups" />
+						</div>
+						
+						<vlayout children="@bind(vm.user.friends)">
+    						<template name="children" >
+								<popup id="u${each.id}" >
+ 									<h:a href="#">
+    									<label value="${each.firstName} ${each.lastName}"/>
+    								</h:a>
+    							</popup>
+    					    </template>
+						</vlayout>
+						
+						<div class="article">
+							<h:h3>My Groups</h:h3>
+							<!-- label value="My Groups" /-->
 							<listbox model="@bind(vm.user.groups)">
 								<template name="model">
 									<listitem>
@@ -75,36 +104,11 @@
     					    </template>
 						</vlayout>
 						
-						<div class="article">
-							<label value="My Friends" />
-							<listbox model="@bind(vm.user.friends)">
-								<template name="model">
-									<listitem> <!-- daca la image pun sursa pozei direct, o afiseaza, altfel nu -->
-									<!-- de ex: http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg -->
-										<listcell
-											image="${each.picURL}"
-											tooltip="u${each.id}"
-											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
-									
-								</template>
-							</listbox>
-
-						</div>
 						
-						<vlayout children="@bind(vm.user.friends)">
-    						<template name="children" >
-								<popup id="u${each.id}" >
- 									<h:a href="#">
-    									<label value="${each.firstName} ${each.lastName}"/>
-    								</h:a>
-    							</popup>
-    					    </template>
-						</vlayout>
 						
 					
 						<div class="article">
-							<h:h2>My Skills</h:h2>
+							<h:h3>My Skills</h:h3>
 							<div class="clr" />
 							<listbox model="@bind(vm.user.skills)">
 								<listhead>
@@ -126,7 +130,7 @@
 							<div class="clr" />
 						</div>
 						<div class="article">
-							<h:h2>Add a Skill</h:h2>
+							<h:h3>Add a Skill</h:h3>
 							<div class="clr" />
 							<groupbox>
 								<combobox model="@load(vm.domains)"

@@ -120,4 +120,10 @@ public class MyProfileVM {
 		user.removeSkill(removedSkill.getId());
 		System.out.println(removedSkill.getId());
 	}
+	
+	@Command
+	public void goToUser(@BindingParam("visitUser")User user){
+		Executions.sendRedirect("otherprofile.zul?us="
+				+ user.getId());
+	}
 }
