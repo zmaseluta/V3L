@@ -42,10 +42,10 @@
 					<div class="clr"></div>
 					<div class="menu_nav">
 						<h:ul>
-							<h:li class="active">
+							<h:li>
 								<a href="index.zul">Home</a>
 							</h:li>
-							<h:li>
+							<h:li class="active">
 								<a href="login.zul">Login</a>
 							</h:li>
 							<h:li>

@@ -4,7 +4,8 @@
 			<h:h2 class="star">Menu</h:h2>
 			<div class="clr"></div>
 			<h:ul class="sb_menu">
-				<h:li class="active">
+				<h:li> <!-- avand in vedere ca acest sidebar este folosit in toate paginile: home, -->
+						<!-- login, register, nu este ok ca home sa fie mereu din clasa "active"  -->
 					<a href="/">Home</a>
 				</h:li>
 				<h:li>
