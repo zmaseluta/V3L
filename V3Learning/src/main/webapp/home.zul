@@ -124,7 +124,7 @@
 											<image 
 												src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" 
 												width="50px"
-												/>
+												/> <!-- TODO : de pus picURL pt fiecare in parte, iar cei care nu au, sa primeasca poza din oficiu -->
 										</listcell>
 									</listitem>
 									
