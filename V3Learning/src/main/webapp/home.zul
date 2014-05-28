@@ -76,6 +76,16 @@
     							</popup>
     					    </template>
 						</vlayout>
+						
+						<div class="article"> 
+							<h:br />
+							SUGESTIE DE PREZENTARE:
+							<h:br />
+							Am putea pune 'suggested groups' din sidebar si 'events' din mainbar ca lista simpla, cum e lista de events din pagina unui grup.
+							<h:br />
+							Iar lista de 'people you may know' sa semene cu cea a membrilor din pagina unui grup.
+						</div>
+						
 					</div>	
 						
 					<div class="sidebar">
@@ -107,12 +117,15 @@
 								<listbox
 									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
 									<template name="model">
-									<listitem> <!-- daca la image pun sursa pozei direct, o afiseaza, altfel nu -->
-									<!-- ${each.picURL} / http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg -->
+									<listitem> 
 										<listcell
-											image="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg"
-											tooltip="u${each.id}"
-											onClick="@command('goToUser', visitUser = each)" />
+												tooltip="u${each.id}"
+												onClick="@command('goToUser', visitUser = each)" >
+											<image 
+												src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" 
+												width="50px"
+												/>
+										</listcell>
 									</listitem>
 									
 								</template>

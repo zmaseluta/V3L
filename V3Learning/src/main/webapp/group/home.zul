@@ -98,37 +98,85 @@
 						</div>
 					</div>
 					<div class="sidebar">
+					<h:h1 class="star">Group Name</h:h1>
+					
 						<div class="gadget">
-							<h:h2 class="star">Members</h:h2>
+							<h:h3 class="star">Calendar / Oncoming Events</h:h3>
 							<div class="clr" />
-							<h:ul class="sb_menu">
+								<h:ul class="sb_menu"> <!-- TODO : openEventPage @command -->
+									<h:li>			   <!-- TODO : in loc de lista asta, de pus un calendar cu evenimentele grupului -->
+									<!-- <h:a href="#"> -->
+										<label value="Event minunat" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
+									<!-- </h:a> -->
+									</h:li>
+									<h:li>
+									<!-- <h:a href="#"> -->
+										<label value="Event" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
+									<!-- </h:a> -->
+									</h:li>
 								<h:li>
+								<!-- <h:a href="#"> -->
+										<label value="Impresive - to be seen..." width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
+									<!-- </h:a> -->
+									</h:li>
+								<h:li>
+								<!-- <h:a href="#"> -->
+										<label value="Cum sa zbori pe casa" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
+									<!-- </h:a> -->
+									</h:li>
+							</h:ul>
+						</div>	
+						
+						<div class="gadget">
+							<h:h3 class="star">Members</h:h3>
+							<div class="clr" />
+							<!-- <h:ul class="sb_menu">
+								<h:li> -->
 									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
 									</h:a>	
 									
-								</h:li>
+							<!-- 	</h:li>
 								<h:li>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+							 -->		<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
 									</h:a>
-								</h:li>
+							<!-- 	</h:li>
 								<h:li>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+							 -->		<h:a href="#">
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
 									</h:a>
-								</h:li>
+							<!-- 	</h:li>
 								<h:li>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" tooltip="m1"/>
+							 -->		<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
 									</h:a>
-								</h:li>
+							<!-- 	</h:li>
 								<h:li>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="40px" />
+							 -->		<h:a href="#">
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
 									</h:a>
-								</h:li>
-							</h:ul>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+									<h:a href="#">
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+									<h:a href="#">
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+									
+									<h:a href="#">
+										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+									<h:a href="#">
+										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
+									</h:a>
+							<!-- 	</h:li>
+							</h:ul> -->
 						</div>
 						
 					</div>
@@ -148,8 +196,13 @@
 	</div>
 	
 	<popup id="m1">
-    	<h:a href="#">
-    		<label value="m 1"/>
+    	<h:a href="#"> <!-- TODO : link catre otherprofile.zul cand va fi lista dinamica-->
+    		<label value="Nume Persoana"/>
     	</h:a>
+    </popup>
+    <popup id="m2">
+    	<label value="Date of Event"/>
+    	<h:br />
+    	<label value="Click on Event for more..."/>
     </popup>
 </zk>
