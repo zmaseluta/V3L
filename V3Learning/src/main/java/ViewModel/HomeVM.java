@@ -2,6 +2,7 @@ package ViewModel;
 
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
@@ -15,12 +16,6 @@ public class HomeVM {
 	@Init
 	public void init() {
 		user = (User) Sessions.getCurrent().getAttribute("user");
-		if (user == null) {
-			Executions.sendRedirect("login.zul");
-		} else {
-			user.computeUserLists();
-		}
-
 	}
 
 	public User getUser() {
@@ -41,5 +36,10 @@ public class HomeVM {
 	public void openGroupPage(@BindingParam("group") Group group) {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
 		Executions.sendRedirect("group/home.zul");
+	}
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3Learning/login.zul");
 	}
 }

@@ -78,6 +78,7 @@ public class LogInVM {
 		Sessions.getCurrent().setAttribute("dbOperations", dbo);
 		//-------------------------------------------
 		
+		
 		Executions.sendRedirect("home.zul");
 		}
 	}

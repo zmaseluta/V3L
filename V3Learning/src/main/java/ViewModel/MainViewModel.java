@@ -1,6 +1,8 @@
 package ViewModel;
 
+import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.lang.Exceptions;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
@@ -17,8 +19,7 @@ public class MainViewModel {
 		 * login for developing purpose
 		 */
 		// TODO delete this section when done with tests
-		/*System.out.println("login...");
-		DBConnection dbc = new DBConnection();
+	DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());
 
@@ -34,11 +35,13 @@ public class MainViewModel {
 		if (user != null) {
 			Sessions.getCurrent().setAttribute("user", user);
 			Executions.sendRedirect("home.zul");
-		}*/
-
+		}
+		
 		
 //		 User user = (User) Sessions.getCurrent().getAttribute("user"); if
 //		 (user != null) { Executions.sendRedirect("home.zul"); }
 		 
 	}
+	
+	
 }
