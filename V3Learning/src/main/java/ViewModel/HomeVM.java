@@ -40,6 +40,6 @@ public class HomeVM {
 	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("~/V3Learning/login.zul");
+		Executions.sendRedirect("~/V3L/login.zul");
 	}
 }
