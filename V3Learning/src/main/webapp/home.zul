@@ -117,7 +117,7 @@
 							<div>
 								<label
 									value="People you may want to know:" />
-								<listbox
+								<!-- <listbox
 									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
 									<template name="model">
 									<listitem> 
@@ -127,12 +127,22 @@
 											<image 
 												src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" 
 												width="50px"
-												/> <!-- TODO : de pus picURL pt fiecare in parte, iar cei care nu au, sa primeasca poza din oficiu -->
+												/> TODO : de pus picURL pt fiecare in parte, iar cei care nu au, sa primeasca poza din oficiu
 										</listcell>
 									</listitem>
 									
 								</template>
-							</listbox>
+							</listbox> -->
+							<div children="@bind(vm.user.suggestedFriendsList)">
+ 								<template name="children">
+ 								<image 
+												src="@load(each.picURL ne null ? each.picURL : 'http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg')" 
+												width="50px"
+												tooltip="u${each.id}"
+												onClick="@command('goToUser', visitUser = each)"
+												/>
+ 								</template>
+ 							</div>
 
 						</div>
 						

@@ -36,11 +36,14 @@
 					<div class="clr"></div>
 					<div class="menu_nav">
 						<h:ul>
-							<h:li>
+							<h:li >
 								<a href="home.zul">Home</a>
 							</h:li>
 							<h:li class="active">
 								<a href="myprofile.zul">My profile</a>
+							</h:li>
+							<h:li>
+								<a href="" onClick="@command('Logout')">Log out</a>
 							</h:li>
 						</h:ul>
 						<div class="clr"></div>

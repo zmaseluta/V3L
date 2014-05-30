@@ -1,7 +1,9 @@
 package ViewModel;
 
+import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.QueryParam;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
 import Model.DBConnection;
@@ -41,4 +43,10 @@ public class OthersVM {
 		this.visitedUser = visitedUser;
 	}
 
+	
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3L/login.zul");
+	}
 }

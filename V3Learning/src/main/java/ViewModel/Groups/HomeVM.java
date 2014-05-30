@@ -9,6 +9,7 @@ import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Component;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
 
@@ -34,6 +35,12 @@ public class HomeVM {
 		System.out.println(event.getMedia().getName());
 		Model.File f =new Model.File(remoteUrl,name,user.getId(),1,"");
 		user.addFile(f);
+	}
+	
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3L/login.zul");
 	}
 	
 }
