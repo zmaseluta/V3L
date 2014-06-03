@@ -19,7 +19,7 @@ public class MainViewModel {
 		 * login for developing purpose
 		 */
 		// TODO delete this section when done with tests
-	DBConnection dbc = new DBConnection();
+		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());
 
@@ -33,6 +33,7 @@ public class MainViewModel {
 		// System.out.println(dbc.closeConnection());
 
 		if (user != null) {
+			user.computeUserLists();
 			Sessions.getCurrent().setAttribute("user", user);
 			Executions.sendRedirect("home.zul");
 		}

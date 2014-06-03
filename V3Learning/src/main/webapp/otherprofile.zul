@@ -55,7 +55,8 @@
 										width="90" />
 								</div>
 								<div style="width:400px">
-									<label value="@bind(c:cat3(vm.visitedUser.firstName,' ',vm.visitedUser.lastName))"/>
+									<label
+										value="@bind(c:cat3(vm.visitedUser.firstName,' ',vm.visitedUser.lastName))" />
 									<div class="starRate">
 										<div>
 											Currently rated: 3 stars
@@ -115,24 +116,57 @@
 						<div class="article">
 							<h:h2>Held courses</h:h2>
 							<div class="clr" />
-							<div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
+							<div
+								children="@load(vm.visitedUser.courses)">
+								<template name="children">
+									<div>
+										<h:h1>
+											<label value="${each.name}" />
+										</h:h1>
+										<h:p>
+											<label
+												value="${each.description}" />
+										</h:p>
+									</div>
+								</template>
 							</div>
 							<div class="clr"></div>
 						</div>
 						<div class="article">
-							<h:h2>Friends</h:h2>
+							<h:h2>
+								<label
+									value="@load(vm.visitedUser.firstName)" />
+								' friends
+							</h:h2>
 							<div class="clr" />
-							<div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
+							<div
+								children="@load(vm.visitedUser.friends)">
+								<template name="children">
+									<div
+										visible="${each.email ne vm.currentUser.email}">
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="u${each.id}" />
+										<popup id="u${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load(vm.currentUser.isFriendWith(each) eq true ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+											</div>
+										</popup>
+									</div>
+								</template>
 							</div>
 							<div class="clr" />
 						</div>
@@ -160,24 +194,33 @@
 							</h:ul>
 						</div>
 						<div class="gadget">
-							<h:h2 class="star">Friends</h:h2>
+							<h:h2 class="star">My Friends</h:h2>
 							<div class="clr" />
 							<h:ul class="sb_menu">
-								<h:li>
-									<a href="#">Friend 1</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 2</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 3</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 4</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 5</a>
-								</h:li>
+								<div
+									children="@load(vm.currentUser.friends)">
+									<template name="children">
+										<div>
+											<image width="50px"
+												src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+												tooltip="f${each.id}" />
+											<popup id="f${each.id}">
+												<div>
+													<div
+														onClick="@command('goToUser', visitUser = each)">
+														<label
+															value="${each.firstName}" />
+														<label
+															value="${each.lastName}" />
+													</div>
+													<button
+														label="View Profile"
+														onClick="@command('goToUser', visitUser = each)" />
+												</div>
+											</popup>
+										</div>
+									</template>
+								</div>
 							</h:ul>
 						</div>
 					</div>

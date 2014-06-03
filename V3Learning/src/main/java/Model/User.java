@@ -1456,4 +1456,13 @@ public class User {
 		 	}
 		}
 	}
+	
+	public boolean isFriendWith(User other){
+		for(User friend:this.friends){
+			if(other.email.equals(friend.email)){
+				return true;
+			}
+		}
+		return false;
+	}
 }
