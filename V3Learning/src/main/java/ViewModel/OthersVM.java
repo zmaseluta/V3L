@@ -80,4 +80,10 @@ public class OthersVM {
 		return currentUser;
 	}
 	
+	
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3L/login.zul");
+	}
 }
