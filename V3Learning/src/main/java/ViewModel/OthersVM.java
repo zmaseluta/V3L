@@ -1,5 +1,8 @@
 package ViewModel;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
@@ -9,12 +12,16 @@ import org.zkoss.zk.ui.Sessions;
 
 import Model.DBConnection;
 import Model.DBOperations;
+import Model.Skill;
 import Model.User;
 
 public class OthersVM {
 
 	private User visitedUser;
 	private User currentUser;
+	private Map<String,Double> skills;
+	private Map<String, Map<String, Double>> domains;
+	
 	@Init
 	public void init(@QueryParam("us") int usersIds) {
 		// -------------------------------------------
@@ -36,6 +43,17 @@ public class OthersVM {
 				visitedUser.computeUserLists();
 				return;
 			}
+		}
+		domains = new LinkedHashMap<String, Map<String, Double>>();
+		
+		for(Skill skill : visitedUser.getSkills()){
+			domains.put(skill.getDomainName(), new LinkedHashMap<String, Double>());
+		}
+		
+		for(Skill skill : visitedUser.getSkills()){
+			skills = domains.get(skill.getDomainName());
+			skills.put(skill.getName(), 1.0/visitedUser.getSkills().size());
+			domains.put(skill.getDomainName(), skills);
 		}
 		// -------------------------------------------
 	}

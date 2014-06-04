@@ -109,7 +109,11 @@
 						<div class="article">
 							<h:h3>Description</h:h3>
 							<div class="clr" />
-							<div>Lorem ipsum dolor sit amet</div>
+							<div>
+								<!-- <window apply="Components.PieDonutComposer">
+								    <charts type="pie" id="chart" title="Browser market share, April, 2011"/>
+								</window> -->
+							</div>
 							<div class="clr" />
 						</div>
 
