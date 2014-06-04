@@ -126,4 +126,10 @@ public class MyProfileVM {
 		Executions.sendRedirect("otherprofile.zul?us="
 				+ user.getId());
 	}
+	
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3L/login.zul");
+	}
 }
