@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
@@ -100,6 +101,8 @@ public class MyProfileVM {
 	public void addSkill() {
 		user.addSkill(selectedSkill);
 		user.update();
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
 	}
 
 	@Command
@@ -116,9 +119,11 @@ public class MyProfileVM {
 	}
 	@Command
 	@NotifyChange("user")
-	public void removeSkill(@BindingParam("skill") Listitem removedSkill){
+	public void removeSkill(@BindingParam("skill") Label removedSkill){
 		user.removeSkill(removedSkill.getId());
 		System.out.println(removedSkill.getId());
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
 	}
 	
 	@Command
@@ -128,8 +133,17 @@ public class MyProfileVM {
 	}
 	
 	@Command
+	@NotifyChange("user")
+	public void leaveGroup(@BindingParam("group")Label removedGroup){
+		user.removeGroup(removedGroup.getId());
+		System.out.println(removedGroup.getId());
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
+	}
+	
+	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("~/V3L/login.zul");
+		Executions.sendRedirect("~/V3L/index.zul");
 	}
 }

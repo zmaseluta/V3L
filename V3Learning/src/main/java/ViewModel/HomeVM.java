@@ -4,6 +4,7 @@ import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.GlobalCommand;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
@@ -37,9 +38,18 @@ public class HomeVM {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
 		Executions.sendRedirect("group/home.zul");
 	}
+	
+	@Command
+	@NotifyChange("user")
+	public void joinGroup(@BindingParam("group")Group group){
+		user.addGroup(group);
+		Executions.sendRedirect("home.zul?us="
+				+ user.getId());
+	}
+	
 	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("~/V3L/login.zul");
+		Executions.sendRedirect("~/V3L/index.zul");
 	}
 }

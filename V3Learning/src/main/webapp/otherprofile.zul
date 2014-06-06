@@ -110,7 +110,10 @@
 							<div class="clr" />
 						</div>
 						<div class="article">
-							<h:h3>Description</h:h3>
+							<h:h3>
+								About <label
+									value="@load(vm.visitedUser.firstName)" />
+							</h:h3>
 							<div class="clr" />
 							<div>
 								<!-- <window apply="Components.PieDonutComposer">
@@ -121,7 +124,7 @@
 						</div>
 
 						<div class="article">
-							<h:h2>Held courses</h:h2>
+							<h:h3>Held courses</h:h3>
 							<div class="clr" />
 							<div
 								children="@load(vm.visitedUser.courses)">
@@ -139,12 +142,56 @@
 							</div>
 							<div class="clr"></div>
 						</div>
+						
+					</div>
+					<div class="sidebar">
 						<div class="article">
-							<h:h2>
+							<div>
+								<h:h3>
 								<label
 									value="@load(vm.visitedUser.firstName)" />
-								' friends
-							</h:h2>
+								's groups
+							</h:h3>
+								<h:ul
+								children="@bind(vm.visitedUser.groups)">
+								<template name="children">
+									<h:li>
+									<label value="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" />
+									<popup id="g${each.id}">
+											<div>
+												<div
+													onClick="@command('openGroupPage', group = each)"> 
+													<label
+														value="${each.name}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Group Description: " style="font-weight: bold;"/>
+ 													<label value="${each.description}"/>
+												</div>
+												<button
+													label="Join Group"
+													onClick="@command('joinGroup', group = each)"
+													visible="@load(vm.visitedUser.isInGroup(each) eq true ? false : true)" />
+												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
+								</template>
+							</h:ul>
+
+						</div>
+					</div>
+						<div class="gadget">
+						<div class="star">
+							<h:h3>
+								<label
+									value="@load(vm.visitedUser.firstName)" />
+								's friends
+							</h:h3>
 							<div class="clr" />
 							<div
 								children="@load(vm.visitedUser.friends)">
@@ -177,58 +224,7 @@
 							</div>
 							<div class="clr" />
 						</div>
-					</div>
-					<div class="sidebar">
-						<div class="gadget">
-							<h:h2 class="star">Groups</h:h2>
-							<div class="clr" />
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="#">Group 1</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 2</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 3</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 4</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 5</a>
-								</h:li>
-							</h:ul>
-						</div>
-						<div class="gadget">
-							<h:h2 class="star">My Friends</h:h2>
-							<div class="clr" />
-							<h:ul class="sb_menu">
-								<div
-									children="@load(vm.currentUser.friends)">
-									<template name="children">
-										<div>
-											<image width="50px"
-												src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
-												tooltip="f${each.id}" />
-											<popup id="f${each.id}">
-												<div>
-													<div
-														onClick="@command('goToUser', visitUser = each)">
-														<label
-															value="${each.firstName}" />
-														<label
-															value="${each.lastName}" />
-													</div>
-													<button
-														label="View Profile"
-														onClick="@command('goToUser', visitUser = each)" />
-												</div>
-											</popup>
-										</div>
-									</template>
-								</div>
-							</h:ul>
+						
 						</div>
 					</div>
 					<div class="clr" />

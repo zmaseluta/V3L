@@ -6,12 +6,14 @@ import java.util.Map;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 
 import Model.DBConnection;
 import Model.DBOperations;
+import Model.Group;
 import Model.Skill;
 import Model.User;
 
@@ -80,10 +82,23 @@ public class OthersVM {
 		return currentUser;
 	}
 	
+	@Command
+	public void openGroupPage(@BindingParam("group") Group group) {
+		Sessions.getCurrent().setAttribute("currentGroup", group);
+		Executions.sendRedirect("group/home.zul");
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void joinGroup(@BindingParam("group")Group group){
+		currentUser.addGroup(group);
+		Executions.sendRedirect("otherprofile.zul?us="
+				+ visitedUser.getId());
+	}
 	
 	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("~/V3L/login.zul");
+		Executions.sendRedirect("~/V3L/index.zul");
 	}
 }

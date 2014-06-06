@@ -107,7 +107,7 @@
 					<h:h1 class="star">Group Name</h:h1>
 					
 						<div class="gadget">
-							<h:h3 class="star">Calendar / Oncoming Events</h:h3>
+							<h:h3>Calendar / Oncoming Events</h:h3>
 							<div class="clr" />
 								<h:ul class="sb_menu"> <!-- TODO : openEventPage @command -->
 									<h:li>			   <!-- TODO : in loc de lista asta, de pus un calendar cu evenimentele grupului -->
@@ -133,59 +133,38 @@
 							</h:ul>
 						</div>	
 						
-						<div class="gadget">
-							<h:h3 class="star">Members</h:h3>
-							<div class="clr" />
-							<!-- <h:ul class="sb_menu">
-								<h:li> -->
-									<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>	
-									
-							<!-- 	</h:li>
-								<h:li>
-							 -->		<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-							<!-- 	</h:li>
-								<h:li>
-							 -->		<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-							<!-- 	</h:li>
-								<h:li>
-							 -->		<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-							<!-- 	</h:li>
-								<h:li>
-							 -->		<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									
-									<h:a href="#">
-										<image src="http://upload.wikimedia.org/wikipedia/commons/2/26/YellowLabradorLooking_new.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-									<h:a href="#">
-										<image src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" width="50px" tooltip="m1"/>
-									</h:a>
-							<!-- 	</h:li>
-							</h:ul> -->
+						<!-- <div class="gadget">
+
+							<div>
+								 <h:h3 class="star">Members:</h:h3>
+								 
+							<div children="@bind(vm.group.members)">
+ 								<template name="children">
+ 									<image 
+												src="@load(each.picURL ne null ? each.picURL : 'http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg')" 
+												width="50px"
+												tooltip="u${each.id}"
+												onClick="@command('goToUser', visitUser = each)"
+												visible="${each.id ne vm.user.id}"
+												/>
+								</template>
+ 							</div>
+
 						</div>
 						
-					</div>
+						<vlayout children="@bind(vm.user.suggestedFriendsList)">
+    						<template name="children" >
+								<popup id="u${each.id}" >
+ 									<h:a href="#">
+    									<label value="${each.firstName} ${each.lastName}"/>
+    								</h:a>
+    							</popup>
+    					    </template>
+						</vlayout>
+
+							
+						</div>
+ -->					</div>
 					<div class="clr" />
 				</div>
 			</div>

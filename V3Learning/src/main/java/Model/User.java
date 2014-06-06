@@ -1457,9 +1457,26 @@ public class User {
 		}
 	}
 	
+	public void removeGroup(String id) {
+		for(Group group : groups){
+		 	if(group.getId() == Integer.parseInt(id)) {
+		 		removeGroup(group);
+		 	}
+		}
+	}
+	
 	public boolean isFriendWith(User other){
 		for(User friend:this.friends){
 			if(other.email.equals(friend.email)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isInGroup(Group newG){
+		for(Group listGroups:this.groups){
+			if(newG.getId() == listGroups.getId()){
 				return true;
 			}
 		}

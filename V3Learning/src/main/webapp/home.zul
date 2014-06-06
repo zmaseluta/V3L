@@ -57,17 +57,15 @@
 					<div class="mainbar">
 						<div class="article">
 
-							<label value="Events" />
-							<listbox model="@bind(vm.user.events)">
-								<template name="model">
-									<listitem>
-										<listcell 
-											label="${each.name}"
-											tooltip="e${each.id}"
-											src=""/> 
-									</listitem>
+							<h:h3 class="star">Events:</h:h3>
+							<h:ul children="@bind(vm.user.events)">
+								<template name="children">
+									<h:li> 
+									<label value ="${each.name}"
+											tooltip="e${each.id}"/>
+									</h:li>
 								</template>
-							</listbox>
+							</h:ul>
 
 						</div>
 						
@@ -115,33 +113,21 @@
 						<div class="gadget">
 
 							<div>
-								<label
+								<!-- <label
 									value="People you may want to know:" />
-								<!-- <listbox
-									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
-									<template name="model">
-									<listitem> 
-										<listcell
-												tooltip="u${each.id}"
-												onClick="@command('goToUser', visitUser = each)" >
-											<image 
-												src="http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg" 
-												width="50px"
-												/> TODO : de pus picURL pt fiecare in parte, iar cei care nu au, sa primeasca poza din oficiu
-										</listcell>
-									</listitem>
-									
-								</template>
-							</listbox> -->
+								 -->
+								 <h:h3 class="star">People you may want to know:</h:h3>
+								 
 							<div children="@bind(vm.user.suggestedFriendsList)">
  								<template name="children">
- 								<image 
+ 									<image 
 												src="@load(each.picURL ne null ? each.picURL : 'http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg')" 
 												width="50px"
 												tooltip="u${each.id}"
 												onClick="@command('goToUser', visitUser = each)"
+												visible="${each.id ne vm.user.id}"
 												/>
- 								</template>
+								</template>
  							</div>
 
 						</div>
@@ -160,34 +146,45 @@
 						</div>
 						<div class="gadget">
 							<div>
-								<label
-									value="Suggested groups:" />
-								<listbox
-									model="@bind(vm.user.suggestedGroupsList)">
-									<template name="model">
-									<listitem>
-										<listcell label="${each.name}"
+								<!-- <label
+									value="Suggested groups:" /> -->
+								<h:h3 class="star">Suggested groups:</h:h3>
+								<h:ul
+								children="@bind(vm.user.suggestedGroupsList)">
+								<template name="children">
+									<h:li>
+									<label value="${each.name}"
 											onClick="@command('openGroupPage', group = each)" 
 											tooltip="g${each.id}" />
-									</listitem>
+									<popup id="g${each.id}">
+											<div>
+												<div
+													onClick="@command('openGroupPage', group = each)"> 
+													<label
+														value="${each.name}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Group Description: " style="font-weight: bold;"/>
+ 													<label value="${each.description}"/>
+												</div>
+												<button
+													label="Join Group"
+													onClick="@command('joinGroup', group = each)"
+													visible="@load(vm.user.isInGroup(each) eq true ? false : true)" />
+												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
 								</template>
-							</listbox>
-
-						</div>
-						
-						<vlayout children="@bind(vm.user.suggestedGroupsList)">
-    						<template name="children" >
-								<popup id="g${each.id}" >
- 									<label value="Group Description: " style="font-weight: bold;"/>
- 									<label value="${each.description}"/>
-    							</popup>
-    					    </template>
-						</vlayout>
+							</h:ul>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </zk>
