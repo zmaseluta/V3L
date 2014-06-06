@@ -36,7 +36,7 @@ public class HomeVM {
 	@Command
 	public void openGroupPage(@BindingParam("group") Group group) {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
-		Executions.sendRedirect("group/home.zul");
+		Executions.sendRedirect("group/home.zul?gr="+group.getId());
 	}
 	
 	@Command

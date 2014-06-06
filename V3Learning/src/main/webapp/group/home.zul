@@ -104,7 +104,7 @@
 						</div>
 					</div>
 					<div class="sidebar">
-					<h:h1 class="star">Group Name</h:h1>
+					<h:h1 class="star"><label value="@load(vm.group.name)"/></h:h1>
 					
 						<div class="gadget">
 							<h:h3>Calendar / Oncoming Events</h:h3>

@@ -24,9 +24,12 @@ public class HomeVM {
 	private Group group;
 	
 	@Init
-	public void init(@ContextParam(ContextType.VIEW) Component view) {
+	public void init(@QueryParam("gr") int groupId) {
 		user = (User) Sessions.getCurrent().getAttribute("user");	
-			
+		group = (Group) Sessions.getCurrent().getAttribute("currentGroup");
+		
+		if(group ==null)
+			{Executions.sendRedirect("~/V3L/index.zul");}
 	}
 
 	
@@ -52,4 +55,8 @@ public class HomeVM {
 		Sessions.getCurrent().getAttributes().clear();
 		Executions.sendRedirect("~/V3L/index.zul");
 	}	
+	
+	public Group getGroup(){
+		return group;
+	}
 }
