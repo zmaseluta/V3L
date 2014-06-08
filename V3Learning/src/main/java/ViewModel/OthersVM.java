@@ -78,6 +78,14 @@ public class OthersVM {
 		Executions.sendRedirect("otherprofile.zul?us="
 				+ user.getId());
 	}
+	
+	@Command
+	public void removeFriend(@BindingParam("visitUser")User user){
+		currentUser.removeFriend(user);
+		Executions.sendRedirect("otherprofile.zul?us="
+				+ user.getId());
+	}
+	
 	public User getCurrentUser() {
 		return currentUser;
 	}

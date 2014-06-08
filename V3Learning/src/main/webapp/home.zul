@@ -67,25 +67,20 @@
 								</template>
 							</h:ul>
 
-						</div>
-						
 						<vlayout children="@bind(vm.user.events)">
     						<template name="children" >
 								<popup id="e${each.id}" >
-									<label value="Event Description: " style="font-weight: bold;"/>
+									<label value ="${each.name}" />
+									<h:br />
+    								<label value="Date: " style="font-weight: bold;"/>
+ 									<label value="${each.date}"/>
+									<h:br />
+    								<label value="Event Description: " style="font-weight: bold;"/>
  									<label value="${each.description}"/>
     							</popup>
     					    </template>
 						</vlayout>
-						
-						<div class="article"> 
-							<h:br />
-							SUGESTIE DE PREZENTARE:
-							<h:br />
-							Am putea pune 'suggested groups' din sidebar si 'events' din mainbar ca lista simpla, cum e lista de events din pagina unui grup.
-							<h:br />
-							Iar lista de 'people you may know' sa semene cu cea a membrilor din pagina unui grup.
-						</div>
+					</div>
 						
 					</div>	
 						
@@ -111,38 +106,40 @@
 							</div>
 						</div>
 						<div class="gadget">
-
 							<div>
-								<!-- <label
-									value="People you may want to know:" />
-								 -->
 								 <h:h3 class="star">People you may want to know:</h:h3>
 								 
 							<div children="@bind(vm.user.suggestedFriendsList)">
  								<template name="children">
- 									<image 
-												src="@load(each.picURL ne null ? each.picURL : 'http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg')" 
-												width="50px"
-												tooltip="u${each.id}"
-												onClick="@command('goToUser', visitUser = each)"
-												visible="${each.id ne vm.user.id}"
-												/>
+									<div
+										visible="${(each.email ne vm.user.email) and (vm.user.isFriendWith(each) ne true) ? true : false}">
+									
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load(vm.user.isFriendWith(each) eq true ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+											</div>
+										</popup>
+									</div>
 								</template>
- 							</div>
-
+							</div>
 						</div>
-						
-						<vlayout children="@bind(vm.user.suggestedFriendsList)">
-    						<template name="children" >
-								<popup id="u${each.id}" >
- 									<h:a href="#">
-    									<label value="${each.firstName} ${each.lastName}"/>
-    								</h:a>
-    							</popup>
-    					    </template>
-						</vlayout>
-
-							
 						</div>
 						<div class="gadget">
 							<div>

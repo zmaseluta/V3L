@@ -130,10 +130,12 @@
 								children="@load(vm.visitedUser.courses)">
 								<template name="children">
 									<div>
-										<h:h1>
+										<h:h3>
 											<label value="${each.name}" />
-										</h:h1>
-										<h:p>
+										</h:h3>
+										<h:p style="padding-left:40px;">
+											<label
+												value="${each.date}: " />
 											<label
 												value="${each.description}" />
 										</h:p>
@@ -196,12 +198,11 @@
 							<div
 								children="@load(vm.visitedUser.friends)">
 								<template name="children">
-									<div
-										visible="${each.email ne vm.currentUser.email}">
+									<div>
 										<image width="50px"
 											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
-											tooltip="u${each.id}" />
-										<popup id="u${each.id}">
+											tooltip="us${each.id}" />
+										<popup id="us${each.id}">
 											<div>
 												<div
 													onClick="@command('goToUser', visitUser = each)">
@@ -213,10 +214,14 @@
 												<button
 													label="Add friend"
 													onClick="@command('addFriend', visitUser = each)"
-													visible="@load(vm.currentUser.isFriendWith(each) eq true ? false : true)" />
+													visible="@load((user.isFriendWith(each) eq true) or ((each.id eq user.id) eq true) ? false : true)" />
 												<button
 													label="View Profile"
 													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(user.isFriendWith(each) eq false ? false : true)" />
 											</div>
 										</popup>
 									</div>

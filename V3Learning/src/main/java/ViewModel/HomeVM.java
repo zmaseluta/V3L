@@ -41,6 +41,13 @@ public class HomeVM {
 	
 	@Command
 	@NotifyChange("user")
+	public void addFriend(@BindingParam("visitUser")User usr){
+		user.addFriend(usr);
+		Executions.sendRedirect("home.zul");
+	}
+	
+	@Command
+	@NotifyChange("user")
 	public void joinGroup(@BindingParam("group")Group group){
 		user.addGroup(group);
 		Executions.sendRedirect("home.zul?us="

@@ -40,6 +40,16 @@
 				<div class="menu_nav">
 					<h:ul>
 							<h:li>
+								<a href = "">
+									<label value="Leave Group"
+										onClick="@command('leaveGroup')"
+										visible="@load(user.isInGroup(currentGroup) eq true ? true : false)" />
+									<label value="Join Group"
+										onClick="@command('joinGroup')"
+										visible="@load(user.isInGroup(currentGroup) eq true ? false : true)" />
+								</a>
+							</h:li>
+							<h:li>
 								<a href="../home.zul">Home</a>
 							</h:li>
 							<h:li>
@@ -50,6 +60,9 @@
 							</h:li>
 						</h:ul>
 					<div class="clr" />
+							
+							<div class="clr" />
+																			
 				</div>
 			</div>
 			<div class="content">
@@ -104,67 +117,73 @@
 						</div>
 					</div>
 					<div class="sidebar">
-					<h:h1 class="star"><label value="@load(vm.group.name)"/></h:h1>
+					<label class="star" value="@load(vm.group.name)" style="font: 28px bold, sans-serif;"/>
 					
-						<div class="gadget">
-							<h:h3>Calendar / Oncoming Events</h:h3>
-							<div class="clr" />
-								<h:ul class="sb_menu"> <!-- TODO : openEventPage @command -->
-									<h:li>			   <!-- TODO : in loc de lista asta, de pus un calendar cu evenimentele grupului -->
-									<!-- <h:a href="#"> -->
-										<label value="Event minunat" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
-									<!-- </h:a> -->
-									</h:li>
-									<h:li>
-									<!-- <h:a href="#"> -->
-										<label value="Event" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
-									<!-- </h:a> -->
-									</h:li>
-								<h:li>
-								<!-- <h:a href="#"> -->
-										<label value="Impresive - to be seen..." width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
-									<!-- </h:a> -->
-									</h:li>
-								<h:li>
-								<!-- <h:a href="#"> -->
-										<label value="Cum sa zbori pe casa" width="50px" tooltip="m2" onClick="@command('openEventPage', event = each)"/>
-									<!-- </h:a> -->
-									</h:li>
-							</h:ul>
-						</div>	
-						
-						<!-- <div class="gadget">
+					<div class="gadget">
 
-							<div>
-								 <h:h3 class="star">Members:</h:h3>
-								 
-							<div children="@bind(vm.group.members)">
- 								<template name="children">
- 									<image 
-												src="@load(each.picURL ne null ? each.picURL : 'http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg')" 
-												width="50px"
-												tooltip="u${each.id}"
-												onClick="@command('goToUser', visitUser = each)"
-												visible="${each.id ne vm.user.id}"
-												/>
+							<h:h3 class="star">Calendar / Oncoming Events:</h:h3>
+							<h:ul children="@bind(vm.group.events)">
+								<template name="children">
+									<h:li> 
+									<label value ="${each.name}"
+											tooltip="e${each.id}"/>
+									</h:li>
 								</template>
- 							</div>
+							</h:ul>
 
-						</div>
-						
-						<vlayout children="@bind(vm.user.suggestedFriendsList)">
+						<vlayout children="@bind(vm.group.events)">
     						<template name="children" >
-								<popup id="u${each.id}" >
- 									<h:a href="#">
-    									<label value="${each.firstName} ${each.lastName}"/>
-    								</h:a>
+								<popup id="e${each.id}" >
+									<label value ="${each.name}" />
+									<h:br />
+    								<label value="Date: " style="font-weight: bold;"/>
+ 									<label value="${each.date}"/>
+									<h:br />
+    								<label value="Event Description: " style="font-weight: bold;"/>
+ 									<label value="${each.description}"/>
     							</popup>
     					    </template>
 						</vlayout>
-
-							
-						</div>
- -->					</div>
+					</div>
+						
+						
+					<div class="gadget">
+							<h:h3>Members: </h:h3>
+							<div
+								children="@load(vm.group.members)">
+								<template name="children">
+									<div>
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}" 
+											onClick="@command('goToUser', visitUser = each)" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load((user.isFriendWith(each) eq true) or ((each.id eq user.id) eq true) ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(user.isFriendWith(each) eq false ? false : true)" />
+											</div>
+										</popup>
+									</div>
+								</template>
+							</div>
+ 						</div>
+					</div>
 					<div class="clr" />
 				</div>
 			</div>
@@ -180,14 +199,4 @@
 		</div>
 	</div>
 	
-	<popup id="m1">
-    	<h:a href="#"> <!-- TODO : link catre otherprofile.zul cand va fi lista dinamica-->
-    		<label value="Nume Persoana"/>
-    	</h:a>
-    </popup>
-    <popup id="m2">
-    	<label value="Date of Event"/>
-    	<h:br />
-    	<label value="Click on Event for more..."/>
-    </popup>
 </zk>

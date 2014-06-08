@@ -64,7 +64,8 @@
 										visible="${each.email ne vm.user.email}">
 										<image width="50px"
 											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
-											tooltip="us${each.id}" />
+											tooltip="us${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
 										<popup id="us${each.id}">
 											<div>
 												<div
@@ -75,12 +76,12 @@
 														value="${each.lastName}" />
 												</div>
 												<button
-													label="Add friend"
-													onClick="@command('addFriend', visitUser = each)"
-													visible="@load(vm.user.isFriendWith(each) eq true ? false : true)" />
-												<button
 													label="View Profile"
 													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(vm.user.isFriendWith(each) eq false ? false : true)" />
 											</div>
 										</popup>
 									</div>
@@ -99,7 +100,7 @@
 											onClick="@command('openGroupPage', group = each)" 
 											tooltip="g${each.id}" 
 											draggable="true"
-											id="gl${each.id }"/>
+											id="${each.id }"/>
 									<popup id="g${each.id}">
 											<div>
 												<div
@@ -111,12 +112,13 @@
  													<label value="${each.description}"/>
 												</div>
 												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+												<button
 													label="Leave Group"
 													onClick="@command('leaveGroup', group = each)"
 													visible="@load(vm.user.isInGroup(each) ? true : false" />
-												<button
-													label="View Group Page"
-													onClick="@command('openGroupPage', group = each)" />
+												
 											</div>
 										</popup>
 									<div class="clr"></div>

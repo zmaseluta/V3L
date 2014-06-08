@@ -8,11 +8,13 @@ import org.zkoss.bind.annotation.Command;
 import org.zkoss.bind.annotation.ContextParam;
 import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
+import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Label;
 
 import Model.DBConnection;
 import Model.DBOperations;
@@ -26,10 +28,12 @@ public class HomeVM {
 	@Init
 	public void init(@QueryParam("gr") int groupId) {
 		user = (User) Sessions.getCurrent().getAttribute("user");	
+		user.update();
 		group = (Group) Sessions.getCurrent().getAttribute("currentGroup");
 		
-		if(group ==null)
-			{Executions.sendRedirect("~/V3L/index.zul");}
+		if(group == null)
+			{Executions.sendRedirect("../home.zul");}
+		else group.computeGroupLists();
 	}
 
 	
@@ -44,11 +48,6 @@ public class HomeVM {
 		user.addFile(f);
 	}
 	
-	@Command
-	public void goToUser(@BindingParam("visitUser")User user){
-		Executions.sendRedirect("otherprofile.zul?us="
-				+ user.getId());
-	}
 	
 	@Command
 	public void Logout(){
@@ -58,5 +57,47 @@ public class HomeVM {
 	
 	public Group getGroup(){
 		return group;
+	}
+	
+	@Command
+	public void goToUser(@BindingParam("visitUser")User user){
+		Executions.sendRedirect("../otherprofile.zul?us="
+				+ user.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void leaveGroup(){
+		group = (Group) Sessions.getCurrent().getAttribute("currentGroup");
+		user.removeGroup(group);
+		Executions.sendRedirect("home.zul?gr="
+				+ group.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void joinGroup(){
+		group = (Group) Sessions.getCurrent().getAttribute("currentGroup");
+		user.addGroup(group);
+		Executions.sendRedirect("home.zul?gr="
+				+ group.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void addFriend(@BindingParam("visitUser")User usr){
+		user.addFriend(usr);
+		Executions.sendRedirect("home.zul?gr="
+				+ group.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void removeFriend(@BindingParam("visitUser")User usr){
+		if (user.removeFriend(usr) == 1)
+		{
+		user.computeUserLists();
+		Executions.sendRedirect("home.zul?gr=" + group.getId());
+		}
 	}
 }

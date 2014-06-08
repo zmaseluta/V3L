@@ -763,7 +763,7 @@ public class User {
 			statement.setString(4, Integer.toString(id));
 			ResultSet data = statement.executeQuery();
 			if (data.next()){
-				System.out.println("frindship exists");
+				System.out.println("friendship exists");
 				done = -1;
 			} else {
 				statement = (PreparedStatement) connection.prepareStatement(INSERT_USFRIENDS);
@@ -811,7 +811,7 @@ public class User {
 				//this.friends = getFriendList();
 				done = 1;
 			} else {
-				System.out.println("frindship doesn't exist");
+				System.out.println("friendship doesn't exist");
 				done = -1;
 			}
 			statement.close();

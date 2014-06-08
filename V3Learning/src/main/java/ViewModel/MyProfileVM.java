@@ -142,6 +142,14 @@ public class MyProfileVM {
 	}
 	
 	@Command
+	@NotifyChange("user")
+	public void removeFriend(@BindingParam("visitUser")User usr){
+		if (user.removeFriend(usr) == 1)
+		{user.computeUserLists();
+		Executions.sendRedirect("myprofile.zul");}
+	}
+	
+	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
 		Executions.sendRedirect("~/V3L/index.zul");
