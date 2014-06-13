@@ -26,12 +26,12 @@ public class Group {
 	private List<Event> events;
 	private List<File> files;
 	private List<File> videos;
-	private List<Post> posts;
 
-	public Group(DBConnection dbConnection, String name, int domainId, int creatorId, 
+	public Group(DBConnection dbConnection, int id, String name, int domainId, int creatorId, 
 			String description) {
 		this.dbConnection = dbConnection;
 		connection = dbConnection.getConnection();
+		this.id = id;
 		this.name = name;
 		this.domainId = domainId;
 		this.creatorId = creatorId;
@@ -121,20 +121,12 @@ public class Group {
 	public List<File> getVideos() {
 		return videos;
 	}
-	
-	/**
-	 * @return the posts
-	 */
-	public List<Post> getPosts() {
-		return posts;
-	}
 
 	public void computeGroupLists() {
 		members = getMemberList();
 		events = getEventList();
 		files = getFileList();
 		videos = getVideoList();
-		posts = getPostList();
 	}
 
 	/**
@@ -182,10 +174,10 @@ public class Group {
 			statement.setString(1, Integer.toString(id));
 			ResultSet data = statement.executeQuery();
 			while (data.next()) {
-				Event event = new Event(dbConnection, data.getString("name"), 
-	        			data.getInt("id_creator"), data.getInt("id_group"), 
-	        			data.getString("date"), data.getString("description"));
-	        	event.setId(data.getInt("id_event"));
+				Event event = new Event(dbConnection, data.getInt("id_event"), 
+						data.getString("name"), data.getInt("id_creator"), 
+						data.getInt("id_group"), data.getString("date"), 
+						data.getString("description"));
 	        	eventList.add(event);
 			}
 			statement.close();
@@ -246,10 +238,5 @@ public class Group {
 	        return null;
 	    }
 		return videoList;
-	}
-
-	private List<Post> getPostList() {
-		// TODO if necessary
-		return null;
 	}
 }

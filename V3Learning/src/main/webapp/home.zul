@@ -1,4 +1,4 @@
-<?page title="Home" contentType="text/html;charset=UTF-8"?>
+<?page title="V3L | Home" contentType="text/html;charset=UTF-8"?>
 <?style href="style.css" rel="stylesheet" type="text/css" ?>
 <?script type="text/javascript" src="js/jquery-1.3.2.min.js" ?>
 <?script type="text/javascript" src="js/script.js" ?>
@@ -38,10 +38,13 @@
 					<div class="menu_nav">
 						<h:ul>
 							<h:li class="active">
-								<a href="index.zul">Home</a>
+								<a href="#">Home</a>
 							</h:li>
 							<h:li>
 								<a href="myprofile.zul">My profile</a>
+							</h:li>
+							<h:li>
+								<a href="" onClick="@command('Logout')">Log out</a>
 							</h:li>
 						</h:ul>
 						<div class="clr"></div>
@@ -54,47 +57,33 @@
 					<div class="mainbar">
 						<div class="article">
 
-							<label value="Events" />
-							<listbox model="@bind(vm.user.events)">
-								<template name="model">
-									<listitem>
-										<listcell label="${each.name}"
-											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
+							<h:h3 class="star">Events:</h:h3>
+							<h:ul children="@bind(vm.user.events)">
+								<template name="children">
+									<h:li> 
+									<label value ="${each.name}"
+											tooltip="e${each.id}"/>
+									</h:li>
 								</template>
-							</listbox>
+							</h:ul>
 
-						</div>
-						<div class="article">
-
-							<label value="My Groups" />
-							<listbox model="@bind(vm.user.groups)">
-								<template name="model">
-									<listitem>
-										<listcell label="${each.name}"
-											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
-								</template>
-							</listbox>
-
-						</div>
-						<div class="article">
-							<label value="My Friends" />
-							<listbox model="@bind(vm.user.friends)">
-								<template name="model">
-									<listitem>
-										<listcell
-											label="${each.firstName}"
-											onClick="@command('openGroupPage', group = each)" />
-										<listcell
-											label="${each.lastName}"
-											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
-								</template>
-							</listbox>
-
-						</div>
+						<vlayout children="@bind(vm.user.events)">
+    						<template name="children" >
+								<popup id="e${each.id}" >
+									<label value ="${each.name}" />
+									<h:br />
+    								<label value="Date: " style="font-weight: bold;"/>
+ 									<label value="${each.date}"/>
+									<h:br />
+    								<label value="Event Description: " style="font-weight: bold;"/>
+ 									<label value="${each.description}"/>
+    							</popup>
+    					    </template>
+						</vlayout>
 					</div>
+						
+					</div>	
+						
 					<div class="sidebar">
 						<div class="gadget">
 
@@ -117,45 +106,82 @@
 							</div>
 						</div>
 						<div class="gadget">
-
 							<div>
-								<label
-									value="People you may want to know:" />
-								<listbox
-									model="@bind(vm.user.suggestedFriendsList)" onSelect="">
-									<template name="model">
-										<listitem>
-											<listcell
-												label="${each.firstName}"
-												onClick="@command('goToUser',visitUser = each)" />
-											<listcell
-												label="${each.lastName}"
-												onClick="@command('goToUser',visitUser = each)" />
-										</listitem>
-									</template>
-								</listbox>
+								 <h:h3 class="star">People you may want to know:</h:h3>
+								 
+							<div children="@bind(vm.user.suggestedFriendsList)">
+ 								<template name="children">
+									<div
+										visible="${(each.email ne vm.user.email) and (vm.user.isFriendWith(each) ne true) ? true : false}">
+									
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load(vm.user.isFriendWith(each) eq true ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+											</div>
+										</popup>
+									</div>
+								</template>
 							</div>
+						</div>
 						</div>
 						<div class="gadget">
 							<div>
-								<label
-									value="Suggested groups:" />
-								<listbox
-									model="@bind(vm.user.suggestedGroupsList)">
-									<template name="model">
-										<listitem>
-											<listcell
-												label="${each.name}"
-												onClick="@command('openGroupPage', group = each)" />
-										</listitem>
-									</template>
-								</listbox>
-							</div>
+								<!-- <label
+									value="Suggested groups:" /> -->
+								<h:h3 class="star">Suggested groups:</h:h3>
+								<h:ul
+								children="@bind(vm.user.suggestedGroupsList)">
+								<template name="children">
+									<h:li>
+									<label value="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" />
+									<popup id="g${each.id}">
+											<div>
+												<div
+													onClick="@command('openGroupPage', group = each)"> 
+													<label
+														value="${each.name}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Group Description: " style="font-weight: bold;"/>
+ 													<label value="${each.description}"/>
+												</div>
+												<button
+													label="Join Group"
+													onClick="@command('joinGroup', group = each)"
+													visible="@load(vm.user.isInGroup(each) eq true ? false : true)" />
+												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
+								</template>
+							</h:ul>
 						</div>
 					</div>
 					<div class="clr"></div>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </zk>

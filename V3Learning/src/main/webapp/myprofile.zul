@@ -36,11 +36,14 @@
 					<div class="clr"></div>
 					<div class="menu_nav">
 						<h:ul>
+							<h:li >
+								<a href="home.zul">Home</a>
+							</h:li>
 							<h:li class="active">
-								<a href="index.zul">Home</a>
+								<a href="myprofile.zul">My profile</a>
 							</h:li>
 							<h:li>
-								<a href="myprofile.zul">My profile</a>
+								<a href="" onClick="@command('Logout')">Log out</a>
 							</h:li>
 						</h:ul>
 						<div class="clr"></div>
@@ -51,43 +54,133 @@
 			<div class="content">
 				<div class="content_bg">
 					<div class="mainbar">
+						
 						<div class="article">
-
-							<label value="My Groups" />
-							<listbox model="@bind(vm.user.groups)">
-								<template name="model">
-									<listitem>
-										<listcell label="${each.name}"
-											onClick="@command('openGroupPage', group = each)" />
-									</listitem>
+							<h:h3>My Friends</h:h3>
+							<div
+								children="@load(vm.user.friends)">
+								<template name="children">
+									<div
+										visible="${each.email ne vm.user.email}">
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}"
+											onClick="@command('goToUser', visitUser = each)" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(vm.user.isFriendWith(each) eq false ? false : true)" />
+											</div>
+										</popup>
+									</div>
 								</template>
-							</listbox>
-
-						</div>
-						<div class="article">
-							<h:h2>My Skills</h:h2>
-							<div class="clr" />
-							<listbox model="@bind(vm.user.skills)">
-								<listhead>
-									<listheader>Domain</listheader>
-									<listheader>Skill</listheader>
-								</listhead>
-								<template name="model">
-									<listitem draggable="true"
-										id="${each.id }">
-										<listcell
-											label="${each.domainName}" />
-										<listcell label="${each.name}" />
-									</listitem>
+							</div>
+ 						</div>
+						
+					<div class="article">
+							<div>
+								<h:h3 class="star">My Groups:</h:h3>
+								<h:ul
+								children="@bind(vm.user.groups)">
+								<template name="children">
+									<h:li>
+									<label value="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" 
+											draggable="true"
+											id="${each.id }"/>
+									<popup id="g${each.id}">
+											<div>
+												<div
+													onClick="@command('openGroupPage', group = each)"> 
+													<label
+														value="${each.name}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Group Description: " style="font-weight: bold;"/>
+ 													<label value="${each.description}"/>
+												</div>
+												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+												<button
+													label="Leave Group"
+													onClick="@command('leaveGroup', group = each)"
+													visible="@load(vm.user.isInGroup(each) ? true : false" />
+												
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
 								</template>
-							</listbox>
-							<image src="images/icon_delete.jpg"
+							</h:ul>
+
+						<image src="images/icon_delete.jpg"
 								droppable="true"
-								onDrop="@command('removeSkill', skill = event.dragged)" />
+								onDrop="@command('leaveGroup', group = event.dragged)" 
+								width="75px"
+								tooltip = "leaveGr"/>
+						<popup id="leaveGr">
+							<label value = "Drag and drop group here to leave chosen group."/>
+						</popup>
+						</div>
+					</div>
+
+						
+						
+						<div class="article">
+							<div>
+								<h:h3 class="star">My Skills: </h:h3>
+								<h:ul
+								children="@bind(vm.user.skills)">
+								<template name="children">
+									<h:li>
+									<label value="${each.domainName} > ${each.name}"
+											tooltip="sk${each.id}" 
+											draggable="true"
+											id="${each.id }"/>
+									<popup id="sk${each.id}">
+											<div>
+												<div> 
+													<label
+														value="Domain: ${each.domainName}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Skill: ${each.name}" style="font-weight: bold;"/>
+												</div>
+												
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
+								</template>
+							</h:ul>
+
+						<image src="images/icon_delete.jpg"
+								droppable="true"
+								onDrop="@command('removeSkill', skill = event.dragged)" 
+								width="75px" 
+								tooltip = "removeSk"/>
+						<popup id="removeSk">
+							<label value = "Drag and drop skill here to remove chosen skill."/>
+						</popup>
 							<div class="clr" />
 						</div>
+					</div>
+						
+						
 						<div class="article">
-							<h:h2>Add a Skill</h:h2>
+							<h:h3>Add a Skill</h:h3>
 							<div class="clr" />
 							<groupbox>
 								<combobox model="@load(vm.domains)"
@@ -132,7 +225,8 @@
 							</vlayout>
 							<div id="about">
 								<h:h2 class="star">About</h:h2>
-
+								<image
+									src="@load(vm.user.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg')" width="275px"/>
 								<h:table>
 									<h:tr>
 										<h:td>Name:</h:td>

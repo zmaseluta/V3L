@@ -42,10 +42,10 @@
 					<div class="clr"></div>
 					<div class="menu_nav">
 						<h:ul>
-							<h:li class="active">
-								<a href="index.zul">Home</a>
-							</h:li>
 							<h:li>
+								<a href="home.zul">Home</a>
+							</h:li>
+							<h:li class="active">
 								<a href="login.zul">Login</a>
 							</h:li>
 							<h:li>
@@ -90,7 +90,10 @@
 										<h:td></h:td>
 										<h:td>
 											<button label="Login"
-												onClick="@command('googleLogIn')" />
+												onClick="@command('logIn')" />
+											<button label="GLogin" 
+												href="@bind(vm.loginUri)"
+												/>
 										</h:td>
 									</h:tr>
 								</h:table>

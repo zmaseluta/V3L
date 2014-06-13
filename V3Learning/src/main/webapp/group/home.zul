@@ -7,8 +7,8 @@
 <?script type="text/javascript" src="../js/cuf_run.js" ?>
 <?style rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Wellfleet"?>
 <!-- protect page by the authentication init  -->
-<!--<?init class="AuthenticationInit"?>
- authentication init have to locate before composition -->
+<?init class="AuthenticationInit"?>
+<!-- authentication init have to locate before composition -->
 <zk xmlns:h="native">
 	<div class="main" apply="org.zkoss.bind.BindComposer"
 		viewModel="@id('vm')@init('ViewModel.Groups.HomeVM')">
@@ -39,11 +39,30 @@
 				<div class="clr" />
 				<div class="menu_nav">
 					<h:ul>
-							<h:li class="active">
-								<a href="home.zul">Home</a>
+							<h:li>
+								<a href = "">
+									<label value="Leave Group"
+										onClick="@command('leaveGroup')"
+										visible="@load(user.isInGroup(currentGroup) eq true ? true : false)" />
+									<label value="Join Group"
+										onClick="@command('joinGroup')"
+										visible="@load(user.isInGroup(currentGroup) eq true ? false : true)" />
+								</a>
+							</h:li>
+							<h:li>
+								<a href="../home.zul">Home</a>
+							</h:li>
+							<h:li>
+								<a href="../myprofile.zul">My profile</a>
+							</h:li>
+							<h:li>
+								<a href="" onClick="@command('Logout')">Log out</a>
 							</h:li>
 						</h:ul>
 					<div class="clr" />
+							
+							<div class="clr" />
+																			
 				</div>
 			</div>
 			<div class="content">
@@ -98,28 +117,72 @@
 						</div>
 					</div>
 					<div class="sidebar">
-						<div class="gadget">
-							<h:h2 class="star">Members</h:h2>
-							<div class="clr" />
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="#">m 1</a>
-								</h:li>
-								<h:li>
-									<a href="#">m 2</a>
-								</h:li>
-								<h:li>
-									<a href="#">m 3</a>
-								</h:li>
-								<h:li>
-									<a href="#">m 4</a>
-								</h:li>
-								<h:li>
-									<a href="#">m 5</a>
-								</h:li>
+					<label class="star" value="@load(vm.group.name)" style="font: 28px bold, sans-serif;"/>
+					
+					<div class="gadget">
+
+							<h:h3 class="star">Calendar / Oncoming Events:</h:h3>
+							<h:ul children="@bind(vm.group.events)">
+								<template name="children">
+									<h:li> 
+									<label value ="${each.name}"
+											tooltip="e${each.id}"/>
+									</h:li>
+								</template>
 							</h:ul>
-						</div>
+
+						<vlayout children="@bind(vm.group.events)">
+    						<template name="children" >
+								<popup id="e${each.id}" >
+									<label value ="${each.name}" />
+									<h:br />
+    								<label value="Date: " style="font-weight: bold;"/>
+ 									<label value="${each.date}"/>
+									<h:br />
+    								<label value="Event Description: " style="font-weight: bold;"/>
+ 									<label value="${each.description}"/>
+    							</popup>
+    					    </template>
+						</vlayout>
+					</div>
 						
+						
+					<div class="gadget">
+							<h:h3>Members: </h:h3>
+							<div
+								children="@load(vm.group.members)">
+								<template name="children">
+									<div>
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}" 
+											onClick="@command('goToUser', visitUser = each)" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load((user.isFriendWith(each) eq true) or ((each.id eq user.id) eq true) ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(user.isFriendWith(each) eq false ? false : true)" />
+											</div>
+										</popup>
+									</div>
+								</template>
+							</div>
+ 						</div>
 					</div>
 					<div class="clr" />
 				</div>
@@ -135,4 +198,5 @@
 			<div class="clr" />
 		</div>
 	</div>
+	
 </zk>

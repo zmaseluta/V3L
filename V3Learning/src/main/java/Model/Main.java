@@ -182,6 +182,61 @@ public class Main {
 		for(int i=0; i < users2.size(); i++) {
 			System.out.println(users2.get(i).getId());
 		}
+		Skill skill = dbo.getSkill("Nonverbal");
+		System.out.println(skill.getDomainName());
+		*/
+		
+		//User us = dbo.login("vm@mail.com", "mona");
+		
+		/*
+		int val = us.createGroup("NewGroup2", 1, "test");
+		System.out.println(val);
+		us.computeUserLists();
+		List<Group> gr = us.getSuggestedGroupsList();
+		if(gr != null){
+			for(int i=0; i<gr.size(); i++){
+				System.out.println(gr.get(i).getName());
+			}
+		}
+		List<User> fr = us.getSuggestedFriendsList();
+		if(fr != null){
+			for(int i=0; i<fr.size(); i++){
+				System.out.println(fr.get(i).getFirstName());
+			}
+		}
+		
+		
+		//List<Event> evL = dbo.searchEvent("ciorba");
+		//Event e = evL.get(0);
+		//int val = us.postInEvent(e, "Nu-mi place ciorba!");
+		//System.out.println(val);
+		//e.computeEventLists();
+		//Post p = e.getPosts().get(0);
+		//System.out.println(p.getContent());
+		//int val = us.commentPost(p, "Ba nu!");
+		//System.out.println(val);
+		//p.computePostLists();
+		//Comment c = p.getComments().get(0);
+		//System.out.println(c.getContent());
+		//c = p.getComments().get(2);
+		//System.out.println(c.getContent());
+		//int val = us.deletePostComment(c);
+		//System.out.println(val);
+		//val = us.deletePostFromEvent(p);
+		//System.out.println(val);
+		//int val = us.postInEvent(e, "Ciorba e buna!");
+		//System.out.println(val);
+		//p = e.getPosts().get(2);
+		//System.out.println(p.getContent());
+		//int val = us.deletePostFromEvent(p);
+		//System.out.println(val);
+		
+		//us.computeUserLists();
+		//System.out.println(us.getPicURL());
+		//us.setPicURL("bbbbbbbbbbbb");
+		//us.update();
+		//System.out.println(us.getPicURL());
+		
 		
 		System.out.println(dbc.closeConnection());
 		System.out.println(dbc.getIsConnected());

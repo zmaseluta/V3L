@@ -1,4 +1,4 @@
-<?page title="V3L | Login" contentType="text/html;charset=UTF-8"?>
+<?page title="V3L | Friend Profile" contentType="text/html;charset=UTF-8"?>
 <?style href="style.css" rel="stylesheet" type="text/css" ?>
 <?script type="text/javascript" src="js/jquery-1.3.2.min.js" ?>
 <?script type="text/javascript" src="js/script.js" ?>
@@ -8,8 +8,10 @@
 <!-- protect page by the authentication init  -->
 <?init class="AuthenticationInit"?>
 <!-- authentication init have to locate before composition -->
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
 <zk xmlns:h="native">
-	<div class="main">
+	<div class="main" apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm')@init('ViewModel.OthersVM')">
 		<div class="main_resize">
 			<div class="header">
 				<div class="logo">
@@ -17,28 +19,30 @@
 						<a href="#">V3L</a>
 					</h:h1>
 				</div>
-				
+
 				<div class="search">
-						<groupbox>
-							<span>
-								<textbox value="Search..." name="s"
-									id="s" />
-								<image onClick="@command(search)"
-									src="images/search.gif" id="searchsubmit" class="btn" />
-							</span>
-						</groupbox>
-						<!--/searchform -->
-						<div class="clr"></div>
-					</div>
+					<groupbox>
+						<span>
+							<textbox value="Search..." name="s" id="s" />
+							<image onClick="@command(search)"
+								src="images/search.gif" id="searchsubmit" class="btn" />
+						</span>
+					</groupbox>
+					<!--/searchform -->
+					<div class="clr"></div>
+				</div>
 
 				<div class="clr" />
 				<div class="menu_nav">
 					<h:ul>
-							<h:li class="active">
-								<a href="index.zul">Home</a>
+							<h:li>
+								<a href="home.zul">Home</a>
 							</h:li>
 							<h:li>
 								<a href="myprofile.zul">My profile</a>
+							</h:li>
+							<h:li>
+								<a href="" onClick="@command('Logout')">Log out</a>
 							</h:li>
 						</h:ul>
 					<div class="clr" />
@@ -48,123 +52,184 @@
 				<div class="content_bg">
 					<div class="mainbar">
 						<div class="article">
-							<h:h2>Profile Page</h:h2>
-							<div class="clr" />
-							<div>
-								<image src="images/pic_2.jpg"
-									width="90" />
-							</div>
-							<div style="width:400px">
-								<h:h2>First Last Name</h:h2>
-								<div class="starRate">
-									<div>Currently rated: 3 stars<h:b></h:b></div>
-									<h:ul>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 5 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 4 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 3 stars</h:span><h:b></h:b>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 2 stars</h:span>
-											</a>
-										</h:li>
-										<h:li>
-											<a href="#">
-												<h:span>Give it 1 star</h:span>
-											</a>
-										</h:li>
-									</h:ul>
+							<hlayout>
+								<div>
+									<image src="images/pic_2.jpg"
+										width="90" />
 								</div>
-							</div>
-
+								<div style="width:400px">
+									<label
+										value="@bind(c:cat3(vm.visitedUser.firstName,' ',vm.visitedUser.lastName))" />
+									<div class="starRate">
+										<div>
+											Currently rated: 3 stars
+											<h:b></h:b>
+										</div>
+										<h:ul>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 5 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 4 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 3 stars
+													</h:span>
+													<h:b></h:b>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 2 stars
+													</h:span>
+												</a>
+											</h:li>
+											<h:li>
+												<a href="#">
+													<h:span>
+														Give it 1 star
+													</h:span>
+												</a>
+											</h:li>
+										</h:ul>
+									</div>
+								</div>
+							</hlayout>
 
 							<div class="clr" />
 						</div>
 						<div class="article">
-							<h:h3>Description</h:h3>
-							<div class="clr" />
-							<div>Lorem ipsum dolor sit amet</div>
-							<div class="clr" />
-						</div>
-
-						<div class="article">
-							<h:h2>Held courses</h:h2>
+							<h:h3>
+								About <label
+									value="@load(vm.visitedUser.firstName)" />
+							</h:h3>
 							<div class="clr" />
 							<div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
-								<div>Short Description</div>
+								<!-- <window apply="Components.PieDonutComposer">
+								    <charts type="pie" id="chart" title="Browser market share, April, 2011"/>
+								</window> -->
+							</div>
+							<div class="clr" />
+						</div>
+
+						<div class="article">
+							<h:h3>Held courses</h:h3>
+							<div class="clr" />
+							<div
+								children="@load(vm.visitedUser.courses)">
+								<template name="children">
+									<div>
+										<h:h3>
+											<label value="${each.name}" />
+										</h:h3>
+										<h:p style="padding-left:40px;">
+											<label
+												value="${each.date}: " />
+											<label
+												value="${each.description}" />
+										</h:p>
+									</div>
+								</template>
 							</div>
 							<div class="clr"></div>
 						</div>
+						
+					</div>
+					<div class="sidebar">
 						<div class="article">
-							<h:h2>Friends</h:h2>
-							<div class="clr" />
 							<div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
-								<div>Name Image</div>
+								<h:h3>
+								<label
+									value="@load(vm.visitedUser.firstName)" />
+								's groups
+							</h:h3>
+								<h:ul
+								children="@bind(vm.visitedUser.groups)">
+								<template name="children">
+									<h:li>
+									<label value="${each.name}"
+											onClick="@command('openGroupPage', group = each)" 
+											tooltip="g${each.id}" />
+									<popup id="g${each.id}">
+											<div>
+												<div
+													onClick="@command('openGroupPage', group = each)"> 
+													<label
+														value="${each.name}" style="font-weight: bold;"/>
+													<div class="clr"></div>
+													<label value="Group Description: " style="font-weight: bold;"/>
+ 													<label value="${each.description}"/>
+												</div>
+												<button
+													label="Join Group"
+													onClick="@command('joinGroup', group = each)"
+													visible="@load(vm.visitedUser.isInGroup(each) eq true ? false : true)" />
+												<button
+													label="View Group Page"
+													onClick="@command('openGroupPage', group = each)" />
+											</div>
+										</popup>
+									<div class="clr"></div>
+									</h:li>
+								</template>
+							</h:ul>
+
+						</div>
+					</div>
+						<div class="gadget">
+						<div class="star">
+							<h:h3>
+								<label
+									value="@load(vm.visitedUser.firstName)" />
+								's friends
+							</h:h3>
+							<div class="clr" />
+							<div
+								children="@load(vm.visitedUser.friends)">
+								<template name="children">
+									<div>
+										<image width="50px"
+											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+											tooltip="us${each.id}" />
+										<popup id="us${each.id}">
+											<div>
+												<div
+													onClick="@command('goToUser', visitUser = each)">
+													<label
+														value="${each.firstName}" />
+													<label
+														value="${each.lastName}" />
+												</div>
+												<button
+													label="Add friend"
+													onClick="@command('addFriend', visitUser = each)"
+													visible="@load((user.isFriendWith(each) eq true) or ((each.id eq user.id) eq true) ? false : true)" />
+												<button
+													label="View Profile"
+													onClick="@command('goToUser', visitUser = each)" />
+												<button
+													label="Remove friend"
+													onClick="@command('removeFriend', visitUser = each)"
+													visible="@load(user.isFriendWith(each) eq false ? false : true)" />
+											</div>
+										</popup>
+									</div>
+								</template>
 							</div>
 							<div class="clr" />
 						</div>
-					</div>
-					<div class="sidebar">
-						<div class="gadget">
-							<h:h2 class="star">Groups</h:h2>
-							<div class="clr" />
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="#">Group 1</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 2</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 3</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 4</a>
-								</h:li>
-								<h:li>
-									<a href="#">Group 5</a>
-								</h:li>
-							</h:ul>
-						</div>
-						<div class="gadget">
-							<h:h2 class="star">Friends</h:h2>
-							<div class="clr" />
-							<h:ul class="sb_menu">
-								<h:li>
-									<a href="#">Friend 1</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 2</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 3</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 4</a>
-								</h:li>
-								<h:li>
-									<a href="#">Friend 5</a>
-								</h:li>
-							</h:ul>
+						
 						</div>
 					</div>
 					<div class="clr" />

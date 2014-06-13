@@ -12,6 +12,7 @@ import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zul.Label;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
@@ -79,8 +80,6 @@ public class MyProfileVM {
 		setUser((User) Sessions.getCurrent().getAttribute("user"));
 		skills = user.getSkills();
 		user.computeUserLists();
-
-		System.out.println("register...");
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
 		System.out.println(dbc.getIsConnected());
@@ -102,6 +101,8 @@ public class MyProfileVM {
 	public void addSkill() {
 		user.addSkill(selectedSkill);
 		user.update();
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
 	}
 
 	@Command
@@ -114,12 +115,43 @@ public class MyProfileVM {
 	@Command
 	public void openGroupPage(@BindingParam("group") Group group) {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
-		Executions.sendRedirect("group/home.zul");
+		Executions.sendRedirect("group/home.zul?gr="+group.getId());
 	}
 	@Command
 	@NotifyChange("user")
-	public void removeSkill(@BindingParam("skill") Listitem removedSkill){
+	public void removeSkill(@BindingParam("skill") Label removedSkill){
 		user.removeSkill(removedSkill.getId());
 		System.out.println(removedSkill.getId());
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
+	}
+	
+	@Command
+	public void goToUser(@BindingParam("visitUser")User user){
+		Executions.sendRedirect("otherprofile.zul?us="
+				+ user.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void leaveGroup(@BindingParam("group")Label removedGroup){
+		user.removeGroup(removedGroup.getId());
+		System.out.println(removedGroup.getId());
+		Executions.sendRedirect("myprofile.zul?us="
+				+ user.getId());
+	}
+	
+	@Command
+	@NotifyChange("user")
+	public void removeFriend(@BindingParam("visitUser")User usr){
+		if (user.removeFriend(usr) == 1)
+		{user.computeUserLists();
+		Executions.sendRedirect("myprofile.zul");}
+	}
+	
+	@Command
+	public void Logout(){
+		Sessions.getCurrent().getAttributes().clear();
+		Executions.sendRedirect("~/V3L/index.zul");
 	}
 }

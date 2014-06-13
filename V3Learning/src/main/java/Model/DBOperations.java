@@ -255,10 +255,9 @@ public class DBOperations {
 	    	statement.setString(1, Integer.toString(d.getId()));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Group group = new Group(dbConnection, data.getString("name"), 
-	        			data.getInt("id_domain"), data.getInt("id_creator"), 
-	        			data.getString("description"));
-	        	group.setId(data.getInt("id_group"));
+	        	Group group = new Group(dbConnection, data.getInt("id_group"), 
+	        			data.getString("name"), data.getInt("id_domain"), 
+	        			data.getInt("id_creator"), data.getString("description"));
 	        	groupList.add(group);
 	        }      
 	        statement.close();
@@ -281,10 +280,10 @@ public class DBOperations {
 	    	statement.setString(1, Integer.toString(g.getId()));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Event event = new Event(dbConnection, data.getString("name"), 
-	        			data.getInt("id_creator"), data.getInt("id_group"), 
-	        			data.getString("date"), data.getString("description"));
-	        	event.setId(data.getInt("id_event"));
+	        	Event event = new Event(dbConnection, data.getInt("id_event"), 
+	        			data.getString("name"), data.getInt("id_creator"), 
+	        			data.getInt("id_group"), data.getString("date"), 
+	        			data.getString("description"));
 	        	eventList.add(event);
 	        }      
 	        statement.close();
@@ -532,10 +531,9 @@ public class DBOperations {
 	    			(PreparedStatement) connection.prepareStatement(STATEMENT);
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Group group = new Group(dbConnection, data.getString("name"), 
-	        			data.getInt("id_domain"), data.getInt("id_creator"), 
-	        			data.getString("description"));
-	        	group.setId(data.getInt("id_group"));
+	        	Group group = new Group(dbConnection, data.getInt("id_group"), 
+	        			data.getString("name"), data.getInt("id_domain"), 
+	        			data.getInt("id_creator"), data.getString("description"));
 	        	groupList.add(group);
 	        }      
 	        statement.close();
@@ -610,10 +608,10 @@ public class DBOperations {
 	    			(PreparedStatement) connection.prepareStatement(STATEMENT);
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Event event = new Event(dbConnection, data.getString("name"), 
-	        			data.getInt("id_creator"), data.getInt("id_group"), 
-	        			data.getString("date"), data.getString("description"));
-	        	event.setId(data.getInt("id_event"));
+	        	Event event = new Event(dbConnection, data.getInt("id_event"), 
+	        			data.getString("name"), data.getInt("id_creator"), 
+	        			data.getInt("id_group"), data.getString("date"), 
+	        			data.getString("description"));
 	        	eventList.add(event);
 	        }      
 	        statement.close();

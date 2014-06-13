@@ -54,5 +54,18 @@ public class DBOperationsTest {
 		assertTrue("Domeniul cautat sa fie in lista tuturor domeniilor.", verif);
 		
 	}
+	
+	@Test
+	public void testGetAllUsersInGroup() {
+		DBConnection dbc = new DBConnection();
+		dbc.connectToDB();
+		DBOperations dbo = new DBOperations(dbc);
+		List<Group> searchG = dbo.searchGroup("NewGroup"); 
+		List<User> userInG = dbo.getAllUsersInGroup(searchG.get(0));
+		assertNotNull("Grupul cautat are membri.", userInG);
+		assertEquals("Grupul cautat are id-ul dat.", 8, searchG.get(0).getId());
+		
+	}
+
 
 }

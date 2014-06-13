@@ -1,4 +1,4 @@
-<?page title="index" contentType="text/html;charset=UTF-8"?>
+<?page title="V3L" contentType="text/html;charset=UTF-8"?>
 <?init class="org.zkoss.zk.ui.util.Composition" arg0="/components/template.zul"?>
 <?style href="style.css" rel="stylesheet" type="text/css" ?>
 <?script type="text/javascript" src="js/jquery-1.3.2.min.js" ?>

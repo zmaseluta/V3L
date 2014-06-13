@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,8 +15,8 @@ public class User {
 	private static final String SELECT_RANK_USRANK = "SELECT rank FROM UsRank "
 			+ "WHERE id_receiver = ?;";
 	private static final String UPDATE_USER = "UPDATE User SET last_name = ?, first_name = ?, "
-			+ "email = ?, password = ?, birthday_date = ?, rank = ?, is_valid = ?, is_public = ?, "
-			+ "account_type = ? WHERE User.id_user = ?;";
+			+ "email = ?, password = ?, url_img = ?, birthday_date = ?, rank = ?, is_valid = ?, "
+			+ "is_public = ?, account_type = ? WHERE User.id_user = ?;";
 	private static final String IDRANK_USRANK = "SELECT id_rank FROM UsRank "
 			+ "WHERE (id_receiver = ? AND id_giver = ?);";
 	private static final String UPDATE_USRANK = "UPDATE UsRank SET rank = ? "
@@ -99,8 +100,23 @@ public class User {
 			+ "OR (id_user IN (SELECT id_user2 FROM UsFriends WHERE id_user1 = ?))) "
 			+ "AND((id_user NOT IN (SELECT id_user1 FROM UsFriends WHERE id_user2 = ?)) "
 			+ "OR (id_user NOT IN (SELECT id_user2 FROM UsFriends WHERE id_user1 = ?))));";
+	private static final String INSERT_POST = "INSERT INTO Posts "
+			+ "(id_post, id_user, id_event, data_post, content_post) "
+			+ "VALUES (NULL, ?, ? , ?, ?);";
+	private static final String INSERT_COMMENT = "INSERT INTO Comments "
+			+ "(id_comment, id_user, id_post, data_comment, content_comment) "
+			+ "VALUES (NULL, ?, ? , ?, ?);";
+	private static final String SEARCH_USER_POST = "SELECT id_post FROM Posts"
+			+ "WHERE (id_post = ? AND id_user = ?);";
+	private static final String DELETE_POST = "DELETE FROM Posts "
+			+ "WHERE (id_post = ? AND id_user = ?);";
+	private static final String SEARCH_USER_COMMENT = "SELECT id_comment FROM Comments"
+			+ "WHERE (id_comment = ? AND id_user = ?);";
+	private static final String DELETE_COMMENT = "DELETE FROM Comments "
+			+ "WHERE (id_comment = ? AND id_user = ?);";
+	private static final String USER_PICTURE = "SELECT * FROM User WHERE id_user = ?;";
 	
-	private DBConnection dbConnection;
+	private DBConnection dbConnection;;
 	private Connection connection;
 	
 	private int id;
@@ -121,6 +137,7 @@ public class User {
 	private List<Group> groups;
 	private List<Event> events;
 	private List<Event> courses;
+	private String picURL;
 	
 	/**
 	 * id, email, rank, age, rankNoUsers, isValid, type, skills, friends, groups, events, courses
@@ -322,7 +339,25 @@ public class User {
 	public List<Event> getCourses() {
 		return courses;
 	}
+	
+	/**
+	 * @return the picURL
+	 */
+	public String getPicURL() {
+		return picURL;
+	}
+	
+	/**
+	 * @param picURL the picURL to set
+	 */
+	public void setPicURL(String picURL) {
+		if (picURL!= null) this.picURL = picURL;
+		else this.picURL = "http://www.strangehistory.net/blog/wp-content/uploads/2014/05/black-dog.jpg";
+	}
 
+	public String getGender() {
+		return "F";
+	}
 	/**
 	 * computes age from birthDate
 	 * returns age
@@ -456,14 +491,38 @@ public class User {
 		return friendList;
 	}
 	
+	/**
+	 * computes user lists & gets picURL from DB 	
+	*/
 	public void computeUserLists() {
 		skills = getSkillList();
 		friends = getFriendList();
 		groups = getGroupList();
 		events = getEventList();
 		courses = getCourseList();
+		picURL = getPictureURL();
 	}
 	
+	/**
+	 * returns picture URL from DB
+	 */
+	private String getPictureURL() {
+		String url = "";
+		try {
+	    	PreparedStatement statement = 
+	    			(PreparedStatement) connection.prepareStatement(USER_PICTURE);
+	    	statement.setString(1, Integer.toString(id));
+	        ResultSet data = statement.executeQuery();
+	        data.next();
+	        url = data.getString("url_img");
+	        statement.close();
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	        return null;
+	    }
+		return url;
+	}
+
 	/**
 	 * returns course list for current user
 	 * returns null if unsuccessful
@@ -476,10 +535,10 @@ public class User {
 	    	statement.setString(1, Integer.toString(id));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Event event = new Event(dbConnection, data.getString("name"), 
-	        			data.getInt("id_creator"), data.getInt("id_group"), 
-	        			data.getString("date"), data.getString("description"));
-	        	event.setId(data.getInt("id_event"));
+	        	Event event = new Event(dbConnection, data.getInt("id_event"), 
+	        			data.getString("name"), data.getInt("id_creator"), 
+	        			data.getInt("id_group"), data.getString("date"), 
+	        			data.getString("description"));
 	        	courseList.add(event);
 	        }      
 	        statement.close();
@@ -502,10 +561,10 @@ public class User {
 	    	statement.setString(1, Integer.toString(id));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Event event = new Event(dbConnection, data.getString("name"), 
-	        			data.getInt("id_creator"), data.getInt("id_group"), 
-	        			data.getString("date"), data.getString("description"));
-	        	event.setId(data.getInt("id_event"));
+	        	Event event = new Event(dbConnection, data.getInt("id_event"), 
+	        			data.getString("name"), data.getInt("id_creator"), 
+	        			data.getInt("id_group"), data.getString("date"), 
+	        			data.getString("description"));
 	        	eventList.add(event);
 	        }      
 	        statement.close();
@@ -528,10 +587,9 @@ public class User {
 	    	statement.setString(1, Integer.toString(id));
 	        ResultSet data = statement.executeQuery();
 	        while(data.next()){
-	        	Group group = new Group(dbConnection, data.getString("name"), 
-	        			data.getInt("id_domain"), data.getInt("id_creator"), 
-	        			data.getString("description"));
-	        	group.setId(data.getInt("id_group"));
+	        	Group group = new Group(dbConnection, data.getInt("id_group"), 
+	        			data.getString("name"), data.getInt("id_domain"), 
+	        			data.getInt("id_creator"), data.getString("description"));
 	        	groupList.add(group);
 	        }      
 	        statement.close();
@@ -595,12 +653,13 @@ public class User {
 			statement.setString(2 , firstName);
 			statement.setString(3 , email);
 			statement.setString(4 , password);
-			statement.setString(5 , birthDate.toString());
-			statement.setString(6 , Float.toString(rank));
-			statement.setString(7 , Integer.toString(isValid));
-			statement.setString(8 , Integer.toString(isPublic));
-			statement.setString(9 , type);
-			statement.setString(10 , Integer.toString(id));
+			statement.setString(5 , picURL);
+			statement.setString(6 , birthDate.toString());
+			statement.setString(7 , Float.toString(rank));
+			statement.setString(8 , Integer.toString(isValid));
+			statement.setString(9 , Integer.toString(isPublic));
+			statement.setString(10 , type);
+			statement.setString(11 , Integer.toString(id));
 			statement.executeUpdate();
 			done = 1;
 			statement.close();
@@ -704,7 +763,7 @@ public class User {
 			statement.setString(4, Integer.toString(id));
 			ResultSet data = statement.executeQuery();
 			if (data.next()){
-				System.out.println("frindship exists");
+				System.out.println("friendship exists");
 				done = -1;
 			} else {
 				statement = (PreparedStatement) connection.prepareStatement(INSERT_USFRIENDS);
@@ -752,7 +811,7 @@ public class User {
 				//this.friends = getFriendList();
 				done = 1;
 			} else {
-				System.out.println("frindship doesn't exist");
+				System.out.println("friendship doesn't exist");
 				done = -1;
 			}
 			statement.close();
@@ -1276,10 +1335,9 @@ public class User {
 		    	statement.setString(2, Integer.toString(id));
 		        ResultSet data = statement.executeQuery();
 		        while(data.next()){
-		        	Group group = new Group(dbConnection, data.getString("name"), 
-		        			data.getInt("id_domain"), data.getInt("id_creator"), 
-		        			data.getString("description"));
-		        	group.setId(data.getInt("id_group"));
+		        	Group group = new Group(dbConnection, data.getInt("id_group"), 
+		        			data.getString("name"), data.getInt("id_domain"), 
+		        			data.getInt("id_creator"), data.getString("description"));
 		        	groupList.add(group);
 		        }      
 		        statement.close();
@@ -1290,34 +1348,138 @@ public class User {
 	    }
 		return groupList;
 	}
-	
-	public int postOnWall(String message) {
-		//TODO if necessary
-		return 0;
-	}
-	
-	public int commentPost(Post p, String message) {
-		//TODO if necessary
-		return 0;
-	}
-	
-	public int deletePostFromWall(Post p) {
-		//TODO if necessary
-		return 0;
-	}
-	
-	public int deletePostComment(Comment c) {
-		//TODO if necessary
-		return 0;
-	}
 
+	/**
+	 * adds post with current date & time to event in DB
+	 * updates event post list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int postInEvent(Event e, String message) {
+		int done = 0;
+		try {
+			String today = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(
+					Calendar.getInstance().getTime());
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(INSERT_POST);
+			statement.setString(1, Integer.toString(id));
+			statement.setString(2, Integer.toString(e.getId()));
+			statement.setString(3, today);
+			statement.setString(4, message);
+			statement.executeUpdate();
+			e.computeEventLists();
+			done = 1;
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * adds comment with current date & time to post in DB
+	 * updates post comment list
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int commentPost(Post p, String message) {
+		int done = 0;
+		try {
+			String today = new SimpleDateFormat("yyyy-MM-dd HH:MM:ss").format(
+					Calendar.getInstance().getTime());
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(INSERT_COMMENT);
+			statement.setString(1, Integer.toString(id));
+			statement.setString(2, Integer.toString(p.getId()));
+			statement.setString(3, today);
+			statement.setString(4, message);
+			statement.executeUpdate();
+			p.computePostLists();
+			done = 1;
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * if post created by current user, deletes post from DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int deletePostFromEvent(Post p) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(DELETE_POST);
+			statement.setString(1, Integer.toString(p.getId()));
+			statement.setString(2, Integer.toString(id));
+			statement.executeUpdate();
+			done = 1;
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
+	/**
+	 * if comment created by current user, deletes comment from DB
+	 * returns 1 if successful
+	 * else returns 0
+	*/
+	public int deletePostComment(Comment c) {
+		int done = 0;
+		try {
+			PreparedStatement statement = 
+					(PreparedStatement) connection.prepareStatement(DELETE_COMMENT);
+			statement.setString(1, Integer.toString(c.getId()));
+			statement.setString(2, Integer.toString(id));
+			statement.executeUpdate();
+			done = 1;
+			statement.close();
+		} catch (SQLException ex) {
+			System.out.println("SQLException: " + ex.getMessage());
+			done = 0;
+		}
+		return done;
+	}
+	
 	public void removeSkill(String id) {
 		for(Skill skill : skills){
-			if(skill.getId() == Integer.parseInt(id))
-			{
-				removeSkill(skill);
+		 	if(skill.getId() == Integer.parseInt(id)) {
+		 		removeSkill(skill);
+		 	}
+		}
+	}
+	
+	public void removeGroup(String id) {
+		for(Group group : groups){
+		 	if(group.getId() == Integer.parseInt(id)) {
+		 		removeGroup(group);
+		 	}
+		}
+	}
+	
+	public boolean isFriendWith(User other){
+		for(User friend:this.friends){
+			if(other.email.equals(friend.email)){
+				return true;
 			}
 		}
-		
+		return false;
+	}
+	
+	public boolean isInGroup(Group newG){
+		for(Group listGroups:this.groups){
+			if(newG.getId() == listGroups.getId()){
+				return true;
+			}
+		}
+		return false;
 	}
 }

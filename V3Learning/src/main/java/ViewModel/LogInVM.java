@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.zkoss.bind.annotation.Command;
+import org.zkoss.bind.annotation.Init;
 import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.Session;
 import org.zkoss.zk.ui.Sessions;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeTokenRequest;
@@ -32,24 +34,35 @@ public class LogInVM {
 	private static final JsonFactory JSON_FACTORY = new JacksonFactory();
 	private static final String CLIENT_ID = "87237935165-ct20udmnvvbvgm6krkv1sk0gi6ll2n05.apps.googleusercontent.com";
 	private static final String CLIENT_SECRET = "D7UurwYg84ToKMNH4chsrc30";
-	
+	private final GoogleAuthHelper helper = new GoogleAuthHelper();
+
 	private String emailadress;
 	private String password;
-	
+	private String loginUri;
+
+	@Init
+	public void Init() {
+		setLoginUri(helper.buildLoginUrl());
+	}
+
 	public String getEmailadress() {
 		return emailadress;
 	}
+
 	public void setEmailadress(String emailadress) {
 		this.emailadress = emailadress;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
-	}	
+	}
+
 	@Command("logIn")
-	public void logIn(){
+	public void logIn() {
 		System.out.println("login...");
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
@@ -58,64 +71,27 @@ public class LogInVM {
 		DBOperations dbo = new DBOperations(dbc);
 		User user;
 		user = dbo.login(emailadress, password);
-		//System.out.println(dbc.closeConnection());
-		if(user!=null){
-		Sessions.getCurrent().setAttribute("user", user);
-		
-		//-------------------------------------------
-		//TODO Diana -> this is not safe!, only for demo purpose
-		Sessions.getCurrent().setAttribute("dbConnection", dbc);
-		Sessions.getCurrent().setAttribute("dbOperations", dbo);
-		//-------------------------------------------
-		
-		Executions.sendRedirect("myprofile.zul");
+		// System.out.println(dbc.closeConnection());
+		if (user != null) {
+			user.computeUserLists();
+			Sessions.getCurrent().setAttribute("user", user);
+
+			// -------------------------------------------
+			// TODO Diana -> this is not safe!, only for demo purpose
+			Sessions.getCurrent().setAttribute("dbConnection", dbc);
+			Sessions.getCurrent().setAttribute("dbOperations", dbo);
+			// -------------------------------------------
+
+			Executions.sendRedirect("home.zul");
 		}
 	}
-	
-	@Command("googleLogIn")
-	public void googleLogIn() throws IOException{
-		
-		HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
-		InputStream inputStream = request.getInputStream();
-		ByteArrayOutputStream resultStream = new ByteArrayOutputStream();
-	    getContent(inputStream, resultStream);
-	    String code = new String(resultStream.toByteArray(), "UTF-8");
-		System.out.println(request.getRequestURI());
-	 	 GoogleTokenResponse tokenResponse =
-		          new GoogleAuthorizationCodeTokenRequest(TRANSPORT, JSON_FACTORY,
-		              CLIENT_ID, CLIENT_SECRET, code, "postmessage").execute();
-		      // Create a credential representation of the token data.
-		      GoogleCredential credential = new GoogleCredential.Builder()
-		          .setJsonFactory(JSON_FACTORY)
-		          .setTransport(TRANSPORT)
-		          .setClientSecrets(CLIENT_ID, CLIENT_SECRET).build()
-		          .setFromTokenResponse(tokenResponse);
-		      /*
-		      // Build credential from stored token data.
-		      GoogleCredential credential = new GoogleCredential.Builder()
-		          .setJsonFactory(JSON_FACTORY)
-		          .setTransport(TRANSPORT)
-		          .setClientSecrets(CLIENT_ID, CLIENT_SECRET).build()
-		          .setFromTokenResponse(JSON_FACTORY.fromString(
-		              tokenData, GoogleTokenResponse.class));
-		      // Create a new authorized API client.
-		      Plus service = new Plus.Builder(TRANSPORT, JSON_FACTORY, credential)
-		          .setApplicationName(APPLICATION_NAME)
-		          .build();
-		      // Get a list of people that this user has shared with this app.
-		      PeopleFeed people = service.people().list("me", "visible").execute();*/
+
+	public String getLoginUri() {
+		return loginUri;
 	}
-	
-	 
-	    static void getContent(InputStream inputStream, ByteArrayOutputStream outputStream)
-	        throws IOException {
-	      // Read the response into a buffered stream
-	      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-	      int readChar;
-	      while ((readChar = reader.read()) != -1) {
-	        outputStream.write(readChar);
-	      }
-	      reader.close();
-	    }
-	  
+
+	public void setLoginUri(String loginUri) {
+		this.loginUri = loginUri;
+	}
+
 }
