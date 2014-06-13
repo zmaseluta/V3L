@@ -10,6 +10,7 @@ import org.zkoss.zk.ui.Sessions;
 
 import Model.Group;
 import Model.User;
+import Model.Event;
 
 public class HomeVM {
 	private User user;
@@ -37,6 +38,12 @@ public class HomeVM {
 	public void openGroupPage(@BindingParam("group") Group group) {
 		Sessions.getCurrent().setAttribute("currentGroup", group);
 		Executions.sendRedirect("group/home.zul?gr="+group.getId());
+	}
+	
+	
+	@Command
+	public void openEventPage(@BindingParam("event") Event event) {
+		Executions.sendRedirect("event.zul");
 	}
 	
 	@Command
