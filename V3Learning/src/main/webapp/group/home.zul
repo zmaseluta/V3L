@@ -15,147 +15,165 @@
 		<div class="main_resize">
 			<div class="header">
 				<div class="logo">
-				<fileupload label="Upload" onUpload="@command('upload')">
-					  
+					<fileupload label="Upload"
+						onUpload="@command('upload')">
+
 					</fileupload>
 					<h:h1>
 						<a href="#">V3L</a>
 					</h:h1>
 				</div>
-				
+
 				<div class="search">
-						<groupbox>
-							<span>
-								<textbox value="Search..." name="s"
-									id="s" />
-								<image onClick="@command(search)"
-									src="../images/search.gif" id="searchsubmit" class="btn" />
-							</span>
-						</groupbox>
-						<!--/searchform -->
-						<div class="clr"></div>
-					</div>
+					<groupbox>
+						<span>
+							<textbox value="Search..." name="s" id="s" />
+							<image onClick="@command(search)"
+								src="../images/search.gif" id="searchsubmit" class="btn" />
+						</span>
+					</groupbox>
+					<!--/searchform -->
+					<div class="clr"></div>
+				</div>
 
 				<div class="clr" />
 				<div class="menu_nav">
 					<h:ul>
-							<h:li>
-								<a href = "">
-									<label value="Leave Group"
-										onClick="@command('leaveGroup')"
-										visible="@load(user.isInGroup(currentGroup) eq true ? true : false)" />
-									<label value="Join Group"
-										onClick="@command('joinGroup')"
-										visible="@load(user.isInGroup(currentGroup) eq true ? false : true)" />
-								</a>
-							</h:li>
-							<h:li>
-								<a href="../home.zul">Home</a>
-							</h:li>
-							<h:li>
-								<a href="../myprofile.zul">My profile</a>
-							</h:li>
-							<h:li>
-								<a href="" onClick="@command('Logout')">Log out</a>
-							</h:li>
-						</h:ul>
+						<h:li>
+							<a href="/files.zul">
+								<label value="Files" />
+							</a>
+						</h:li>
+						<h:li>
+							<a href="">
+								<label value="Leave Group"
+									onClick="@command('leaveGroup')"
+									visible="@load(user.isInGroup(currentGroup) eq true ? true : false)" />
+								<label value="Join Group"
+									onClick="@command('joinGroup')"
+									visible="@load(user.isInGroup(currentGroup) eq true ? false : true)" />
+							</a>
+						</h:li>
+						<h:li>
+							<a href="../home.zul">Home</a>
+						</h:li>
+						<h:li>
+							<a href="../myprofile.zul">My profile</a>
+						</h:li>
+						<h:li>
+							<a href="" onClick="@command('Logout')">
+								Log out
+							</a>
+						</h:li>
+					</h:ul>
 					<div class="clr" />
-							
-							<div class="clr" />
-																			
+
+					<div class="clr" />
+
 				</div>
 			</div>
 			<div class="content">
 				<div class="content_bg">
 					<div class="mainbar">
-						<div class="articlecomm">
-			<div class="concom"><h:iframe width="100%" height="315" src="//www.youtube.com/embed/-95BeFyMFYY" frameborder="0" ></h:iframe></div>				
-			<h:ul id="comments">	
-               <h:li class="cmmnt">
-	          <div class="avatar"><a href="javascript:void(0);"><image src="../images/pic_2.jpg" width="55" height="55"/></a></div>
-	          <div class="cmmnt-content">
-	            <h:header><a href="javascript:void(0);" class="userh:link">MyUsername</a> - <h:span class="pubdate">posted 5 days ago</h:span></h:header>
-	            <h:p>This is another anonymous comment. Maybe we can place. And even a <a href="http://www.google.com/">h:link to Google</a>.</h:p>
-	          </div>
-	        </h:li>
-	        
-	        <h:li class="cmmnt">
-	          <div class="avatar"><a href="javascript:void(0);"><image src="../images/pic_2.jpg" width="55" height="55" /></a></div>
-	          <div class="cmmnt-content">
-	            <h:header><a href="javascript:void(0);" class="userh:link">FreddieFantastic</a> - <h:span class="pubdate">posted 11 hours ago</h:span></h:header>
-	            <h:p>So this is neat.</h:p>
-	          </div>  
-	        </h:li>
-	        <h:li class="cmmnt-content">
-	        	<div><h:textarea name="styled-textarea" id="styled" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')">Enter your comment here...</h:textarea><h:Br /><a href="#l">Post comment</a></div>
-	        </h:li>
-	      </h:ul>
-			
-							
-			<div class="concom">Aici bagi video text whatevar tralala</div>				
-			<h:ul id="comments">	
-               <h:li class="cmmnt">
-	          <div class="avatar"><a href="javascript:void(0);"><image src="../images/pic_2.jpg" width="55" height="55"/></a></div>
-	          <div class="cmmnt-content">
-	            <h:header><a href="javascript:void(0);" class="userh:link">MyUsername</a> - <h:span class="pubdate">posted 5 days ago</h:span></h:header>
-	            <h:p>This is another anonymous comment. Maybe we can place. And even a <a href="http://www.google.com/">h:link to Google</a>.</h:p>
-	          </div>
-	        </h:li>
-	        
-	        <h:li class="cmmnt">
-	          <div class="avatar"><a href="javascript:void(0);"><image src="../images/pic_2.jpg" width="55" height="55" /></a></div>
-	          <div class="cmmnt-content">
-	            <h:header><a href="javascript:void(0);" class="userh:link">FreddieFantastic</a> - <h:span class="pubdate">posted 11 hours ago</h:span></h:header>
-	            <h:p>So this is neat.</h:p>
-	          </div>  
-	        </h:li>
-	        <h:li class="cmmnt-content">
-	        	<div><h:textarea name="styled-textarea" id="styled" onfocus="this.value=''; setbg('#e5fff3');" onblur="setbg('white')">Enter your comment here...</h:textarea><h:Br /><a href="#l">Post comment</a></div>
-	        </h:li>
-	      </h:ul>
-							<div class="clr" />
+						<div class="articlecomm"
+							children="@load(vm.group.events)">
+							<template name="children" var="event">
+								<div class="concom">
+									<label value="${event.name}"
+										class="h3" />
+									<h:iframe width="100%" height="315"
+										src="//www.youtube.com/embed/-95BeFyMFYY" frameborder="0"
+										if="false" />
+									<label value="${event.date}"	class="h3" />
+								</div>
+								<h:ul id="comments" forEach="${event.postList }">
+										<!-- <label value="${each.content}"/> -->
+										<h:li class="cmmnt">
+											<div class="avatar">
+												<a
+													href="javascript:void(0);">
+													<image
+														src="../images/pic_2.jpg" width="55" height="55" />
+												</a>
+											</div>
+											<div
+												class="cmmnt-content">
+												<h:header>
+													<a
+														href="javascript:void(0);" class="userh:link">
+														
+													</a>
+													-
+													<h:span
+														class="pubdate">
+														posted 5 days
+														ago
+													</h:span>
+												</h:header>
+												<h:p>
+													This is another
+													anonymous comment.
+													Maybe we can place.
+													And even a
+													<a
+														href="http://www.google.com/">
+														h:link to Google
+													</a>
+													.
+												</h:p>
+											</div>
+										</h:li>
+								</h:ul>
+								<div class="clr" />
+							</template>
 						</div>
 					</div>
 					<div class="sidebar">
-					<label class="star" value="@load(vm.group.name)" style="font: 28px bold, sans-serif;"/>
-					
-					<div class="gadget">
+						<label class="star" value="@load(vm.group.name)"
+							style="font: 28px bold, sans-serif;" />
 
-							<h:h3 class="star">Calendar / Oncoming Events:</h:h3>
+						<div class="gadget">
+
+							<h:h3 class="star">
+								Calendar / Oncoming Events:
+							</h:h3>
 							<h:ul children="@bind(vm.group.events)">
 								<template name="children">
-									<h:li> 
-									<label value ="${each.name}"
-											tooltip="e${each.id}"/>
+									<h:li>
+										<label value="${each.name}"
+											tooltip="e${each.id}" />
 									</h:li>
 								</template>
 							</h:ul>
 
-						<vlayout children="@bind(vm.group.events)">
-    						<template name="children" >
-								<popup id="e${each.id}" >
-									<label value ="${each.name}" />
-									<h:br />
-    								<label value="Date: " style="font-weight: bold;"/>
- 									<label value="${each.date}"/>
-									<h:br />
-    								<label value="Event Description: " style="font-weight: bold;"/>
- 									<label value="${each.description}"/>
-    							</popup>
-    					    </template>
-						</vlayout>
-					</div>
-						
-						
-					<div class="gadget">
-							<h:h3>Members: </h:h3>
-							<div
-								children="@load(vm.group.members)">
+							<vlayout
+								children="@bind(vm.group.events)">
+								<template name="children">
+									<popup id="e${each.id}">
+										<label value="${each.name}" />
+										<h:br />
+										<label value="Date: "
+											style="font-weight: bold;" />
+										<label value="${each.date}" />
+										<h:br />
+										<label
+											value="Event Description: " style="font-weight: bold;" />
+										<label
+											value="${each.description}" />
+									</popup>
+								</template>
+							</vlayout>
+						</div>
+
+
+						<div class="gadget">
+							<h:h3>Members:</h:h3>
+							<div children="@load(vm.group.members)">
 								<template name="children">
 									<div>
 										<image width="50px"
 											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
-											tooltip="us${each.id}" 
+											tooltip="us${each.id}"
 											onClick="@command('goToUser', visitUser = each)" />
 										<popup id="us${each.id}">
 											<div>
@@ -182,7 +200,7 @@
 									</div>
 								</template>
 							</div>
- 						</div>
+						</div>
 					</div>
 					<div class="clr" />
 				</div>
@@ -198,5 +216,5 @@
 			<div class="clr" />
 		</div>
 	</div>
-	
+
 </zk>

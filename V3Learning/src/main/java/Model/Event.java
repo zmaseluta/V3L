@@ -193,7 +193,7 @@ public class Event {
 	 * returns post list for current event
 	 * returns null if unsuccessful
 	 */
-	private List<Post> getPostList() {
+	public List<Post> getPostList() {
 		List<Post> postList = new ArrayList<Post>();
 		try {
 			PreparedStatement statement = 

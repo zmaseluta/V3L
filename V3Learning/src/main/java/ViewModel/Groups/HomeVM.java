@@ -13,6 +13,7 @@ import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
+import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.UploadEvent;
 import org.zkoss.zul.Label;
 
@@ -46,6 +47,7 @@ public class HomeVM {
 		System.out.println(event.getMedia().getName());
 		Model.File f =new Model.File(remoteUrl,name,user.getId(),1,"");
 		user.addFile(f);
+		
 	}
 	
 	
