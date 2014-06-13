@@ -1,7 +1,5 @@
 package ViewModel.Groups;
 
-import java.io.File;
-
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -10,22 +8,16 @@ import org.zkoss.bind.annotation.ContextType;
 import org.zkoss.bind.annotation.Init;
 import org.zkoss.bind.annotation.NotifyChange;
 import org.zkoss.bind.annotation.QueryParam;
-import org.zkoss.zk.ui.Component;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
-import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zk.ui.event.UploadEvent;
-import org.zkoss.zul.Label;
-
-import Model.DBConnection;
-import Model.DBOperations;
+import Model.DownloadFile;
 import Model.User;
 import Model.Group;
 
 public class HomeVM {
 	private User user;
 	private Group group;
-	
 	@Init
 	public void init(@QueryParam("gr") int groupId) {
 		user = (User) Sessions.getCurrent().getAttribute("user");	
@@ -45,7 +37,7 @@ public class HomeVM {
 		String name = event.getMedia().getName();
 		String remoteUrl = Model.UploadFile.upload(event.getMedia().getStreamData(), event.getMedia().getName());
 		System.out.println(event.getMedia().getName());
-		Model.File f =new Model.File(remoteUrl,name,user.getId(),1,"");
+		Model.File f =new Model.File(remoteUrl,name,user.getId(),group.getId(),"");
 		user.addFile(f);
 		
 	}
@@ -101,5 +93,11 @@ public class HomeVM {
 		user.computeUserLists();
 		Executions.sendRedirect("home.zul?gr=" + group.getId());
 		}
+	}
+	
+	@Command
+	public void filedownload(){
+		System.out.println("download");
+		Object o = new DownloadFile();
 	}
 }

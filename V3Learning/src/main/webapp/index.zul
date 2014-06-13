@@ -15,20 +15,19 @@
 				<div class="header">
 					<div class="logo">
 						<h:h1>
-							<a href="#">V3L - o sa fie poza aici</a>
+							<a href="#">
+								<image src="images/platform.png" />
+							</a>
 						</h:h1>
 					</div>
 					<div class="search">
-						<groupbox>
-							<span>
-								<textbox value="Search..." name="s"
-									id="s" />
-								<image onClick="@command(search)"
-									src="images/search.gif" id="searchsubmit" class="btn" />
-							</span>
-						</groupbox>
-						<!--/searchform -->
-						<div class="clr"></div>
+						<h:form class="form-wrapper cf">
+							<textbox
+								style="width: 130px;padding: 10px 5px;float: left;" type="text"
+								placeholder="Search here...">
+							</textbox>
+							<button>Search</button>
+						</h:form>
 					</div>
 					<div class="clr"></div>
 					<div class="menu_nav">
@@ -50,25 +49,37 @@
 							width="923" height="291" />
 					</div>
 				</div>
-				 </div>
-			    <div class="content">
-			      <div class="content_bg">
-			        <div class="mainbar">
-			          <div class="article">
-			            <h:h2><span>Bla Bla intro stuff</span></h:h2>
-			            <div class="clr"></div>
-			            <h:img src="images/images_1.jpg" width="613" height="193" alt="" />
-			            <h:p>Lorem ipsum dolor sit amet sosos.</h:p>
-			            <h:p class="spec"><a href="#" class="rm fl">Read more</a></h:p>
-			            <div class="clr"></div>
-			          </div>
-			          
-			        </div>
-			        <include src="/components/sidebar.zul"/>
-			
-			
-			        <div class="clr"></div>
-			      </div>
+			</div>
+			<div class="content">
+				<div class="content_bg">
+					<div class="mainbar">
+						<div class="article">
+							<h:h2>
+								<span>Scop</span>
+							</h:h2>
+							<div class="clr"></div>
+
+							<h:p>
+								“V3L” (Virtual LongLife Learning) are
+								scopul de a promova și mai mult de a
+								facilita învățarea prin colaborare. Ea
+								se adreseaza in special tinerilor,
+								dornici să-și înbunătățească abilități
+								deja existente sau să dobândească
+								competențe noi, și tuturor celor care
+								doresc să împărtășască din cunoștinele
+								acumulate de-a lungul vieții.
+							</h:p>
+
+							<div class="clr"></div>
+						</div>
+
+					</div>
+					<include src="/components/sidebar.zul" />
+
+
+					<div class="clr"></div>
+				</div>
 			</div>
 		</div>
 	</div>

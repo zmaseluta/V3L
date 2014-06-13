@@ -88,7 +88,7 @@ public class NewGroupDialogVM {
 	}
 
 	@Command
-	@NotifyChange("message")
+	@NotifyChange({"message","currentUser"})
 	public void save() {
 		if (name.length() < 3 || domain == null || description.length() < 3) {
 			setMessage("Please fill all the fields!");

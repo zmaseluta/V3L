@@ -17,7 +17,7 @@ public class MainViewModel {
 		
 		/*
 		 * login for developing purpose
-		 */
+		 
 		// TODO delete this section when done with tests
 		DBConnection dbc = new DBConnection();
 		dbc.connectToDB();
@@ -38,7 +38,7 @@ public class MainViewModel {
 			Executions.sendRedirect("home.zul");
 		}
 		
-		
+		*/
 //		 User user = (User) Sessions.getCurrent().getAttribute("user"); if
 //		 (user != null) { Executions.sendRedirect("home.zul"); }
 		 

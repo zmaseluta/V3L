@@ -26,7 +26,7 @@ public class Event {
 	private int isExpired;
 	private List<User> members;
 	private List<Post> posts;
-
+	
 	public Event(DBConnection dbConnection, int id, String name, int creatorId, int groupId, String date, 
 			String description) {
 		this.dbConnection = dbConnection;
@@ -38,6 +38,7 @@ public class Event {
 		this.date = date;
 		this.description = description;
 		isExpired = computeIsExpired();
+		System.out.println(name+" "+isExpired);
 	}
 
 

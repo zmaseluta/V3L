@@ -13,15 +13,16 @@
 		<center autoscroll="true">
 			<div>
 				<div self="@insert(content)" />
-				<div class="footer">
+				<div class="footer" >
 					<div class="footer_resize">
-						@Copyright
-						<a href="#">V3L</a>
+						
+						
 
 						<div class="clr"></div>
 					</div>
 				</div>
 			</div>
 		</center>
+		
 	</borderlayout>
 </zk>

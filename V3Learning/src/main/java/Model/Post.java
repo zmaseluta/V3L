@@ -16,6 +16,7 @@ public class Post {
 	
 	private int id;
 	private int userId;
+	private User user;
 	private int eventId;
 	private String date;
 	private String content;
@@ -29,6 +30,8 @@ public class Post {
 		this.eventId = eventId;
 		this.date = date;
 		this.content = content;
+		DBOperations dbo = new DBOperations(dbConnection);
+		setUser(dbo.getUser(userId));
 	}
 
 	/**
@@ -99,5 +102,13 @@ public class Post {
 			return null;
 		}
 		return commentList;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	private void setUser(User user) {
+		this.user = user;
 	}
 }

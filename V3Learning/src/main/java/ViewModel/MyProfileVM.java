@@ -30,6 +30,8 @@ public class MyProfileVM {
 	private Domain selectedDomain;
 	private Skill selectedSkill;
 
+	
+	
 	public User getUser() {
 		return user;
 	}
@@ -120,7 +122,8 @@ public class MyProfileVM {
 	@Command
 	@NotifyChange("user")
 	public void removeSkill(@BindingParam("skill") Label removedSkill){
-		user.removeSkill(removedSkill.getId());
+		
+		user.removeSkill(removedSkill.getId().replace("a", ""));
 		System.out.println(removedSkill.getId());
 		Executions.sendRedirect("myprofile.zul?us="
 				+ user.getId());

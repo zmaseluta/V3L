@@ -44,7 +44,10 @@
 								<a href="myprofile.zul">My profile</a>
 							</h:li>
 							<h:li>
-								<a href="" onClick="@command('Logout')">Log out</a>
+								<a href=""
+									onClick="@command('Logout')">
+									Log out
+								</a>
 							</h:li>
 						</h:ul>
 						<div class="clr"></div>
@@ -60,129 +63,144 @@
 							<h:h3 class="star">Events:</h:h3>
 							<h:ul children="@bind(vm.user.events)">
 								<template name="children">
-									<h:li> 
-									<label value ="${each.name}"
-											tooltip="e${each.id}"
-											onClick="@command('openEventPage', event = each)"/>
+
+									<h:li>
+										<a>
+											<label value="${each.name}"
+												tooltip="e${each.id}"
+												onClick="@command('openEventPage', event = each)" />
+										</a>
+										<div>
+										<label
+											value="${each.description}" />
+											</div>
 									</h:li>
+
 								</template>
 							</h:ul>
 
-						<vlayout children="@bind(vm.user.events)">
-    						<template name="children" >
-								<popup id="e${each.id}" >
-									<label value ="${each.name}" />
-									<h:br />
-    								<label value="Date: " style="font-weight: bold;"/>
- 									<label value="${each.date}"/>
-									<h:br />
-    								<label value="Event Description: " style="font-weight: bold;"/>
- 									<label value="${each.description}"/>
-    							</popup>
-    					    </template>
-						</vlayout>
+							<vlayout children="@bind(vm.user.events)">
+								<template name="children">
+									<popup id="e${each.id}">
+										<label value="${each.name}" />
+										<h:br />
+										<label value="Date: "
+											style="font-weight: bold;" />
+										<label value="${each.date}" />
+										<h:br />
+										<label
+											value="Event Description: " style="font-weight: bold;" />
+										<label
+											value="${each.description}" />
+									</popup>
+								</template>
+							</vlayout>
+						</div>
+
 					</div>
-						
-					</div>	
-						
+
 					<div class="sidebar">
 						<div class="gadget">
 
-							<div id="about">
-								<label value="@load(vm.user.firstName)" />
+							<div id="about" class="h1">
+								<label value="@load(vm.user.firstName)" class="h1"/>
 								<label value=" " />
-								<label value="@load(vm.user.lastName)" />
-
-								<label
-									value="@load(vm.user.type eq 2 ? '(admin)' : '(no-admin)')" />
-
-								<vlayout
-									apply="org.zkoss.bind.BindComposer"
-									viewModel="@id('v')@init('Components.ModalDialogViewModel')"
-									visible="@load(vm.user.type eq 2 ? true : false)">
-									<button id="orderBtn"
-										label="New Group" autodisable="self"
-										onClick="@command('showModal')" />
-								</vlayout>
+								<label value="@load(vm.user.lastName)" class="h1"/>
 							</div>
 						</div>
 						<div class="gadget">
 							<div>
-								 <h:h3 class="star">People you may want to know:</h:h3>
-								 
-							<div children="@bind(vm.user.suggestedFriendsList)">
- 								<template name="children">
-									<div
-										visible="${(each.email ne vm.user.email) and (vm.user.isFriendWith(each) ne true) ? true : false}">
-									
-										<image width="50px"
-											src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
-											tooltip="us${each.id}"
-											onClick="@command('goToUser', visitUser = each)" />
-										<popup id="us${each.id}">
-											<div>
-												<div
-													onClick="@command('goToUser', visitUser = each)">
-													<label
-														value="${each.firstName}" />
-													<label
-														value="${each.lastName}" />
-												</div>
-												<button
-													label="Add friend"
-													onClick="@command('addFriend', visitUser = each)"
-													visible="@load(vm.user.isFriendWith(each) eq true ? false : true)" />
-												<button
-													label="View Profile"
+								<h:h3 class="star">
+									People you may want to know:
+								</h:h3>
+
+								<div
+									children="@bind(vm.user.suggestedFriendsList)">
+									<template name="children">
+										<a>
+											<div
+												visible="${(each.email ne vm.user.email) and (vm.user.isFriendWith(each) ne true) ? true : false}">
+
+												<image width="50px"
+													src="${ each.gender eq 'F'? '/images/girl-profile.jpg' : '/images/boy-profile.jpeg'}"
+													tooltip="us${each.id}"
 													onClick="@command('goToUser', visitUser = each)" />
+												<popup
+													id="us${each.id}">
+													<div>
+														<div
+															onClick="@command('goToUser', visitUser = each)">
+															<label
+																value="${each.firstName}" />
+															<label
+																value="${each.lastName}" />
+														</div>
+														<button
+															label="Add friend"
+															onClick="@command('addFriend', visitUser = each)"
+															visible="@load(vm.user.isFriendWith(each) eq true ? false : true)" />
+														<button
+															label="View Profile"
+															onClick="@command('goToUser', visitUser = each)" />
+													</div>
+												</popup>
 											</div>
-										</popup>
-									</div>
-								</template>
+										</a>
+									</template>
+								</div>
 							</div>
-						</div>
 						</div>
 						<div class="gadget">
 							<div>
 								<!-- <label
 									value="Suggested groups:" /> -->
-								<h:h3 class="star">Suggested groups:</h:h3>
+								<h:h3 class="star">
+									Suggested groups:
+								</h:h3>
 								<h:ul
-								children="@bind(vm.user.suggestedGroupsList)">
-								<template name="children">
-									<h:li>
-									<label value="${each.name}"
-											onClick="@command('openGroupPage', group = each)" 
-											tooltip="g${each.id}" />
-									<popup id="g${each.id}">
-											<div>
-												<div
-													onClick="@command('openGroupPage', group = each)"> 
-													<label
-														value="${each.name}" style="font-weight: bold;"/>
-													<div class="clr"></div>
-													<label value="Group Description: " style="font-weight: bold;"/>
- 													<label value="${each.description}"/>
-												</div>
-												<button
-													label="Join Group"
-													onClick="@command('joinGroup', group = each)"
-													visible="@load(vm.user.isInGroup(each) eq true ? false : true)" />
-												<button
-													label="View Group Page"
-													onClick="@command('openGroupPage', group = each)" />
-											</div>
-										</popup>
-									<div class="clr"></div>
-									</h:li>
-								</template>
-							</h:ul>
+									children="@bind(vm.user.suggestedGroupsList)">
+									<template name="children">
+										<a>
+											<h:li>
+												<label
+													value="${each.name}"
+													onClick="@command('openGroupPage', group = each)"
+													tooltip="g${each.id}" />
+												<popup
+													id="g${each.id}">
+													<div>
+														<div
+															onClick="@command('openGroupPage', group = each)">
+															<label
+																value="${each.name}" style="font-weight: bold;" />
+															<div
+																class="clr">
+															</div>
+															<label
+																value="Group Description: " style="font-weight: bold;" />
+															<label
+																value="${each.description}" />
+														</div>
+														<button
+															label="Join Group"
+															onClick="@command('joinGroup', group = each)"
+															visible="@load(vm.user.isInGroup(each) eq true ? false : true)" />
+														<button
+															label="View Group Page"
+															onClick="@command('openGroupPage', group = each)" />
+													</div>
+												</popup>
+												<div class="clr"></div>
+											</h:li>
+										</a>
+									</template>
+								</h:ul>
+							</div>
 						</div>
+						<div class="clr"></div>
 					</div>
-					<div class="clr"></div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 </zk>

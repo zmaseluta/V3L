@@ -22,7 +22,7 @@ public class DBOperations {
 	private static final String ALL_DOMAINS_STATEMENT = "SELECT * FROM Domain;";
 	private static final String SELECT_USER = "SELECT * FROM User;";
 	private static final String ALL_GROUPS_STATEMENT = "SELECT * FROM Groups WHERE id_domain = ?;";
-	private static final String ALL_EVENTS_IN_GROUP = "SELECT * FROM Events WHERE id_group = ?;";
+	private static final String ALL_EVENTS_IN_GROUP = "SELECT * FROM Events WHERE id_group = ? ORDER BY date DESC;";
 	private static final String ALL_FILES_IN_GROUP = "SELECT * FROM Files WHERE id_group = ?;";
 	private static final String ALL_VIDEOS_IN_GROUP = "SELECT * FROM Videos WHERE id_group = ?;";
 	private static final String SELECT_USER_IN_GROUP = "SELECT * FROM User WHERE id_user IN "

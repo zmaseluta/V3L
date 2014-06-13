@@ -58,7 +58,7 @@
 										width="90" />
 								</div>
 								<div style="width:400px">
-									<label
+									<label class="h2"
 										value="@bind(c:cat3(vm.visitedUser.firstName,' ',vm.visitedUser.lastName))" />
 									<div class="starRate">
 										<div>
@@ -111,7 +111,7 @@
 						</div>
 						<div class="article">
 							<h:h3>
-								About <label
+								About <label class="h3"
 									value="@load(vm.visitedUser.firstName)" />
 							</h:h3>
 							<div class="clr" />
@@ -150,13 +150,13 @@
 						<div class="article">
 							<div>
 								<h:h3>
-								<label
+								<label class="h3"
 									value="@load(vm.visitedUser.firstName)" />
 								's groups
 							</h:h3>
 								<h:ul
 								children="@bind(vm.visitedUser.groups)">
-								<template name="children">
+								<template name="children"><a>
 									<h:li>
 									<label value="${each.name}"
 											onClick="@command('openGroupPage', group = each)" 
@@ -181,7 +181,7 @@
 											</div>
 										</popup>
 									<div class="clr"></div>
-									</h:li>
+									</h:li></a>
 								</template>
 							</h:ul>
 
@@ -190,12 +190,12 @@
 						<div class="gadget">
 						<div class="star">
 							<h:h3>
-								<label
+								<label class="h3"
 									value="@load(vm.visitedUser.firstName)" />
 								's friends
 							</h:h3>
 							<div class="clr" />
-							<div
+							<hlayout
 								children="@load(vm.visitedUser.friends)">
 								<template name="children">
 									<div>
@@ -226,7 +226,7 @@
 										</popup>
 									</div>
 								</template>
-							</div>
+							</hlayout>
 							<div class="clr" />
 						</div>
 						
