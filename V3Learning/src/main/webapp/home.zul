@@ -63,7 +63,7 @@
 									<h:li> 
 									<label value ="${each.name}"
 											tooltip="e${each.id}"
-											onClick="@command('openEventPage', event=each)"/>
+											onClick="@command('openEventPage', event = each)"/>
 									</h:li>
 								</template>
 							</h:ul>
