@@ -29,6 +29,7 @@ public class DBOperations {
 			+ "(SELECT id_user FROM UsGroups WHERE id_group = ?);";
 	private static final String SELECT_USER_WITH_SKILL = "SELECT * FROM User WHERE id_user IN "
 			+ "(SELECT id_user FROM UsSkills WHERE id_skill = ?);";
+	private static final String USER_ID_STATEMENT = "SELECT * FROM User WHERE id_user = ?;";
 	
 	private DBConnection dbConnection;
 	private Connection connection;
@@ -690,6 +691,40 @@ public class DBOperations {
 	        return null;
 	    }
 		return videoList;
+	}
+	
+	public User getUser(int idU) {		
+		User u = null;	
+	    try {
+	        PreparedStatement statement = 
+	        		(PreparedStatement) connection.prepareStatement(USER_ID_STATEMENT);
+	        statement.setString(1 , Integer.toString(idU));
+	        ResultSet data = statement.executeQuery();     
+	        if (data.next()){
+	        	int id = data.getInt("id_user");
+		    	String lastName = data.getString("last_name");
+		    	String firstName = data.getString("first_name");
+		    	String email = data.getString("email");
+		    	String password = data.getString("password");
+		    	String birthDate = data.getString("birthday_date");
+		    	int rank = data.getInt("rank");
+		    	int isValid = data.getInt("is_valid");
+		    	int isPublic = data.getInt("is_public");
+		    	String type = data.getString("account_type");
+		    	if (isValid != 0){
+		    		u = new User(dbConnection, id, lastName, firstName, email, password, 
+		    				birthDate, rank, isValid, isPublic, type);
+		    	} else {
+		    		System.out.println("user not validated");
+		    	}
+	        } else {
+	        	System.out.println("user and password don't match");
+	        }
+	    	statement.close();	        
+	    } catch (SQLException ex) {
+	        System.out.println("SQLException: " + ex.getMessage());
+	    }
+		return u;
 	}
 
 }
