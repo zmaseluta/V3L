@@ -42,7 +42,7 @@ public class HomeVM {
 	
 	
 	@Command
-	public void openEventPage(@BindingParam("event") Event event) {
+	public void openEventPage (@BindingParam("event") Event event) {
 		Executions.sendRedirect("event.zul");
 	}
 	
