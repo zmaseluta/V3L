@@ -141,7 +141,7 @@
 									</h:li>
 								</template>
 							</h:ul>
-
+							<button label="new Event" href="@load(c:cat('addEvent.zul?gr=',vm.group.id))"/>
 							<vlayout
 								children="@bind(vm.group.events)">
 								<template name="children">

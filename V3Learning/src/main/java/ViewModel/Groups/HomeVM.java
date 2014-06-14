@@ -1,5 +1,8 @@
 package ViewModel.Groups;
 
+import java.util.Date;
+import java.util.List;
+
 import org.zkoss.bind.BindContext;
 import org.zkoss.bind.annotation.BindingParam;
 import org.zkoss.bind.annotation.Command;
@@ -11,13 +14,27 @@ import org.zkoss.bind.annotation.QueryParam;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.Sessions;
 import org.zkoss.zk.ui.event.UploadEvent;
+
+
 import Model.DownloadFile;
+import Model.Event;
+import Model.Post;
 import Model.User;
 import Model.Group;
 
 public class HomeVM {
 	private User user;
-	private Group group;
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	private Group group; 
+	private MyEvent newEvent;
 	@Init
 	public void init(@QueryParam("gr") int groupId) {
 		user = (User) Sessions.getCurrent().getAttribute("user");	
@@ -27,6 +44,7 @@ public class HomeVM {
 		if(group == null)
 			{Executions.sendRedirect("../home.zul");}
 		else group.computeGroupLists();
+		setNewEvent(new MyEvent());
 	}
 
 	
@@ -46,13 +64,23 @@ public class HomeVM {
 	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("index.zul");
+		Executions.sendRedirect("../index.zul");
 	}	
 	
 	public Group getGroup(){
 		return group;
 	}
 	
+	public MyEvent getNewEvent() {
+		return newEvent;
+	}
+
+
+	public void setNewEvent(MyEvent newEvent) {
+		this.newEvent = newEvent;
+	}
+
+
 	@Command
 	public void goToUser(@BindingParam("visitUser")User user){
 		Executions.sendRedirect("../otherprofile.zul?us="
@@ -100,4 +128,46 @@ public class HomeVM {
 		System.out.println("download");
 		Object o = new DownloadFile();
 	}
+	
+	@Command
+	public void addEvent(){
+		Executions.sendRedirect("home.zul?gr=" + group.getId());
+	}
+	
+	public static class MyEvent{
+		private String name;
+		private Date date;
+		private String description;
+		
+		public MyEvent(){
+			setName(new String());
+			setDate(new Date());
+			setDescription(new String());			
+		}
+
+		public Date getDate() {
+			return date;
+		}
+
+		public void setDate(Date date) {
+			this.date = date;
+		}
+
+		public String getName() {
+			return name;
+		}
+
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+	}
+	
 }
