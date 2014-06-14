@@ -356,7 +356,7 @@ public class User {
 	}
 
 	public String getGender() {
-		return "F";
+		return firstName.charAt(firstName.length() -1 ) == 'a'? "F" : "B" ;
 	}
 	/**
 	 * computes age from birthDate

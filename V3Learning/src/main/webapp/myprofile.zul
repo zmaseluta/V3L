@@ -18,20 +18,19 @@
 				<div class="header">
 					<div class="logo">
 						<h:h1>
-							<a href="#">V3L - o sa fie poza aici</a>
+							<a href="#">
+								<image src="images/platform.png" />
+							</a>
 						</h:h1>
 					</div>
 					<div class="search">
-						<groupbox>
-							<span>
-								<textbox value="Search..." name="s"
-									id="s" />
-								<image onClick="@command(search)"
-									src="images/search.gif" id="searchsubmit" class="btn" />
-							</span>
-						</groupbox>
-						<!--/searchform -->
-						<div class="clr"></div>
+						<h:form class="form-wrapper cf">
+							<textbox
+								style="width: 130px;padding: 10px 5px;float: left;" type="text"
+								placeholder="Search here...">
+							</textbox>
+							<button>Search</button>
+						</h:form>
 					</div>
 					<div class="clr"></div>
 					<div class="menu_nav">

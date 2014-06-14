@@ -155,6 +155,6 @@ public class MyProfileVM {
 	@Command
 	public void Logout(){
 		Sessions.getCurrent().getAttributes().clear();
-		Executions.sendRedirect("~/V3L/index.zul");
+		Executions.sendRedirect("index.zul");
 	}
 }
