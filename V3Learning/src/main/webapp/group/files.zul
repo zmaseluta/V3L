@@ -16,7 +16,7 @@
 			<div class="header">
 				<div class="logo">
 					<h:h1>
-						<a href="#">V3L</a>
+						<image src="../images/platform.png" width="120px" />
 					</h:h1>
 				</div>
 

@@ -19,7 +19,7 @@
 				<div class="logo">
 						<h:h1>
 							<a href="#">
-								<image src="../images/platform.png" />
+									<image src="../images/platform.png" width="120px" />
 							</a>
 						</h:h1>
 					</div>
@@ -141,7 +141,7 @@
 									</h:li>
 								</template>
 							</h:ul>
-							<button label="new Event" href="@load(c:cat('addEvent.zul?gr=',vm.group.id))"/>
+							<button label="new Event" href="@load(c:cat('addEvent.zul?gr=',vm.group.id))" />
 							<vlayout
 								children="@bind(vm.group.events)">
 								<template name="children">

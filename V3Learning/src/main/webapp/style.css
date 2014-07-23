@@ -663,4 +663,7 @@ h6,.h6 {
 p {
 	margin: 0 0 10.5px
 }
->>>>>>> branch 'master' of https://github.com/zmaseluta/V3L.git
+
+.z-popup, .x-popup-open{
+	max-width: 300px;
+}

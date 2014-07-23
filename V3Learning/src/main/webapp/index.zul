@@ -16,8 +16,7 @@
 					<div class="logo">
 						<h:h1>
 							<a href="#">
-								<image src="images/platform.png" />
-							</a>
+									<image src="/images/platform.png" width="120px" />							</a>
 						</h:h1>
 					</div>
 					<div class="search">

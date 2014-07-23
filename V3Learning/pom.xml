@@ -79,17 +79,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>17.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.zkoss.chart</groupId>
-			<artifactId>zkcharts</artifactId>
-			<version>1.0.0</version>
-		</dependency>
+		</dependency><!-- 
 		<dependency>
             <groupId>org.zkoss.calendar</groupId>
             <artifactId>calendar</artifactId>
             <version>2.1.2</version>
-        </dependency>
+        </dependency> -->
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>

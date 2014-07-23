@@ -15,7 +15,7 @@
   <div class="main_resize">
     <div class="header">
       <div class="logo">
-        <h1><a href="#">V<span>3</span>L</a></h1>
+        <h1><a href="#">	<image src="../images/platform.png" width="120px" /></a></h1>
       </div><div id="loggedin" style="float: right; width: 200px; padding: 30px 0;">Logged in as Diana Beleiu (<a href="myprofile.html">Profile</a>)</div>
       <div class="search">
         <form method="get" id="search" action="#">

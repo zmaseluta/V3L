@@ -15,7 +15,7 @@
   <div class="main_resize">
     <div class="header">
       <div class="logo">
-        <h1><a href="#">V<span>3</span>L<small></small></a></h1>
+        	<image src="../images/platform.png" width="120px" />
       </div>
       <div class="search">
         <form method="get" id="search" action="#">

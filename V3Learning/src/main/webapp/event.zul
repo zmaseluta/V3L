@@ -21,7 +21,8 @@
 					<div class="logo">
 						<h:h1>
 							<a href="#">
-								<image src="images/platform.png" />
+								<image src="images/platform.png"
+									width="120px" />
 							</a>
 						</h:h1>
 					</div>
@@ -37,14 +38,17 @@
 					<div class="clr"></div>
 					<div class="menu_nav">
 						<h:ul>
-							<h:li >
+							<h:li>
 								<a href="home.zul">Home</a>
 							</h:li>
 							<h:li>
 								<a href="myprofile.zul">My profile</a>
 							</h:li>
 							<h:li>
-								<a href="" onClick="@command('Logout')">Log out</a>
+								<a href=""
+									onClick="@command('Logout')">
+									Log out
+								</a>
 							</h:li>
 						</h:ul>
 						<div class="clr"></div>
@@ -55,13 +59,12 @@
 			<div class="content">
 				<div class="content_bg">
 					<div>
-							<image src="images/google-hangouts.jpg" 
-									/>
+						<image src="images/google-hangouts.jpg" />
 					</div>
-					
-					</div>
-					<div class="clr"></div>
+
 				</div>
+				<div class="clr"></div>
 			</div>
 		</div>
-	</zk>
+	</div>
+</zk>
